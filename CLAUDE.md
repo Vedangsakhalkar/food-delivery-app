@@ -60,4 +60,4 @@ Deliverables are strictly ordered: PRD → User Stories → Architecture. Start 
 - [x] Step 1: PRD (approved)
 - [x] Mock screens drafted
 - [ ] Step 2: User stories
-- [ ] Step 3: Architecture document
+- [x] Step 3: Architecture document drafted (awaiting approval; user stories still pending)
