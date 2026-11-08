@@ -32,7 +32,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 ## 4. Functional Requirements
 
 ### 4.1 Authentication and Profile
-- FR-1: Sign up and log in with email/password (Google sign-in optional) via Firebase Auth.
+- FR-1: Sign up and log in with email/password (Google sign-in optional) via Supabase Auth.
 - FR-2: Log out; sessions persist across refreshes.
 - FR-3: Role-based access (customer, owner, admin) enforced in API routes.
 - FR-4: Customer can edit name, phone, and manage saved delivery addresses.
@@ -78,7 +78,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 | Area | Requirement |
 |---|---|
 | Performance | Pages load in under 3s on a typical connection; API p95 under 500ms; images served via Cloudinary CDN with auto format/quality |
-| Security | Firebase ID tokens verified server-side; input validation (Zod); secrets only in env vars; HTTPS; rate limiting on auth/order APIs |
+| Security | Supabase access tokens (JWT) verified server-side; input validation (Zod); secrets only in env vars; HTTPS; rate limiting on auth/order APIs |
 | Scalability | Stateless API routes; MongoDB indexes on search/filter fields |
 | Reliability | Consistent error handling and logging; graceful failure states |
 | Usability | Responsive design (desktop and mobile browsers); accessible UI (WCAG AA basics) |
@@ -86,7 +86,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 | Compatibility | Latest Chrome, Edge, Firefox, Safari |
 
 ## 6. Technical Approach
-- **Stack:** TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, MongoDB Atlas (Mongoose), Firebase Authentication, Cloudinary (image storage), Resend (email).
+- **Stack:** TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, MongoDB Atlas (Mongoose), Supabase Auth (API keys), Cloudinary (image storage), Resend (email).
 - **Images:** All images (restaurant and menu item photos) are stored in **Cloudinary**, not MongoDB. MongoDB stores only the Cloudinary `secure_url` and `public_id` strings. Uploads use signed server-side uploads (API route generates a signature, browser uploads directly to Cloudinary). Cloudinary URL transformations handle resizing and optimization.
 - **MVC:**
   - Model: Mongoose models (`src/models`)
@@ -96,7 +96,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 - **Data entities:** User, Address, Restaurant, MenuCategory, MenuItem, Order (with embedded items), Review.
 
 ## 7. Architectural Gaps Flagged (things you may have missed)
-1. **Authorization / role model:** Firebase handles identity only. Roles live in MongoDB.
+1. **Authorization / role model:** Supabase Auth handles identity only (no Supabase database tables are used). Roles live in MongoDB, linked by the Supabase user id.
 2. **Image storage:** Decided: Cloudinary (free tier). Images are never stored in MongoDB, only their URLs and public IDs.
 3. **Order status updates:** Polling for MVP. WebSockets or SSE later.
 4. **Payments:** COD only for the MVP (decided). A gateway can be added post-MVP.
@@ -111,10 +111,10 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 13. **Seed data:** A script to populate demo restaurants and menus.
 
 ## 8. Project Scaffolding and Build Roadmap (from a clean slate)
-1. Create accounts and keys per `auth-setup.md` (Firebase, MongoDB Atlas).
+1. Create accounts and keys per `auth-setup.md` (Supabase, MongoDB Atlas).
 2. Scaffold: `npx create-next-app@latest` (TypeScript, Tailwind, ESLint, App Router, `src/` dir).
 3. Init shadcn/ui: `npx shadcn@latest init`.
-4. Install dependencies: `mongoose`, `firebase`, `firebase-admin`, `zod`, `cloudinary`, `next-cloudinary`, `resend`.
+4. Install dependencies: `mongoose`, `@supabase/supabase-js`, `@supabase/ssr`, `zod`, `cloudinary`, `next-cloudinary`, `resend`.
 5. Create the folder structure:
    ```
    src/
@@ -122,11 +122,11 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
      components/     # UI components
      models/         # Mongoose models
      services/       # business logic
-     lib/            # db connection, firebase clients, utils
+     lib/            # db connection, supabase clients, utils
      types/          # shared types
      validators/     # Zod schemas
    ```
-6. Configure `.env.local`, MongoDB connection helper, Firebase client and admin helpers.
+6. Configure `.env.local`, MongoDB connection helper, Supabase browser and server client helpers.
 7. Build in order: Auth → Restaurants and menus → Discovery → Cart and checkout → Orders → Owner dashboard → Admin → Ratings → Polish, testing, deploy.
 
 ## 9. Success Metrics
@@ -139,7 +139,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 - Single city or region, single currency.
 - COD only for the MVP.
 - Risk: scope creep (mitigated by the strict MVP list above).
-- Risk: free-tier limits on Firebase, Atlas and image hosting.
+- Risk: free-tier limits on Supabase, Atlas and image hosting.
 
 ## 11. Next Step
 On approval of this PRD, I will create `project-docs/user-stories.md` (epics, with project scaffolding as the first story), then the architecture document.

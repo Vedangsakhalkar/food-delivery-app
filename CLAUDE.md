@@ -6,7 +6,7 @@ Browser-based food delivery web app inspired by Zomato. MVP only. Mobile app is 
 ## Tech Stack
 - TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui
 - MongoDB (MongoDB Atlas) via Mongoose
-- Authentication: Firebase Authentication (see `project-docs/auth-setup.md`)
+- Authentication: Supabase Auth, used with Supabase API keys (see `project-docs/auth-setup.md`)
 - Payments: Cash on delivery only (MVP). Email: Resend.
 - Images: Cloudinary. Never store image binaries in MongoDB, only `url` and `public_id`.
 
@@ -43,7 +43,7 @@ Browser-based food delivery web app inspired by Zomato. MVP only. Mobile app is 
 Read and follow these before starting any task; they are the source of truth:
 - `my-docs/requirements.md` — original requirements
 - `project-docs/prd.md` — approved PRD (scope, features, MVP boundaries)
-- `project-docs/auth-setup.md` — Firebase Authentication setup
+- `project-docs/auth-setup.md` — Supabase Auth setup and API keys
 - `project-docs/mockups/index.html` — static mock screens for every page (for UI review; open in a browser)
 - `project-docs/user-stories.md` and `project-docs/architecture.md` — once created and approved
 

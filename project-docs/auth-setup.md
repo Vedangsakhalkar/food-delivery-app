@@ -1,58 +1,46 @@
-# Authentication Setup Guide (Firebase Authentication)
+# Authentication Setup Guide (Supabase Auth + API keys)
 
-**Recommendation:** Firebase Authentication. It is free (Spark plan), takes about 10 minutes to set up, supports email/password and Google sign-in, and works as a standalone auth layer alongside MongoDB. Supabase would bring its own Postgres database, which we don't need.
+**Decision:** Supabase Auth replaces Firebase. We use only its authentication; all app data stays in MongoDB Atlas. Supabase is accessed with its **API keys**: a publishable (anon) key in the browser and a secret (service role) key on the server only.
 
-## Part 1 — Create a Firebase account
-1. Go to https://console.firebase.google.com.
-2. Sign in with a Google account.
-3. Accept the terms if prompted.
+## Part 1 — Create a Supabase account
+1. Go to https://supabase.com and click **Start your project**.
+2. Sign in with GitHub or email.
 
 ## Part 2 — Create the project
-1. Click **Create a project** (or **Add project**).
-2. Name it `food-delivery-app` and click **Continue**.
-3. Turn Google Analytics **off** (not needed) and click **Create project**.
-4. Click **Continue** when it finishes.
+1. Click **New project** and choose an organization.
+2. Name it `food-delivery-app`, set a strong database password (save it; we won't use the database), pick the nearest region, and click **Create new project**.
+3. Wait for provisioning to finish (about 2 minutes).
 
 ## Part 3 — Enable sign-in methods
-1. In the left menu, open **Build → Authentication** and click **Get started**.
-2. On the **Sign-in method** tab, click **Email/Password**, switch **Enable** on, and click **Save**.
-3. (Optional) Click **Google**, enable it, choose a support email, and click **Save**.
+1. Open **Authentication → Providers**.
+2. **Email** is on by default. For development, you may turn off **Confirm email** (**Authentication → Sign In / Providers → Email**) so sign-ups work immediately. Turn it back on before launch.
+3. (Optional) Enable **Google**: create OAuth credentials in Google Cloud Console and paste the client ID and secret.
+4. Open **Authentication → URL Configuration**. Set **Site URL** to `http://localhost:3000` and add `http://localhost:3000/**` to **Redirect URLs** (used by password reset and OAuth).
 
-## Part 4 — Web app keys (client-side)
-1. Click the gear icon, then **Project settings**.
-2. Under **Your apps**, click the web icon `</>`.
-3. Enter the nickname `food-delivery-web`. Leave Firebase Hosting unchecked. Click **Register app**.
-4. Copy the `firebaseConfig` values shown. You need: `apiKey`, `authDomain`, `projectId`, `appId`.
+## Part 4 — Get the API keys
+1. Open **Project Settings → API** (or **API Keys**).
+2. Copy the **Project URL**.
+3. Copy the **Publishable / anon key**. It is safe in the browser (it is restricted by Supabase Auth rules).
+4. Copy the **Secret / service_role key**. It bypasses all restrictions. **Server-side only. Never expose it in client code or commit it.**
 
-## Part 5 — Service account key (server-side)
-1. In **Project settings**, open the **Service accounts** tab.
-2. Click **Generate new private key**, then **Generate key**. A JSON file downloads.
-3. From that file, note `project_id`, `client_email` and `private_key`.
-4. **Never commit this file.** Store it only in `.env.local`.
-
-## Part 6 — Environment variables
+## Part 5 — Environment variables
 Create `.env.local` in the project root (it must be in `.gitignore`):
 
 ```
-NEXT_PUBLIC_FIREBASE_API_KEY=
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=
-NEXT_PUBLIC_FIREBASE_APP_ID=
-
-FIREBASE_ADMIN_PROJECT_ID=
-FIREBASE_ADMIN_CLIENT_EMAIL=
-FIREBASE_ADMIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 
 MONGODB_URI=
 ```
 
-## Part 7 — MongoDB Atlas (for reference)
+## Part 6 — MongoDB Atlas (for reference)
 1. Sign up at https://www.mongodb.com/cloud/atlas and create a free **M0** cluster.
 2. **Database Access:** create a database user with a password.
 3. **Network Access:** allow your IP (use `0.0.0.0/0` for development only).
 4. Click **Connect → Drivers** and copy the connection string into `MONGODB_URI`.
 
-## Part 7b — Cloudinary (image storage)
+## Part 7 — Cloudinary (image storage)
 1. Sign up free at https://cloudinary.com.
 2. Open **Dashboard** and copy the **Cloud name**, **API Key** and **API Secret**.
 3. Add to `.env.local`:
@@ -63,7 +51,7 @@ MONGODB_URI=
    ```
 4. Keep the API secret server-side only.
 
-## Part 7c — Resend (email notifications)
+## Part 8 — Resend (email notifications)
 1. Sign up free at https://resend.com.
 2. Open **API Keys → Create API Key** and copy it.
 3. Add to `.env.local`:
@@ -73,9 +61,11 @@ MONGODB_URI=
    ```
    (`onboarding@resend.dev` works for testing, but only delivers to your own account email. Verify a domain later for real use.)
 
-## Part 8 — Share with me
-Share the values via `.env.local`. Do **not** paste the private key or DB password into commits or public places.
+## Part 9 — Share with me
+Share the values via `.env.local`. Do **not** paste the secret/service role key or DB password into commits or public places.
 
 ## Notes
-- The browser signs users in with the Firebase client SDK and receives an ID token.
-- API routes verify that token with the Firebase Admin SDK, then look up the user's role in MongoDB.
+- The browser signs users in with `@supabase/supabase-js` (anon key) and holds a session (access token, JWT).
+- The browser sends the access token to `/api` routes as `Authorization: Bearer <token>`.
+- API routes verify it on the server with `supabase.auth.getUser(token)` using the server client, then look up the user's role in MongoDB by the Supabase user id.
+- The service role key is used only in server code (`src/lib`), never in components.
