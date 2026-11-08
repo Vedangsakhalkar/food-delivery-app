@@ -25,3 +25,8 @@ I want you to update @CLAUDE.md  with the following branching rules. Every new t
 ## Mock screens prompt
 
 Refer to the /Users/shakir/trainings/food-delivery-app/project-docs file and design the mock user interface end to end for each possibsle screen for the entire app for me to review. 
+
+
+## Architecture Prompt
+
+Refer to /food-delivery-app/project-docs files and give me architecture.md file
