@@ -30,3 +30,20 @@ Refer to the /Users/shakir/trainings/food-delivery-app/project-docs file and des
 ## Architecture Prompt
 
 Refer to /food-delivery-app/project-docs files and give me architecture.md file
+
+
+
+## Story management rules prompt
+
+I want you to create a story file for each story in Epic 1 such that it follows the typical format of user story as per agile software develpoment standards. 
+
+Also create one single stories.yaml with the details of each story (include stories of all epics) and it must maintain state  of each story as it is built : when you start a story to build creating a new branch then set it in-progress, (to start with all stories will be 'ready-for-dev'), then - as you open pr set the state to review and when the story is reviewed , issues resolved and merged - set the state to done.
+
+Always create story files in project-docs/stories folder
+
+The name of story file must follow kebab style for e.g story-us-1.1-sign-up-with-role
+
+Update the CLAUDE.md file of this project to make sure that the aforementioned rules and concepts of story management is always followed
+
+I repeat : for now - create user story files only for epic 1 and later when I ask : ony then create story files for other epics
+
