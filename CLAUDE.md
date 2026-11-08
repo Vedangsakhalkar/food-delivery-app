@@ -4,31 +4,48 @@
 Browser-based food delivery web app inspired by Zomato. MVP only. Mobile app is out of scope until the web app launches.
 
 ## Tech Stack
-- TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui
-- MongoDB (MongoDB Atlas) via Mongoose
-- Authentication: Supabase Auth, used with Supabase API keys (see `project-docs/auth-setup.md`)
-- Payments: Cash on delivery only (MVP). Email: Resend.
-- Images: Cloudinary. Never store image binaries in MongoDB, only `url` and `public_id`.
+TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, Supabase (Auth, PostgreSQL, Storage) used with Supabase API keys (see `project-docs/auth-setup.md`). DB access via the `pg` driver with parameterised SQL (no ORM); the Supabase client is for auth/storage only. Email: Resend.
+
+## Product Decisions
+- Payment: Cash on Delivery only.
+- Restaurants self-onboard and go live immediately (no admin approval); admin can disable.
+- Images: Supabase Storage (bucket `images`). Never store image binaries in the database, only the path/URL.
+- Never commit secrets (`.env.local`, secret/service keys, DB URLs).
 
 ## Architecture Rules (MVC)
-- **Model:** Mongoose schemas/models in `src/models`.
-- **Services layer:** ALL business logic and DB access lives in `src/services`. Nothing else touches the DB.
-- **Controllers/API:** Next.js route handlers in `src/app/api/**/route.ts`, following Next.js API conventions. They validate input, call services, and return responses. No business logic.
-- **View:** ALL UI logic lives in UI components (`src/components`, `src/app`). Components never access the DB or services directly. They call `/api`.
-- Follow SOLID and established design patterns. Keep code well structured.
+- **View:** UI logic only in UI components (`src/app`, `src/components`). Components never access the DB or services directly; they call `/api`.
+- **Controller:** all APIs in `src/app/api/**/route.ts`, following Next.js route handler standards. Validate, authorise, delegate to services. No business logic.
+- **Services:** all business logic in `src/services`.
+- **Models/Repositories:** DB access only via `src/repositories` (SQL via `pg`) / `src/models` (entity types). Nothing else touches the DB.
+- Follow SOLID and standard design patterns; keep code well structured.
+
+## UI Component Rules
+- Every UI component must come from the shadcn/ui library wherever possible (Button, Input, Card, Dialog, Select, Table, Form, etc.). Check shadcn/ui first before building anything custom.
+- Add missing components via the CLI (`npx shadcn@latest add <component>`) into `src/components/ui`; do not hand-write equivalents.
+- Build custom components only when shadcn/ui has no suitable one; compose them from shadcn/ui primitives and Tailwind utilities, and state why in the PR/commit.
+- Do not introduce other UI libraries (MUI, Chakra, Ant, etc.).
+- Do not modify generated files in `src/components/ui` except for theming/variants.
 
 ## Documentation Conventions
-- All project-specific documents live in `project-docs/` (project root).
-- Documents are created in order, and each step starts only after the previous one is approved:
-  1. `project-docs/prd.md` — Product Requirements Document
-  2. `project-docs/user-stories.md` — user stories grouped into epics, scaffolding first (after PRD approval)
-  3. `project-docs/architecture.md` — detailed architecture (after user stories approval)
-- `project-docs/auth-setup.md` — step-by-step auth service setup guide.
-- Original requirements: `my-docs/requirements.md`.
+- All project-specific docs live in `project-docs/` (project root).
+- `my-docs/` holds user-authored inputs (e.g. `requirements.md`); do not put generated docs there.
+
+| Document | Location |
+|---|---|
+| Requirements (user input) | `my-docs/requirements.md` |
+| PRD (Step 1) | `project-docs/prd.md` |
+| Supabase setup guide (auth, DB, storage) | `project-docs/auth-setup.md` |
+| Mock screens (open `index.html` in a browser) | `project-docs/mockups/index.html` |
+| User stories (Step 2) | `project-docs/user-stories.md` |
+| Architecture (Step 3) | `project-docs/architecture.md` |
+
+## Workflow
+Deliverables are strictly ordered: PRD → User Stories → Architecture. Start each step only after the user approves the previous one. User stories are grouped into epics; project scaffolding is the first story. Read the docs above before starting any task.
 
 ## Branching Rules
 - `release/dev` is the integration branch; `main` is the release branch.
-- Every new task (i.e. each new Claude chat/context) must start on a new feature branch created from the latest `release/dev`: `git checkout release/dev && git pull && git checkout -b feature/<short-task-name>`.
+- Every new task (i.e. each new Claude chat/context) must start on a new feature branch created from the latest `release/dev`:
+  `git checkout release/dev && git pull && git checkout -b feature/<short-task-name>`
 - Do this before making any changes. Never commit directly to `release/dev` or `main`.
 - Branch names: `feature/<short-kebab-case-description>` (e.g. `feature/project-scaffolding`). Other prefixes: `fix/`, `docs/`, `chore/`.
 - After the task is completed, follow this sequence:
@@ -39,16 +56,8 @@ Browser-based food delivery web app inspired by Zomato. MVP only. Mobile app is 
   5. Resolve any issues found in the review and push the fixes.
   6. Merge the PR, then switch back to `release/dev` and pull the latest.
 
-## Reference Docs (read before working)
-Read and follow these before starting any task; they are the source of truth:
-- `my-docs/requirements.md` — original requirements
-- `project-docs/prd.md` — approved PRD (scope, features, MVP boundaries)
-- `project-docs/auth-setup.md` — Supabase Auth setup and API keys
-- `project-docs/mockups/index.html` — static mock screens for every page (for UI review; open in a browser)
-- `project-docs/user-stories.md` and `project-docs/architecture.md` — once created and approved
-
 ## Status
 - [x] Step 1: PRD (approved)
-- [x] Mock screens drafted (branch `feature/mock-screens`, awaiting review)
+- [x] Mock screens drafted
 - [ ] Step 2: User stories
 - [ ] Step 3: Architecture document
