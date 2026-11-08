@@ -27,7 +27,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 |---|---|
 | Customer | Browses, orders, tracks orders |
 | Restaurant Owner | Manages own restaurant, menu and incoming orders |
-| Admin | Approves restaurants, views all orders (minimal) |
+| Admin | Can disable restaurants, views all orders and users (minimal) |
 
 ## 4. Functional Requirements
 
@@ -38,7 +38,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 - FR-4: Customer can edit name, phone, and manage saved delivery addresses.
 
 ### 4.2 Restaurant Discovery (Customer)
-- FR-5: Home page lists approved restaurants.
+- FR-5: Home page lists active (not disabled) restaurants.
 - FR-6: Search by restaurant name or dish.
 - FR-7: Filter by cuisine and sort by rating or delivery time.
 - FR-8: Restaurant page shows details and menu grouped by category.
@@ -58,11 +58,11 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 ### 4.5 Restaurant Owner
 - FR-17: Create and edit the restaurant profile (name, cuisine, address, image, hours).
 - FR-18: CRUD menu categories and items (name, price, description, image, veg flag, availability).
-- FR-18a: Upload restaurant and menu item images to Cloudinary (JPG/PNG/WebP, max 5 MB). Replacing or deleting an item or restaurant also deletes the old Cloudinary asset.
+- FR-18a: Upload restaurant and menu item images to Supabase Storage (JPG/PNG/WebP, max 5 MB). Replacing or deleting an item or restaurant also deletes the old Storage object.
 - FR-19: View incoming orders and update their status.
 
 ### 4.6 Admin
-- FR-20: Approve or reject restaurant registrations.
+- FR-20: Disable or re-enable a restaurant. Restaurants self-onboard and go live immediately (no approval step).
 - FR-21: View a list of all users and orders (read-only).
 
 ### 4.7 Ratings
@@ -77,27 +77,27 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 ## 5. Non-Functional Requirements
 | Area | Requirement |
 |---|---|
-| Performance | Pages load in under 3s on a typical connection; API p95 under 500ms; images served via Cloudinary CDN with auto format/quality |
+| Performance | Pages load in under 3s on a typical connection; API p95 under 500ms; images served via Supabase Storage CDN |
 | Security | Supabase access tokens (JWT) verified server-side; input validation (Zod); secrets only in env vars; HTTPS; rate limiting on auth/order APIs |
-| Scalability | Stateless API routes; MongoDB indexes on search/filter fields |
+| Scalability | Stateless API routes; PostgreSQL indexes on search/filter fields |
 | Reliability | Consistent error handling and logging; graceful failure states |
 | Usability | Responsive design (desktop and mobile browsers); accessible UI (WCAG AA basics) |
 | Maintainability | Strict TypeScript, ESLint/Prettier, MVC layering, unit tests for services |
 | Compatibility | Latest Chrome, Edge, Firefox, Safari |
 
 ## 6. Technical Approach
-- **Stack:** TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, MongoDB Atlas (Mongoose), Supabase Auth (API keys), Cloudinary (image storage), Resend (email).
-- **Images:** All images (restaurant and menu item photos) are stored in **Cloudinary**, not MongoDB. MongoDB stores only the Cloudinary `secure_url` and `public_id` strings. Uploads use signed server-side uploads (API route generates a signature, browser uploads directly to Cloudinary). Cloudinary URL transformations handle resizing and optimization.
+- **Stack:** TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, Supabase (Auth, PostgreSQL, Storage; API keys), Resend (email). DB access via the `pg` driver with parameterised SQL (no ORM); the Supabase client is for auth and storage only.
+- **Images:** All images (restaurant and menu item photos) are stored in **Supabase Storage** (bucket `images`), never in the database. PostgreSQL stores only the object path and public URL. Uploads go through an API route (server validates type and size, uses the service role key); the browser reads images via the public URL.
 - **MVC:**
-  - Model: Mongoose models (`src/models`)
+  - Models/Repositories: entity types in `src/models`; all SQL (via `pg`) in `src/repositories`
   - Services layer: all business logic and DB access (`src/services`)
   - Controllers: Next.js route handlers in `src/app/api`
   - View: all UI logic in components (`src/components`, `src/app`)
 - **Data entities:** User, Address, Restaurant, MenuCategory, MenuItem, Order (with embedded items), Review.
 
 ## 7. Architectural Gaps Flagged (things you may have missed)
-1. **Authorization / role model:** Supabase Auth handles identity only (no Supabase database tables are used). Roles live in MongoDB, linked by the Supabase user id.
-2. **Image storage:** Decided: Cloudinary (free tier). Images are never stored in MongoDB, only their URLs and public IDs.
+1. **Authorization / role model:** Supabase Auth handles identity. Roles live in a PostgreSQL `users` table, linked by the Supabase user id.
+2. **Image storage:** Decided: Supabase Storage (bucket `images`). The database stores only the object path and public URL, never image binaries.
 3. **Order status updates:** Polling for MVP. WebSockets or SSE later.
 4. **Payments:** COD only for the MVP (decided). A gateway can be added post-MVP.
 5. **Validation and error handling:** Shared Zod schemas and a standard error response format.
@@ -105,28 +105,29 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 7. **Logging and monitoring:** Basic structured logging, with Sentry as an option.
 8. **Environment config and secrets management.**
 9. **Testing and CI:** Vitest/Jest, Playwright, GitHub Actions.
-10. **Deployment:** Vercel for Next.js, MongoDB Atlas for the DB.
+10. **Deployment:** Vercel for Next.js, Supabase for Auth, DB and Storage.
 11. **Geolocation and delivery radius:** Deferred. MVP uses a city or area filter.
 12. **Email notifications:** In scope (section 4.8). SMS deferred.
 13. **Seed data:** A script to populate demo restaurants and menus.
 
 ## 8. Project Scaffolding and Build Roadmap (from a clean slate)
-1. Create accounts and keys per `auth-setup.md` (Supabase, MongoDB Atlas).
+1. Create accounts and keys per `auth-setup.md` (Supabase project: Auth, PostgreSQL, Storage).
 2. Scaffold: `npx create-next-app@latest` (TypeScript, Tailwind, ESLint, App Router, `src/` dir).
 3. Init shadcn/ui: `npx shadcn@latest init`.
-4. Install dependencies: `mongoose`, `@supabase/supabase-js`, `@supabase/ssr`, `zod`, `cloudinary`, `next-cloudinary`, `resend`.
+4. Install dependencies: `pg`, `@supabase/supabase-js`, `@supabase/ssr`, `zod`, `resend`.
 5. Create the folder structure:
    ```
    src/
      app/            # pages + api routes (controllers)
      components/     # UI components
-     models/         # Mongoose models
+     models/         # entity types
+     repositories/   # all SQL (pg)
      services/       # business logic
      lib/            # db connection, supabase clients, utils
      types/          # shared types
      validators/     # Zod schemas
    ```
-6. Configure `.env.local`, MongoDB connection helper, Supabase browser and server client helpers.
+6. Configure `.env.local`, PostgreSQL (`pg`) pool helper, Supabase browser and server client helpers.
 7. Build in order: Auth → Restaurants and menus → Discovery → Cart and checkout → Orders → Owner dashboard → Admin → Ratings → Polish, testing, deploy.
 
 ## 9. Success Metrics
@@ -139,7 +140,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 - Single city or region, single currency.
 - COD only for the MVP.
 - Risk: scope creep (mitigated by the strict MVP list above).
-- Risk: free-tier limits on Supabase, Atlas and image hosting.
+- Risk: free-tier limits on Supabase (Auth, DB, Storage).
 
 ## 11. Next Step
 On approval of this PRD, I will create `project-docs/user-stories.md` (epics, with project scaffolding as the first story), then the architecture document.
