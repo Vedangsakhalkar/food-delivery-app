@@ -1,0 +1,365 @@
+# Story state tracker. Allowed status: ready-for-dev -> in-progress -> review -> done
+# Rules: see project-docs/story-management-rules.md
+
+epics:
+  - id: 0
+    title: "Foundation and scaffolding"
+  - id: 1
+    title: "Authentication and profile"
+  - id: 2
+    title: "Restaurant and menu management (owner)"
+  - id: 3
+    title: "Restaurant discovery (customer)"
+  - id: 4
+    title: "Cart and checkout"
+  - id: 5
+    title: "Order management"
+  - id: 6
+    title: "Admin"
+  - id: 7
+    title: "Ratings and reviews"
+  - id: 8
+    title: "Email notifications"
+  - id: 9
+    title: "Polish, testing and launch"
+
+stories:
+  - id: "0.1"
+    title: "Bootstrap the Next.js project"
+    epic: 0
+    status: ready-for-dev
+    file: project-docs/stories/story-us-0.1-bootstrap-project.md
+    branch: null
+    pr: null
+    prd: ["Roadmap 8.1-8.5"]
+  - id: "0.2"
+    title: "Set up developer tooling"
+    epic: 0
+    status: ready-for-dev
+    file: project-docs/stories/story-us-0.2-developer-tooling.md
+    branch: null
+    pr: null
+    prd: ["NFR Maintainability"]
+    depends_on: ["0.1"]
+  - id: "0.3"
+    title: "Typed config, database pool and migrations"
+    epic: 0
+    status: ready-for-dev
+    file: project-docs/stories/story-us-0.3-config-db-pool-and-migrations.md
+    branch: null
+    pr: null
+    prd: ["Architecture 8, 10"]
+    depends_on: ["0.1"]
+  - id: "0.4"
+    title: "Error handling, logging and health check"
+    epic: 0
+    status: ready-for-dev
+    file: project-docs/stories/story-us-0.4-error-handling-logging-and-health.md
+    branch: null
+    pr: null
+    prd: ["Architecture 8"]
+    depends_on: ["0.3"]
+  - id: "0.5"
+    title: "Auth and role-based access helpers"
+    epic: 0
+    status: ready-for-dev
+    file: project-docs/stories/story-us-0.5-auth-and-rbac-helpers.md
+    branch: null
+    pr: null
+    prd: ["FR-3"]
+    depends_on: ["0.3", "0.4"]
+  - id: "0.6"
+    title: "Shared utilities and base UI"
+    epic: 0
+    status: ready-for-dev
+    file: project-docs/stories/story-us-0.6-shared-utilities.md
+    branch: null
+    pr: null
+    prd: ["NFR Usability"]
+    depends_on: ["0.1"]
+  - id: "0.7"
+    title: "CI pipeline"
+    epic: 0
+    status: ready-for-dev
+    file: project-docs/stories/story-us-0.7-ci-pipeline.md
+    branch: null
+    pr: null
+    prd: ["Architecture 9"]
+    depends_on: ["0.2"]
+  - id: "1.1"
+    title: "Sign up with a role"
+    epic: 1
+    status: ready-for-dev
+    file: project-docs/stories/story-us-1.1-sign-up-with-role.md
+    branch: null
+    pr: null
+    prd: ["FR-1", "FR-3"]
+    depends_on: ["0.5", "0.6"]
+  - id: "1.2"
+    title: "Sign in and sign out"
+    epic: 1
+    status: ready-for-dev
+    file: project-docs/stories/story-us-1.2-sign-in-sign-out.md
+    branch: null
+    pr: null
+    prd: ["FR-1", "FR-2"]
+    depends_on: ["1.1"]
+  - id: "1.3"
+    title: "Route and API protection"
+    epic: 1
+    status: ready-for-dev
+    file: project-docs/stories/story-us-1.3-route-and-api-protection.md
+    branch: null
+    pr: null
+    prd: ["FR-3"]
+    depends_on: ["0.5", "1.2"]
+  - id: "1.4"
+    title: "Reset a forgotten password"
+    epic: 1
+    status: ready-for-dev
+    file: project-docs/stories/story-us-1.4-password-reset.md
+    branch: null
+    pr: null
+    prd: ["FR-1"]
+    depends_on: ["1.2"]
+  - id: "1.5"
+    title: "Edit my profile"
+    epic: 1
+    status: ready-for-dev
+    file: project-docs/stories/story-us-1.5-edit-profile.md
+    branch: null
+    pr: null
+    prd: ["FR-4"]
+    depends_on: ["1.3"]
+  - id: "2.1"
+    title: "Owner creates a restaurant"
+    epic: 2
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-17"]
+  - id: "2.2"
+    title: "Owner edits restaurant and uploads image"
+    epic: 2
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-17", "FR-18a"]
+  - id: "2.3"
+    title: "Owner manages menu categories"
+    epic: 2
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-18"]
+  - id: "2.4"
+    title: "Owner manages menu items with images"
+    epic: 2
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-18", "FR-18a"]
+  - id: "3.1"
+    title: "Browse restaurants on the home page"
+    epic: 3
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-5"]
+  - id: "3.2"
+    title: "Search restaurants and dishes"
+    epic: 3
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-6"]
+  - id: "3.3"
+    title: "Filter by cuisine and sort"
+    epic: 3
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-7"]
+  - id: "3.4"
+    title: "View a restaurant and its menu"
+    epic: 3
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-8"]
+  - id: "3.5"
+    title: "Closed restaurant state"
+    epic: 3
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-8"]
+  - id: "4.1"
+    title: "Add, remove and change items in the cart"
+    epic: 4
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-9"]
+  - id: "4.2"
+    title: "One restaurant per cart"
+    epic: 4
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-10"]
+  - id: "4.3"
+    title: "Manage saved delivery addresses"
+    epic: 4
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-4", "FR-12"]
+  - id: "4.4"
+    title: "Subtotal, taxes, delivery fee and total"
+    epic: 4
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-11"]
+  - id: "4.5"
+    title: "Place an order with cash on delivery"
+    epic: 4
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-12", "FR-13"]
+  - id: "5.1"
+    title: "Customer order history"
+    epic: 5
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-15"]
+  - id: "5.2"
+    title: "Order detail with live status"
+    epic: 5
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-14", "FR-15"]
+  - id: "5.3"
+    title: "Cancel an order before acceptance"
+    epic: 5
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-16"]
+  - id: "5.4"
+    title: "Owner live orders and status updates"
+    epic: 5
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-19"]
+  - id: "5.5"
+    title: "Owner order history"
+    epic: 5
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-19"]
+  - id: "6.1"
+    title: "Admin disables and enables restaurants"
+    epic: 6
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-20"]
+  - id: "6.2"
+    title: "Admin views all orders"
+    epic: 6
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-21"]
+  - id: "6.3"
+    title: "Admin views all users"
+    epic: 6
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-21"]
+  - id: "7.1"
+    title: "Rate and review a delivered order"
+    epic: 7
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-22"]
+  - id: "7.2"
+    title: "Show ratings and reviews on restaurants"
+    epic: 7
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-7", "FR-22"]
+  - id: "8.1"
+    title: "Order placed emails to customer and owner"
+    epic: 8
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-23", "FR-25", "FR-26"]
+  - id: "8.2"
+    title: "Status change emails to the customer"
+    epic: 8
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["FR-24", "FR-26"]
+  - id: "9.1"
+    title: "Seed demo restaurants and menus"
+    epic: 9
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["Roadmap"]
+  - id: "9.2"
+    title: "Loading, empty, error states and accessibility pass"
+    epic: 9
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["NFR Usability"]
+  - id: "9.3"
+    title: "Deploy to Vercel and Supabase production"
+    epic: 9
+    status: ready-for-dev
+    file: null  # created when this epic is requested
+    branch: null
+    pr: null
+    prd: ["Architecture 10"]

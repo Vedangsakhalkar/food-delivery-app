@@ -37,10 +37,24 @@ TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, Supabase (Auth, Postg
 | Supabase setup guide (auth, DB, storage) | `project-docs/auth-setup.md` |
 | Mock screens (open `index.html` in a browser) | `project-docs/mockups/index.html` |
 | User stories (Step 2) | `project-docs/user-stories.md` |
+| Story state tracker | `project-docs/stories.yaml` |
+| Story files (epics 0 and 1 so far) | `project-docs/stories/` |
+| Story management rules | `project-docs/story-management-rules.md` |
 | Architecture (Step 3) | `project-docs/architecture.md` |
 
 ## Workflow
 Deliverables are strictly ordered: PRD → User Stories → Architecture. Start each step only after the user approves the previous one. User stories are grouped into epics; project scaffolding is the first story. Read the docs above before starting any task.
+
+## Story Management (always follow; details in `project-docs/story-management-rules.md`)
+- Story files live **only** in `project-docs/stories/`, named in kebab-case: `story-us-<epic>.<n>-<short-title>.md` (e.g. `story-us-1.1-sign-up-with-role.md`).
+- `project-docs/stories.yaml` is the single source of truth for every story (all epics): status, branch, PR.
+- Create story files only for the epic the user asks for. Currently detailed: epics 0 and 1. Do not create files for other epics until asked.
+- States: `ready-for-dev` (initial) → `in-progress` → `review` → `done`.
+  - `in-progress`: when you start building and create the story branch `feature/us-<id>-<slug>` from the latest `release/dev`.
+  - `review`: when you open the PR into `release/dev` (record the PR number).
+  - `done`: once the story is reviewed and issues are resolved, as the last commit before merging.
+- Update `stories.yaml` and the story file's status table together in the same commit. One story = one branch = one PR.
+- Do not start a story until its `depends_on` stories are `done`.
 
 ## Branching Rules
 - `release/dev` is the integration branch; `main` is the release branch.
@@ -59,5 +73,5 @@ Deliverables are strictly ordered: PRD → User Stories → Architecture. Start 
 ## Status
 - [x] Step 1: PRD (approved)
 - [x] Mock screens drafted
-- [ ] Step 2: User stories
+- [x] Step 2: User stories drafted (awaiting approval; epic 0 and 1 story files created)
 - [x] Step 3: Architecture document drafted (awaiting approval; user stories still pending)
