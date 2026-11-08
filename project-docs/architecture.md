@@ -62,7 +62,7 @@ UI rule: every component comes from shadcn/ui wherever possible (`npx shadcn@lat
 |---|---|
 | `users` | `id` (= Supabase auth user id, uuid PK), `email`, `name`, `phone`, `role` (`customer`/`owner`/`admin`), `created_at` |
 | `addresses` | `id`, `user_id` FK, `label`, `line1`, `city`, `pincode`, `is_default` |
-| `restaurants` | `id`, `owner_id` FK, `name`, `cuisine`, `address`, `opens_at`, `closes_at`, `image_path`, `image_url`, `is_disabled`, `avg_rating`, `rating_count`, `created_at` |
+| `restaurants` | `id`, `owner_id` FK, `name`, `cuisine`, `address`, `opens_at`, `closes_at`, `image_path`, `image_url`, `delivery_time_min`, `is_disabled`, `disabled_reason`, `avg_rating`, `rating_count`, `created_at` |
 | `menu_categories` | `id`, `restaurant_id` FK, `name`, `sort_order` |
 | `menu_items` | `id`, `category_id` FK, `restaurant_id` FK, `name`, `description`, `price_paise`, `is_veg`, `is_available`, `image_path`, `image_url` |
 | `orders` | `id`, `code` (e.g. FD-10234), `customer_id` FK, `restaurant_id` FK, `address_snapshot` (jsonb), `status`, `subtotal_paise`, `tax_paise`, `delivery_fee_paise`, `total_paise`, `payment_method` (`cod`), `notes`, `created_at` |
@@ -89,7 +89,7 @@ Notes:
 | Auth/profile | `GET/PATCH /api/me`, `GET/POST /api/me/addresses`, `PATCH/DELETE /api/me/addresses/[id]` |
 | Discovery | `GET /api/restaurants` (search, cuisine, sort), `GET /api/restaurants/[id]` (with menu), `GET /api/search` |
 | Orders (customer) | `POST /api/orders`, `GET /api/orders`, `GET /api/orders/[id]`, `POST /api/orders/[id]/cancel` |
-| Reviews | `POST /api/orders/[id]/review` |
+| Reviews | `POST /api/orders/[id]/review`, `GET /api/restaurants/[id]/reviews` (public) |
 | Owner | `GET/POST/PATCH /api/owner/restaurant`, `CRUD /api/owner/categories`, `CRUD /api/owner/items`, `GET /api/owner/orders`, `PATCH /api/owner/orders/[id]/status`, `POST /api/owner/uploads` |
 | Admin | `GET /api/admin/restaurants`, `PATCH /api/admin/restaurants/[id]` (disable/enable), `GET /api/admin/users`, `GET /api/admin/orders` |
 
@@ -124,7 +124,35 @@ Conventions: JSON only; Zod validation; standard error body `{ "error": { "code"
 - Migrations run from `db/migrations` using `DATABASE_URL_MIGRATIONS`; the app uses the pooled `DATABASE_URL` at runtime.
 - Branches: `release/dev` (integration), `main` (release), feature branches per CLAUDE.md.
 
-## 11. Open questions
+## 11. Screen-to-API map (from `mockups/`)
+
+Public = no login needed (guests can browse; adding to cart or checkout prompts login). Routes below are the App Router pages; each calls the listed APIs.
+
+| Mock | Page route | Role | APIs used |
+|---|---|---|---|
+| C1/C1b Home | `/` | Public | `GET /api/restaurants` |
+| C2 Search | `/search` | Public | `GET /api/search` |
+| C3/C4 Restaurant (open/closed) | `/restaurants/[id]` | Public | `GET /api/restaurants/[id]`, `GET /api/restaurants/[id]/reviews`. Closed state is derived from `opens_at`/`closes_at`; ordering is blocked server-side too |
+| C5 Cart | `/cart` | Customer | none (client state) |
+| C6 Checkout | `/checkout` | Customer | `GET/POST /api/me/addresses`, `POST /api/orders` |
+| C7 Order confirmation | `/orders/[id]/placed` | Customer | `GET /api/orders/[id]` |
+| C8 My orders | `/orders` | Customer | `GET /api/orders` |
+| C9 Order detail | `/orders/[id]` | Customer | `GET /api/orders/[id]` (polling), `POST /api/orders/[id]/cancel` |
+| C10 Review | `/orders/[id]/review` | Customer | `POST /api/orders/[id]/review` |
+| A1/A2/A3 Login, sign up, forgot password | `/login`, `/signup`, `/forgot-password` | Public | Supabase Auth client directly; role (customer/owner) chosen at sign-up is saved on first `GET /api/me` |
+| A4 Profile | `/profile` | Any | `GET/PATCH /api/me`, `/api/me/addresses` |
+| O1 Owner welcome | `/owner` | Owner | `GET /api/owner/restaurant` (404 shows welcome) |
+| O2 Restaurant profile | `/owner/restaurant` | Owner | `GET/POST/PATCH /api/owner/restaurant`, `POST /api/owner/uploads` |
+| O3 Live orders | `/owner/orders` | Owner | `GET /api/owner/orders` (polling), `PATCH /api/owner/orders/[id]/status` |
+| O4/O5 Menu, item | `/owner/menu`, `/owner/menu/items/[id]` | Owner | `/api/owner/categories`, `/api/owner/items`, `POST /api/owner/uploads` |
+| O6 History | `/owner/history` | Owner | `GET /api/owner/orders?status=delivered,rejected,cancelled` |
+| M1 Restaurants | `/admin/restaurants` | Admin | `GET /api/admin/restaurants`, `PATCH /api/admin/restaurants/[id]` (disable with reason / enable) |
+| M2/M3 Orders, users | `/admin/orders`, `/admin/users` | Admin | `GET /api/admin/orders`, `GET /api/admin/users` |
+| S1–S4 States, dialogs, privacy, errors | shared components, `/privacy`, `not-found`, `error` | Public | none |
+
+Access control: a Next.js middleware redirects unauthenticated users away from customer/owner/admin pages and wrong-role users to an access-denied page; the API controllers enforce the same roles.
+
+## 12. Open questions
 1. Delivery fee and tax values: fixed constants or per restaurant? (Assumed fixed for MVP.)
-2. Delivery time shown on cards: static field or computed? (Assumed static field on the restaurant.)
+2. Delivery time on cards is a static `delivery_time_min` field set by the owner (decided for MVP).
 3. Should the owner dashboard push new orders (SSE) later instead of polling?
