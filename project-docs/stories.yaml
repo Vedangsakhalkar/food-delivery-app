@@ -98,7 +98,7 @@ stories:
   - id: "1.2"
     title: "Sign in and sign out"
     epic: 1
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-1.2-sign-in-sign-out.md
     branch: feature/us-1.2-sign-in-sign-out
     pr: null
