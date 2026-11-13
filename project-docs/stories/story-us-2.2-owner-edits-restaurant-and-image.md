@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 2 — Restaurant and menu management (owner) |
-| Status | review |
+| Status | done |
 | PRD refs | FR-17, FR-18a |
 | Depends on | US-2.1 |
 | Branch | `feature/us-2.2-owner-edits-restaurant-and-image` |
@@ -25,18 +25,18 @@
 6. An owner can only edit their own restaurant.
 
 ## Tasks
-- [ ] `storageService` adapter (interface + Supabase implementation, secret key server-side only).
-- [ ] `POST /api/owner/uploads` controller validating type and size.
-- [ ] `PATCH /api/owner/restaurant` and `restaurantService.update` with old-image cleanup.
-- [ ] Image upload component built from shadcn primitives (`Input type=file`, `Button`, `AspectRatio`).
+- [x] `storageService` adapter (interface + Supabase implementation, secret key server-side only).
+- [x] `POST /api/owner/uploads` controller validating type and size.
+- [x] `PATCH /api/owner/restaurant` and `restaurantService.update` with old-image cleanup.
+- [x] Image upload component built from shadcn primitives (`Input type=file`, `Button`, `AspectRatio`).
 
 ## Technical notes
 - Image bytes never go into the database. Storage cleanup failures are logged and must not fail the save.
 - `storageService` is reused by US-2.4.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
