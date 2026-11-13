@@ -197,10 +197,10 @@ stories:
   - id: "3.4"
     title: "View a restaurant and its menu"
     epic: 3
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-3.4-view-restaurant-and-menu.md
-    branch: null
-    pr: null
+    branch: feature/us-3.4-view-restaurant-and-menu
+    pr: 31
     prd: ["FR-8"]
     depends_on: ["3.1", "2.4"]
   - id: "3.5"

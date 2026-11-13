@@ -5,6 +5,7 @@ import { restaurantService } from "@/services/restaurant-service";
 import { menuCategoryService } from "@/services/menu-category-service";
 import { menuItemService } from "@/services/menu-item-service";
 import { searchService } from "@/services/search-service";
+import { restaurantMenuService } from "@/services/restaurant-menu-service";
 import { discoveryService } from "@/services/discovery-service";
 import { itemSchema } from "@/validators/menu";
 import { getPool, query } from "@/lib/db";
@@ -76,5 +77,17 @@ describe("filter and sort against the real database", () => {
     const byDelivery = await discoveryService.list({ limit: 50, cuisine: [], sort: "delivery" });
     const times = byDelivery.restaurants.map((r) => r.deliveryTimeMin);
     expect(times).toEqual([...times].sort((a, b) => a - b));
+  });
+});
+
+describe("restaurant page data against the real database", () => {
+  it("returns the menu grouped by category, and 404s once disabled", async () => {
+    await query("update restaurants set is_disabled = false where id = $1", [restaurantId]);
+    const res = await restaurantMenuService.getWithMenu(restaurantId);
+    expect(res.restaurant.name).toContain(TAG);
+    expect(res.categories[0].name).toBe("Mains");
+    expect(res.categories[0].items[0].name).toBe(`${TAG} Biryani`);
+    await query("update restaurants set is_disabled = true where id = $1", [restaurantId]);
+    await expect(restaurantMenuService.getWithMenu(restaurantId)).rejects.toThrow("not found");
   });
 });

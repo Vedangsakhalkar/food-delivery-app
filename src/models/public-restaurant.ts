@@ -27,3 +27,24 @@ export const toPublic = (r: Restaurant): PublicRestaurant => ({
   opensAt: r.opensAt,
   closesAt: r.closesAt,
 });
+
+export interface PublicMenuItem {
+  id: string;
+  name: string;
+  description: string;
+  pricePaise: number;
+  isVeg: boolean;
+  isAvailable: boolean;
+  imageUrl: string | null;
+}
+
+export interface PublicMenuCategory {
+  id: string;
+  name: string;
+  items: PublicMenuItem[];
+}
+
+export interface RestaurantWithMenu {
+  restaurant: PublicRestaurant;
+  categories: PublicMenuCategory[];
+}
