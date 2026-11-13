@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | review |
+| Status | done |
 | PRD refs | Roadmap 8.1-8.5 |
 | Depends on | none |
 | Branch | `feature/us-0.1-bootstrap-project` |
@@ -24,18 +24,18 @@
 5. `.env.local` is git-ignored and an `.env.example` lists every variable with empty values.
 
 ## Tasks
-- [ ] Run `npx create-next-app@latest` (TypeScript, Tailwind, ESLint, App Router, `src/`).
-- [ ] Run `npx shadcn@latest init` and add `button`.
-- [ ] Create the folder structure from architecture.md section 3.
-- [ ] Add `.env.example`.
+- [x] Run `npx create-next-app@latest` (TypeScript, Tailwind, ESLint, App Router, `src/`).
+- [x] Run `npx shadcn@latest init` and add `button`.
+- [x] Create the folder structure from architecture.md section 3.
+- [x] Add `.env.example`.
 
 ## Technical notes
 - Follow CLAUDE.md UI rules: shadcn/ui components only.
 - Dependencies: `pg`, `@supabase/supabase-js`, `@supabase/ssr`, `zod`, `resend`.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

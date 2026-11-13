@@ -27,7 +27,7 @@ stories:
   - id: "0.1"
     title: "Bootstrap the Next.js project"
     epic: 0
-    status: review
+    status: done
     file: project-docs/stories/story-us-0.1-bootstrap-project.md
     branch: feature/us-0.1-bootstrap-project
     pr: 11
