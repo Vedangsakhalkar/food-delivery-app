@@ -125,9 +125,9 @@ stories:
   - id: "1.5"
     title: "Edit my profile"
     epic: 1
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-1.5-edit-profile.md
-    branch: null
+    branch: feature/us-1.5-edit-profile
     pr: null
     prd: ["FR-4"]
     depends_on: ["1.3"]
