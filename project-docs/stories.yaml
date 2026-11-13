@@ -326,7 +326,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-6.3-admin-view-users.md
     branch: feature/us-6.3-admin-view-users
-    pr: null
+    pr: 45
     prd: ["FR-21"]
     depends_on: ["1.3"]
   - id: "7.1"
