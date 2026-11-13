@@ -37,3 +37,12 @@ export const requireUser = createRequireUser({
   getIdentity: getIdentityFromSession,
   ensureUser: (identity) => userService.ensureUser(identity),
 });
+
+/** Returns the signed-in user, or null for guests (never throws). Used by layouts and pages. */
+export async function getCurrentUser(): Promise<User | null> {
+  try {
+    return await requireUser();
+  } catch {
+    return null;
+  }
+}

@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 1 — Authentication and profile |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-1, FR-2 |
 | Depends on | US-1.1 |
 | Branch | `feature/us-1.2-sign-in-sign-out` |
-| PR | — |
+| PR | #20 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -25,13 +25,13 @@
 6. Optional: Continue with Google works when the provider is enabled.
 
 ## Tasks
-- [ ] Login page (mock A1).
-- [ ] Header shows Log in / Sign up for guests and the user menu with Log out when signed in.
-- [ ] Session handled by `@supabase/ssr` cookies.
+- [x] Login page (mock A1).
+- [x] Header shows Log in / Sign up for guests and the user menu with Log out when signed in.
+- [x] Session handled by `@supabase/ssr` cookies.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
