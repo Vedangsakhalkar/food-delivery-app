@@ -7,7 +7,7 @@
 | PRD refs | Architecture 11 |
 | Depends on | US-5.4 |
 | Branch | `feature/us-9.4-e2e-tests` |
-| PR | — |
+| PR | #53 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
