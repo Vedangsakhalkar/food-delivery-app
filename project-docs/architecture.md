@@ -2,16 +2,34 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.1 (Draft, awaiting approval) |
-| Date | 2026-11-08 |
-| Inputs | `prd.md`, `auth-setup.md`, `mockups/`, CLAUDE.md architecture rules (aligned with Shakir's `psf-exchange` CLAUDE.md) |
+| Version | 0.2 (Draft, awaiting approval) |
+| Date | 2026-11-13 |
+| Inputs | `prd.md`, `user-stories.md`, `auth-setup.md`, `mockups/`, `CLAUDE.md` architecture rules |
 
-> Note: per the workflow, user stories (`user-stories.md`) normally precede this document. This draft was requested early; revisit it once the user stories are approved.
+## 1. Summary (read this first)
 
-## 1. Stack
-TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, Supabase (Auth, PostgreSQL, Storage), `pg` driver with parameterised SQL (no ORM), Zod, Resend. Hosting: Vercel (app) and Supabase (auth, database, storage).
+The app is a Next.js website with four strict layers. Each layer does one job and only talks to the layer directly below it.
 
-## 2. Layered architecture (MVC)
+| Layer | One-line job | Lives in |
+|---|---|---|
+| View | Shows screens, calls the API | `src/app`, `src/components` |
+| Controller | Checks who is calling and what they sent, then hands off | `src/app/api/**/route.ts` |
+| Service | Decides what is allowed (all business rules) | `src/services` |
+| Repository | Runs SQL, nothing else | `src/repositories` |
+
+Key decisions at a glance:
+- **Database:** PostgreSQL on Supabase, accessed with the `pg` driver and parameterised SQL. No ORM.
+- **Supabase client:** used only for sign-in and file storage, never for data queries.
+- **Payment:** Cash on Delivery only.
+- **Images:** stored in Supabase Storage (bucket `images`); the database keeps only the path and URL.
+- **Order updates:** the browser polls the API. No websockets in the MVP.
+- **Cart:** lives in the browser until checkout; the server re-checks everything when the order is placed.
+
+## 2. Stack
+
+TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, Supabase (Auth, PostgreSQL, Storage), `pg`, Zod, Resend. Hosting: Vercel (app), Supabase (auth, database, storage).
+
+## 3. Layers in detail
 
 ```
 Browser (View)  ──fetch──▶  /api route handlers (Controller)
@@ -27,36 +45,45 @@ Browser (View)  ──fetch──▶  /api route handlers (Controller)
 | Layer | Location | Responsibility | Must not |
 |---|---|---|---|
 | View | `src/app/**/page.tsx`, `src/components` | Rendering and UI state; calls `/api` | Touch the DB, services or secrets |
-| Controller | `src/app/api/**/route.ts` | Parse and validate input, check session and role, call one service, map result to HTTP response | Contain business logic or SQL |
-| Service | `src/services` | All business rules (cart rules, pricing, order status transitions, ratings) | Build SQL or HTTP responses |
+| Controller | `src/app/api/**/route.ts` | Parse and validate input, check session and role, call one service, map the result to HTTP | Contain business logic or SQL |
+| Service | `src/services` | Business rules: cart validation, pricing, order status transitions, ratings | Build SQL or HTTP responses |
 | Repository | `src/repositories` | All SQL via `pg`, one repository per entity | Contain business rules |
 | Model | `src/models` | Entity and DTO types | Contain logic |
-| Lib | `src/lib` | `pg` pool, Supabase clients, auth helpers, error classes, logger | |
-| Validators | `src/validators` | Zod schemas shared by controllers and the UI | |
+| Validators | `src/validators` | Zod schemas shared by controllers and forms | |
+| Lib | `src/lib` | `pg` pool, Supabase clients, auth helpers, error classes, logger, typed `env.ts` | |
 
-**Design patterns:** Repository (data access), Service layer, Adapter (`emailService`, `storageService` wrap Resend and Supabase Storage behind interfaces), Dependency injection by constructor (services receive repositories/adapters, which makes unit testing easy), State pattern for order status transitions, DTO + Zod for validation.
+**Patterns used:** Repository, Service layer, Adapter (`emailService`, `storageService` hide Resend and Supabase Storage behind interfaces), constructor dependency injection (easy to unit test), State pattern for order status, DTO + Zod for validation.
 
-## 3. Folder structure
+### Worked example: customer places an order
+
+1. **View** (`/checkout`) sends `POST /api/orders` with the cart and chosen address.
+2. **Controller** verifies the token, confirms role = customer, validates the body with Zod, calls `orderService.placeOrder(user, input)`.
+3. **Service** checks the restaurant is open and not disabled, items exist and are available, then recomputes prices and totals from the database.
+4. **Repository** inserts `orders` and `order_items` in one transaction.
+5. **Service** asks `emailService` to send confirmations (failures are logged, never block the order).
+6. **Controller** returns `201 { code: "FD-10234" }`; the View shows the confirmation page.
+
+## 4. Folder structure
 
 ```
 src/
   app/
-    (public)/            # home, search, restaurant, login, signup, forgot-password, privacy
-    (customer)/          # cart, checkout, orders, order detail, review, profile
-    owner/               # welcome, restaurant, menu, menu item, live orders, history
-    admin/               # restaurants, users, orders
-    api/                 # route handlers (controllers)
+    (public)/      home, search, restaurant, login, signup, forgot-password, privacy
+    (customer)/    cart, checkout, orders, order detail, review, profile
+    owner/         welcome, restaurant, menu, menu item, live orders, history
+    admin/         restaurants, users, orders
+    api/           route handlers (controllers)
   components/
-    ui/                  # shadcn/ui generated components (do not hand-edit)
-    ...                  # feature components built from shadcn primitives
+    ui/            shadcn/ui generated components (do not hand-edit)
+    ...            feature components built from shadcn primitives
   models/  repositories/  services/  validators/  lib/  types/
-db/migrations/           # SQL migrations (run with DATABASE_URL_MIGRATIONS)
-db/seed.ts               # demo restaurants and menus
+db/migrations/     SQL migrations (run with DATABASE_URL_MIGRATIONS)
+db/seed.ts         demo restaurants and menus
 ```
 
-UI rule: every component comes from shadcn/ui wherever possible (`npx shadcn@latest add <component>`); no other UI libraries.
+UI rule: every component comes from shadcn/ui wherever possible (`npx shadcn@latest add <component>`). No other UI libraries.
 
-## 4. Data model (PostgreSQL)
+## 5. Data model (PostgreSQL)
 
 | Table | Key columns |
 |---|---|
@@ -69,20 +96,30 @@ UI rule: every component comes from shadcn/ui wherever possible (`npx shadcn@lat
 | `order_items` | `id`, `order_id` FK, `menu_item_id`, `name_snapshot`, `price_paise`, `quantity` |
 | `reviews` | `id`, `order_id` UNIQUE FK, `restaurant_id` FK, `customer_id` FK, `rating` (1–5), `comment`, `created_at` |
 
-Notes:
-- Money is stored as integer paise. Order items and the address are snapshots so later menu or address edits don't change history.
-- Cart is client-side (local storage) and validated on the server at checkout. It holds items from one restaurant only.
-- Indexes: `restaurants(cuisine)`, `restaurants(lower(name))`, `menu_items(restaurant_id)`, `orders(customer_id, created_at desc)`, `orders(restaurant_id, status)`; trigram or full-text index for name/dish search.
-- Row Level Security is not used for app data because access goes through the server with `pg`. Authorisation is enforced in controllers and services.
+Relationships: a user (owner) has one restaurant; a restaurant has many categories and items; a customer has many addresses and orders; an order has many order items and at most one review.
 
-## 5. Authentication and authorisation
-1. The browser signs up/in with `@supabase/supabase-js` using the publishable key (email/password, optional Google). Email confirmation is on.
+Rules:
+- Money is stored as integer paise.
+- Order items and the address are **snapshots**, so later edits never change order history.
+- The cart is client-side (local storage), holds one restaurant only, and is validated on the server at checkout.
+- Indexes: `restaurants(cuisine)`, `restaurants(lower(name))`, `menu_items(restaurant_id)`, `orders(customer_id, created_at desc)`, `orders(restaurant_id, status)`, plus a trigram or full-text index for name/dish search.
+- Row Level Security is not used for app data because all access goes through the server. Authorisation is enforced in controllers and services.
+
+## 6. Authentication and authorisation
+
+1. The browser signs up or in with `@supabase/supabase-js` using the publishable key (email/password, optional Google). Email confirmation is on.
 2. The browser sends `Authorization: Bearer <access_token>` to `/api` routes.
-3. A shared `requireUser(roles)` helper in `src/lib` verifies the token with `supabase.auth.getUser(token)`, loads the `users` row (creating it on first login), and checks `role`.
-4. Services receive the authenticated user and check ownership (for example, an owner may only change their own restaurant).
+3. `requireUser(roles)` in `src/lib` verifies the token with `supabase.auth.getUser(token)`, loads the `users` row, and checks `role`. On first login the row is created from the role stored in Supabase user metadata at sign-up (`options.data.role`). Only `customer` and `owner` are accepted from metadata; any other value becomes `customer`. Admins are set directly in the database.
+4. Services receive the authenticated user and check ownership (e.g. an owner can only change their own restaurant).
 5. The Supabase secret key, database URLs and Resend key exist only in server code and `.env.local`.
 
-## 6. API surface (controllers)
+| Role | Can do |
+|---|---|
+| Customer | Browse, order, cancel before acceptance, review delivered orders, edit profile and addresses |
+| Owner | Manage own restaurant, menu and incoming orders |
+| Admin | Disable or enable restaurants; read-only view of all users and orders |
+
+## 7. API surface (controllers)
 
 | Area | Routes |
 |---|---|
@@ -91,55 +128,74 @@ Notes:
 | Orders (customer) | `POST /api/orders`, `GET /api/orders`, `GET /api/orders/[id]`, `POST /api/orders/[id]/cancel` |
 | Reviews | `POST /api/orders/[id]/review`, `GET /api/restaurants/[id]/reviews` (public) |
 | Owner | `GET/POST/PATCH /api/owner/restaurant`, `CRUD /api/owner/categories`, `CRUD /api/owner/items`, `GET /api/owner/orders`, `PATCH /api/owner/orders/[id]/status`, `POST /api/owner/uploads` |
-| Admin | `GET /api/admin/restaurants`, `PATCH /api/admin/restaurants/[id]` (disable/enable), `GET /api/admin/users`, `GET /api/admin/orders` |
+| Admin | `GET /api/admin/restaurants`, `PATCH /api/admin/restaurants/[id]`, `GET /api/admin/users`, `GET /api/admin/orders` |
 
-Conventions: JSON only; Zod validation; standard error body `{ "error": { "code", "message", "details?" } }`; correct HTTP status codes (400, 401, 403, 404, 409, 422, 500); pagination via `limit` and `cursor`.
+Conventions: JSON only; Zod validation; error body `{ "error": { "code", "message", "details?" } }`; status codes 400, 401, 403, 404, 409, 422, 500; pagination via `limit` and `cursor`.
 
-## 7. Key flows
+## 8. Key flows
 
-**Place order:** validate cart server-side (items exist, available, same restaurant, restaurant open and not disabled) → recompute prices and totals from the database (never trust client totals) → insert `orders` and `order_items` in one transaction → send emails (best effort) → return order code.
+**Place order:** validate cart server-side (items exist and are available, same restaurant, restaurant open and not disabled) → recompute prices from the database (never trust client totals) → insert order and items in one transaction → send emails (best effort) → return order code.
 
-**Order status (State pattern):** `placed → accepted → preparing → out_for_delivery → delivered`; `placed → rejected` (owner); `placed → cancelled` (customer, only before acceptance). The service rejects invalid transitions with 409. Customers see updates by polling `GET /api/orders/[id]` every 10–15 s.
+**Order status (State pattern):**
 
-**Ratings:** allowed only for the customer's own delivered order, once per order. The service updates `restaurants.avg_rating` and `rating_count` in the same transaction.
+```
+placed ─▶ accepted ─▶ preparing ─▶ out_for_delivery ─▶ delivered
+  ├─▶ rejected   (by owner)
+  └─▶ cancelled  (by customer, only before acceptance)
+```
 
-**Image upload:** the owner UI posts the file to `/api/owner/uploads`; the controller validates type (JPG/PNG/WebP) and size (≤ 5 MB), `storageService` uploads to bucket `images` with the secret key and returns `{ path, url }`; the service stores both and deletes the old object on replace or delete.
+Invalid transitions return 409. Customers see updates by polling `GET /api/orders/[id]` every 10–15 s.
 
-**Email:** `emailService` (Resend) sends order placed (customer and owner) and status-change emails. Sends are wrapped in try/catch and logged; a failure never fails the order.
+**Ratings:** only for the customer's own delivered order, once per order. The service updates `avg_rating` and `rating_count` in the same transaction.
 
-## 8. Cross-cutting concerns
+**Image upload:** the owner UI posts the file to `/api/owner/uploads`. The controller validates type (JPG/PNG/WebP) and size (≤ 5 MB); `storageService` uploads to bucket `images` with the secret key and returns `{ path, url }`. The service stores both and deletes the old object on replace or delete.
+
+**Email:** `emailService` (Resend) sends order-placed (customer and owner) and status-change emails. Sends are wrapped in try/catch and logged; a failure never fails the order.
+
+## 9. Cross-cutting concerns
+
 - **Validation:** Zod schemas in `src/validators`, reused by forms and controllers.
-- **Errors:** domain errors (`NotFoundError`, `ForbiddenError`, `ConflictError`, `ValidationError`) thrown by services and mapped to HTTP in one `handleError` wrapper for controllers.
+- **Errors:** services throw `NotFoundError`, `ForbiddenError`, `ConflictError`, `ValidationError`; one `handleError` wrapper maps them to HTTP.
 - **Security:** parameterised SQL only; rate limiting on auth and order routes; security headers; secrets only in env vars; `.env*` git-ignored.
 - **Logging:** structured logger in `src/lib` (Sentry optional later).
-- **Config:** one typed `env.ts` that validates required env vars at startup.
+- **Config:** one typed `env.ts` validates required env vars at startup.
 - **Accessibility and responsiveness:** shadcn/ui components, WCAG AA basics, mobile-first layouts.
 
-## 9. Testing and CI
-- Unit tests (Vitest) for services with mocked repositories; repository tests against a test database; Playwright for key flows (sign up → order → owner accepts).
-- GitHub Actions on pull requests into `release/dev`: install, lint, typecheck, test, build.
+## 10. Environment variables
 
-## 10. Deployment and environments
-- Vercel for the Next.js app; separate Supabase projects for dev and production.
-- Migrations run from `db/migrations` using `DATABASE_URL_MIGRATIONS`; the app uses the pooled `DATABASE_URL` at runtime.
-- Branches: `release/dev` (integration), `main` (release), feature branches per CLAUDE.md.
+Names match `auth-setup.md`. Server-only values must never be imported by components.
 
-## 11. Screen-to-API map (from `mockups/`)
+| Variable | Scope |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (holds the publishable key; the name is kept from `auth-setup.md`) | Browser + server |
+| `SUPABASE_SERVICE_ROLE_KEY` (secret key) | Server only |
+| `DATABASE_URL` (pooled, runtime), `DATABASE_URL_MIGRATIONS` (direct) | Server only |
+| `SUPABASE_STORAGE_BUCKET` (`images`) | Server only |
+| `RESEND_API_KEY`, `EMAIL_FROM` | Server only |
 
-Public = no login needed (guests can browse; adding to cart or checkout prompts login). Routes below are the App Router pages; each calls the listed APIs.
+## 11. Testing, CI and deployment
+
+- **Tests:** Vitest for services with mocked repositories; repository tests against a test database; Playwright for key flows (sign up → order → owner accepts).
+- **CI:** GitHub Actions on pull requests into `release/dev`: install, lint, typecheck, test, build.
+- **Deploy:** Vercel for the app; separate Supabase projects for dev and production. Migrations run from `db/migrations`; the app uses the pooled `DATABASE_URL` at runtime.
+- **Branches:** `release/dev` (integration), `main` (release), one feature branch per story per `CLAUDE.md`.
+
+## 12. Screen-to-API map (from `mockups/`)
+
+Public = no login needed. Guests can browse; adding to cart or checkout prompts login.
 
 | Mock | Page route | Role | APIs used |
 |---|---|---|---|
 | C1/C1b Home | `/` | Public | `GET /api/restaurants` |
 | C2 Search | `/search` | Public | `GET /api/search` |
-| C3/C4 Restaurant (open/closed) | `/restaurants/[id]` | Public | `GET /api/restaurants/[id]`, `GET /api/restaurants/[id]/reviews`. Closed state is derived from `opens_at`/`closes_at`; ordering is blocked server-side too |
+| C3/C4 Restaurant (open/closed) | `/restaurants/[id]` | Public | `GET /api/restaurants/[id]`, `GET /api/restaurants/[id]/reviews`. Closed state comes from `opens_at`/`closes_at`; the server also blocks ordering |
 | C5 Cart | `/cart` | Customer | none (client state) |
 | C6 Checkout | `/checkout` | Customer | `GET/POST /api/me/addresses`, `POST /api/orders` |
 | C7 Order confirmation | `/orders/[id]/placed` | Customer | `GET /api/orders/[id]` |
 | C8 My orders | `/orders` | Customer | `GET /api/orders` |
 | C9 Order detail | `/orders/[id]` | Customer | `GET /api/orders/[id]` (polling), `POST /api/orders/[id]/cancel` |
 | C10 Review | `/orders/[id]/review` | Customer | `POST /api/orders/[id]/review` |
-| A1/A2/A3 Login, sign up, forgot password | `/login`, `/signup`, `/forgot-password` | Public | Supabase Auth client directly; role (customer/owner) chosen at sign-up is saved on first `GET /api/me` |
+| A1–A3 Login, sign up, forgot password | `/login`, `/signup`, `/forgot-password` | Public | Supabase Auth client directly; role chosen at sign-up is sent as user metadata and the `users` row is created on first `GET /api/me` |
 | A4 Profile | `/profile` | Any | `GET/PATCH /api/me`, `/api/me/addresses` |
 | O1 Owner welcome | `/owner` | Owner | `GET /api/owner/restaurant` (404 shows welcome) |
 | O2 Restaurant profile | `/owner/restaurant` | Owner | `GET/POST/PATCH /api/owner/restaurant`, `POST /api/owner/uploads` |
@@ -150,9 +206,25 @@ Public = no login needed (guests can browse; adding to cart or checkout prompts 
 | M2/M3 Orders, users | `/admin/orders`, `/admin/users` | Admin | `GET /api/admin/orders`, `GET /api/admin/users` |
 | S1–S4 States, dialogs, privacy, errors | shared components, `/privacy`, `not-found`, `error` | Public | none |
 
-Access control: a Next.js middleware redirects unauthenticated users away from customer/owner/admin pages and wrong-role users to an access-denied page; the API controllers enforce the same roles.
+Access control: Next.js middleware redirects unauthenticated users away from customer/owner/admin pages and wrong-role users to an access-denied page. API controllers enforce the same roles.
 
-## 12. Open questions
-1. Delivery fee and tax values: fixed constants or per restaurant? (Assumed fixed for MVP.)
-2. Delivery time on cards is a static `delivery_time_min` field set by the owner (decided for MVP).
-3. Should the owner dashboard push new orders (SSE) later instead of polling?
+## 13. Build order (from `user-stories.md`)
+
+| Epic | What it adds to the architecture |
+|---|---|
+| 0 Foundation | Scaffold, tooling, `env.ts`, `pg` pool, migrations, error handling, logger, health check, `requireUser`, base UI, CI |
+| 1 Auth and profile | Sign up/in/out, route and API protection, password reset, profile |
+| 2 Owner menu | Restaurant, categories and items; `storageService` and uploads |
+| 3 Discovery | Home, search, filters, restaurant page, closed state |
+| 4 Cart and checkout | Client cart, addresses, totals, `POST /api/orders` |
+| 5 Orders | History, detail with polling, cancel, owner live orders |
+| 6 Admin | Disable/enable restaurants, read-only users and orders |
+| 7 Ratings | Review flow and rating aggregates |
+| 8 Email | `emailService` and templates |
+| 9 Launch | Seed data, empty/error states and accessibility pass, deploy |
+
+## 14. Decisions and open questions
+
+1. Delivery fee and tax: **decided for the MVP** as fixed constants in one config file. Per-restaurant fees can come later.
+2. Delivery time on cards is a static `delivery_time_min` set by the owner (decided).
+3. Owner order updates: **decided for the MVP** to use polling. Revisit SSE after launch.
