@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | Architecture 8, 10 |
 | Depends on | US-0.1 |
 | Branch | `feature/us-0.3-config-db-pool-and-migrations` |
-| PR | — |
+| PR | #13 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -24,16 +24,16 @@
 5. Secret values never appear in client bundles or logs.
 
 ## Tasks
-- [ ] Write `env.ts` and `db.ts`.
-- [ ] Write the migration runner script.
-- [ ] Add migration `0001_users.sql` (RLS on).
+- [x] Write `env.ts` and `db.ts`.
+- [x] Write the migration runner script.
+- [x] Add migration `0001_users.sql` (RLS on).
 
 ## Technical notes
 - Every future table migration must enable RLS (see architecture review).
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

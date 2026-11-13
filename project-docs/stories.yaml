@@ -44,10 +44,10 @@ stories:
   - id: "0.3"
     title: "Typed config, database pool and migrations"
     epic: 0
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-0.3-config-db-pool-and-migrations.md
-    branch: null
-    pr: null
+    branch: feature/us-0.3-config-db-pool-and-migrations
+    pr: 13
     prd: ["Architecture 8, 10"]
     depends_on: ["0.1"]
   - id: "0.4"
