@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | Architecture 8, 10 |
 | Depends on | US-0.1 |
 | Branch | `feature/us-0.3-config-db-pool-and-migrations` |
