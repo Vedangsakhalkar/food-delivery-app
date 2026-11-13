@@ -24,7 +24,7 @@ import { addressSchema } from "@/validators/address";
 const FIELDS = [
   { key: "label", label: "Label", placeholder: "Home" },
   { key: "line1", label: "Street address", placeholder: "12 Baner Road" },
-  { key: "city", label: "City", placeholder: "Pune" },
+  { key: "city", label: "City", placeholder: "Thane" },
   { key: "pincode", label: "Pincode", placeholder: "411045" },
 ] as const;
 

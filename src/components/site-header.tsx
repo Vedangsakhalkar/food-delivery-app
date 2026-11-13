@@ -20,7 +20,7 @@ export function SiteHeader({ children }: { children?: React.ReactNode }) {
           Tadka
         </Link>
         <span className="hidden items-center gap-1 rounded-full bg-muted px-3 py-1.5 text-sm text-muted-foreground md:flex">
-          <MapPin className="size-4 text-primary" aria-hidden /> Pune
+          <MapPin className="size-4 text-primary" aria-hidden /> Thane
         </span>
         <div className="order-last w-full md:order-none md:max-w-md md:flex-1">
           <SearchBox hideOnHome />

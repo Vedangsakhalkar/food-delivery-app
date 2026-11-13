@@ -86,7 +86,7 @@ export function RestaurantForm({
             />
             {text("name", "Name")}
             {text("cuisine", "Cuisine", { placeholder: "North Indian, Biryani" })}
-            {text("address", "Address", { placeholder: "MG Road, Pune" })}
+            {text("address", "Address", { placeholder: "Ghodbunder Road, Thane" })}
             <div className="grid grid-cols-2 gap-3">
               {text("opensAt", "Opens at", { type: "time" })}
               {text("closesAt", "Closes at", { type: "time" })}
