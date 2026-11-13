@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 5 — Order management |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-19 |
 | Depends on | US-5.4 |
 | Branch | `feature/us-5.5-owner-order-history` |
