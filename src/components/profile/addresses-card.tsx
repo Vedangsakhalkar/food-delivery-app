@@ -28,7 +28,7 @@ const FIELDS = [
   { key: "pincode", label: "Pincode", placeholder: "411045" },
 ] as const;
 
-function AddressDialog({
+export function AddressDialog({
   address,
   onClose,
   onSaved,
