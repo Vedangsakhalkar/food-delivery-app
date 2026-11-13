@@ -15,7 +15,7 @@ Food delivery web app (MVP). Next.js (App Router), Tailwind, shadcn/ui, Supabase
 `npm run e2e` (Playwright) starts its own server and runs: accessibility (axe), mobile-width and security-header checks, and the full order journey (owner creates restaurant and menu, customer orders cash on delivery, owner accepts and delivers, customer reviews). The journey uses throwaway users created through the Supabase admin API and signs them in server-side; it needs `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and a database URL in `.env.local` and is skipped otherwise. If `NEXT_PUBLIC_SUPABASE_ANON_KEY` (the publishable key) is not set locally, run with `E2E_ALLOW_SECRET_AS_ANON=1` (localhost only, never in CI). In CI the journey runs when the `E2E_*` repository secrets in `.github/workflows/e2e.yml` are set.
 
 ### Demo data
-`npm run db:seed` creates 8 demo restaurants (one demo owner each, e.g. `seed-owner-spice-route@dabba.test`) and `demo-customer@dabba.test`, all with password `Demo@12345`. It is idempotent and refuses to run when `NODE_ENV=production`.
+`npm run db:seed` creates 16 demo restaurants with 107 dishes, each with an illustrated image (one demo owner each, e.g. `seed-owner-spice-route@dabba.test`) and `demo-customer@dabba.test`, all with password `Demo@12345`. Re-running it updates the demo data in place. It refuses to run when `NODE_ENV=production`.
 
 ## CI
 GitHub Actions (`.github/workflows/ci.yml`) runs on every pull request into `release/dev`: install, lint, typecheck, format check, test and build. No secrets are needed. Make the **CI / verify** check required in the repository's branch protection settings so failing PRs cannot be merged.
