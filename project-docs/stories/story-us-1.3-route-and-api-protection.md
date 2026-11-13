@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 1 — Authentication and profile |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-3 |
 | Depends on | US-0.5, US-1.2 |
 | Branch | `feature/us-1.3-route-and-api-protection` |
-| PR | — |
+| PR | #21 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,16 +23,16 @@
 4. Middleware and API controllers use the same role rules (one shared config).
 
 ## Tasks
-- [ ] Next.js middleware for page routes.
-- [ ] Apply `requireUser(roles)` in controllers.
-- [ ] Access-denied page.
+- [x] Next.js middleware for page routes.
+- [x] Apply `requireUser(roles)` in controllers.
+- [x] Access-denied page.
 
 ## Technical notes
 - Public pages: home, search, restaurant, login, signup, forgot-password, privacy.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
