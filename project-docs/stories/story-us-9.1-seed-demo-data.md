@@ -7,7 +7,7 @@
 | PRD refs | Roadmap |
 | Depends on | US-2.4 |
 | Branch | `feature/us-9.1-seed-demo-data` |
-| PR | — |
+| PR | #50 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
