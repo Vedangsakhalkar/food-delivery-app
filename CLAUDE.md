@@ -47,6 +47,7 @@ TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, Supabase (Auth, Postg
 | Story files (all epics 0-9) | `project-docs/stories/` |
 | Story management rules | `project-docs/story-management-rules.md` |
 | Architecture (Step 3) | `project-docs/architecture.md` |
+| Deployment runbook (Vercel + Supabase) | `project-docs/deployment.md` |
 
 ## Workflow
 Deliverables are strictly ordered: PRD → User Stories → Architecture. Start each step only after the user approves the previous one. User stories are grouped into epics; project scaffolding is the first story. Read the docs above before starting any task.

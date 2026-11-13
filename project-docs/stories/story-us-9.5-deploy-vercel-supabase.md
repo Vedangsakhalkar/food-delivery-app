@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | ready-for-dev |
+| Status | review |
 | PRD refs | Architecture 11 |
 | Depends on | US-9.2, US-9.3, US-9.4 |
 | Branch | `feature/us-9.5-deploy-vercel-supabase` |
-| PR | — |
+| PR | #54 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
