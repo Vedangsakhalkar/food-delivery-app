@@ -49,6 +49,8 @@ export interface RestaurantRepository {
     cuisines?: string[];
     sort?: "rating" | "delivery";
   }): Promise<Restaurant[]>;
+  /** A restaurant visible to the public: unknown ids and disabled restaurants return null. */
+  findActiveById(id: string): Promise<Restaurant | null>;
   /** Distinct cuisine names (split on commas) across active restaurants. */
   listCuisines(): Promise<string[]>;
   insert(ownerId: string, input: RestaurantInput): Promise<Restaurant>;
@@ -83,6 +85,14 @@ export const restaurantRepository: RestaurantRepository = {
       [limit, offset, cuisines],
     );
     return res.rows.map(toRestaurant);
+  },
+
+  async findActiveById(id) {
+    const res = await query<RestaurantRow>(
+      "select * from restaurants where id = $1 and is_disabled = false",
+      [id],
+    );
+    return res.rows[0] ? toRestaurant(res.rows[0]) : null;
   },
 
   async listCuisines() {

@@ -197,7 +197,7 @@ stories:
   - id: "3.4"
     title: "View a restaurant and its menu"
     epic: 3
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-3.4-view-restaurant-and-menu.md
     branch: feature/us-3.4-view-restaurant-and-menu
     pr: null
