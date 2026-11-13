@@ -11,3 +11,13 @@ export const STATUS_FLOW = [
 
 export const FINAL_STATUSES: readonly OrderStatus[] = ["delivered", "rejected", "cancelled"];
 export const isFinalStatus = (s: OrderStatus) => FINAL_STATUSES.includes(s);
+
+export const STATUS_LABEL: Record<OrderStatus, string> = {
+  placed: "Placed",
+  accepted: "Accepted",
+  preparing: "Preparing",
+  out_for_delivery: "Out for delivery",
+  delivered: "Delivered",
+  rejected: "Rejected",
+  cancelled: "Cancelled",
+};

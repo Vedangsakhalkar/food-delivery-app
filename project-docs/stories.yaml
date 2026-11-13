@@ -350,10 +350,10 @@ stories:
   - id: "8.1"
     title: "Order placed emails to customer and owner"
     epic: 8
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-8.1-order-placed-emails.md
-    branch: null
-    pr: null
+    branch: feature/us-8.1-order-placed-emails
+    pr: 48
     prd: ["FR-23", "FR-25", "FR-26"]
     depends_on: ["4.5"]
   - id: "8.2"

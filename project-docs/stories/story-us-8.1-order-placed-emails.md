@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 8 — Email notifications |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-23, FR-25, FR-26 |
 | Depends on | US-4.5 |
 | Branch | `feature/us-8.1-order-placed-emails` |
-| PR | — |
+| PR | #48 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,16 +23,16 @@
 4. Emails are not sent when `RESEND_API_KEY` is unset (dev/test), and this is logged once.
 
 ## Tasks
-- [ ] `emailService` and email templates.
-- [ ] Hook into `orderService.placeOrder` after the transaction commits.
-- [ ] Unit tests with a fake email adapter, including the failure path.
+- [x] `emailService` and email templates.
+- [x] Hook into `orderService.placeOrder` after the transaction commits.
+- [x] Unit tests with a fake email adapter, including the failure path.
 
 ## Technical notes
 - Use plain HTML templates; no UI library is needed for emails.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
