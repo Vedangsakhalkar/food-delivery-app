@@ -1,8 +1,8 @@
-# Architecture — Food Delivery App (MVP)
+# Architecture — Dabba (MVP)
 
 | Field | Value |
 |---|---|
-| Version | 0.2 (Draft, awaiting approval) |
+| Version | 0.3 (Draft, awaiting approval) |
 | Date | 2026-11-13 |
 | Inputs | `prd.md`, `user-stories.md`, `auth-setup.md`, `mockups/`, `CLAUDE.md` architecture rules |
 
@@ -61,7 +61,7 @@ Browser (View)  ──fetch──▶  /api route handlers (Controller)
 3. **Service** checks the restaurant is open and not disabled, items exist and are available, then recomputes prices and totals from the database.
 4. **Repository** inserts `orders` and `order_items` in one transaction.
 5. **Service** asks `emailService` to send confirmations (failures are logged, never block the order).
-6. **Controller** returns `201 { code: "FD-10234" }`; the View shows the confirmation page.
+6. **Controller** returns `201 { code: "DAB-10234" }`; the View shows the confirmation page.
 
 ## 4. Folder structure
 
@@ -92,7 +92,7 @@ UI rule: every component comes from shadcn/ui wherever possible (`npx shadcn@lat
 | `restaurants` | `id`, `owner_id` FK, `name`, `cuisine`, `address`, `opens_at`, `closes_at`, `image_path`, `image_url`, `delivery_time_min`, `is_disabled`, `disabled_reason`, `avg_rating`, `rating_count`, `created_at` |
 | `menu_categories` | `id`, `restaurant_id` FK, `name`, `sort_order` |
 | `menu_items` | `id`, `category_id` FK, `restaurant_id` FK, `name`, `description`, `price_paise`, `is_veg`, `is_available`, `image_path`, `image_url` |
-| `orders` | `id`, `code` (e.g. FD-10234), `customer_id` FK, `restaurant_id` FK, `address_snapshot` (jsonb), `status`, `subtotal_paise`, `tax_paise`, `delivery_fee_paise`, `total_paise`, `payment_method` (`cod`), `notes`, `created_at` |
+| `orders` | `id`, `code` (e.g. DAB-10234), `customer_id` FK, `restaurant_id` FK, `address_snapshot` (jsonb), `status`, `rejection_reason`, `subtotal_paise`, `tax_paise`, `delivery_fee_paise`, `total_paise`, `payment_method` (`cod`), `notes`, `created_at` |
 | `order_items` | `id`, `order_id` FK, `menu_item_id`, `name_snapshot`, `price_paise`, `quantity` |
 | `reviews` | `id`, `order_id` UNIQUE FK, `restaurant_id` FK, `customer_id` FK, `rating` (1–5), `comment`, `created_at` |
 
@@ -103,13 +103,13 @@ Rules:
 - Order items and the address are **snapshots**, so later edits never change order history.
 - The cart is client-side (local storage), holds one restaurant only, and is validated on the server at checkout.
 - Indexes: `restaurants(cuisine)`, `restaurants(lower(name))`, `menu_items(restaurant_id)`, `orders(customer_id, created_at desc)`, `orders(restaurant_id, status)`, plus a trigram or full-text index for name/dish search.
-- Row Level Security is not used for app data because all access goes through the server. Authorisation is enforced in controllers and services.
+- Row Level Security is **enabled with no policies** on every table. This blocks any direct access through Supabase's public Data API (the browser never queries data). The server connects with `pg` using a privileged database role, which is not affected by RLS. Authorisation is enforced in controllers and services.
 
 ## 6. Authentication and authorisation
 
 1. The browser signs up or in with `@supabase/supabase-js` using the publishable key (email/password, optional Google). Email confirmation is on.
-2. The browser sends `Authorization: Bearer <access_token>` to `/api` routes.
-3. `requireUser(roles)` in `src/lib` verifies the token with `supabase.auth.getUser(token)`, loads the `users` row, and checks `role`. On first login the row is created from the role stored in Supabase user metadata at sign-up (`options.data.role`). Only `customer` and `owner` are accepted from metadata; any other value becomes `customer`. Admins are set directly in the database.
+2. The session is stored in cookies by `@supabase/ssr`, so the browser sends it automatically to pages, middleware and `/api` routes.
+3. `requireUser(roles)` in `src/lib` reads the cookie session, verifies it with `supabase.auth.getUser()`, loads the `users` row, and checks `role`. On first login the row is created from the role stored in Supabase user metadata at sign-up (`options.data.role`). Only `customer` and `owner` are accepted from metadata; any other value becomes `customer`. Admins are set directly in the database.
 4. Services receive the authenticated user and check ownership (e.g. an owner can only change their own restaurant).
 5. The Supabase secret key, database URLs and Resend key exist only in server code and `.env.local`.
 
@@ -124,7 +124,8 @@ Rules:
 | Area | Routes |
 |---|---|
 | Auth/profile | `GET/PATCH /api/me`, `GET/POST /api/me/addresses`, `PATCH/DELETE /api/me/addresses/[id]` |
-| Discovery | `GET /api/restaurants` (search, cuisine, sort), `GET /api/restaurants/[id]` (with menu), `GET /api/search` |
+| Discovery | `GET /api/restaurants` (cuisine, sort, pagination), `GET /api/restaurants/cuisines`, `GET /api/restaurants/[id]` (with menu), `GET /api/search` |
+| Cart pricing | `POST /api/quote` (server-computed subtotal, tax, delivery fee, total for a cart) |
 | Orders (customer) | `POST /api/orders`, `GET /api/orders`, `GET /api/orders/[id]`, `POST /api/orders/[id]/cancel` |
 | Reviews | `POST /api/orders/[id]/review`, `GET /api/restaurants/[id]/reviews` (public) |
 | Owner | `GET/POST/PATCH /api/owner/restaurant`, `CRUD /api/owner/categories`, `CRUD /api/owner/items`, `GET /api/owner/orders`, `PATCH /api/owner/orders/[id]/status`, `POST /api/owner/uploads` |
@@ -215,13 +216,13 @@ Access control: Next.js middleware redirects unauthenticated users away from cus
 | 0 Foundation | Scaffold, tooling, `env.ts`, `pg` pool, migrations, error handling, logger, health check, `requireUser`, base UI, CI |
 | 1 Auth and profile | Sign up/in/out, route and API protection, password reset, profile |
 | 2 Owner menu | Restaurant, categories and items; `storageService` and uploads |
-| 3 Discovery | Home, search, filters, restaurant page, closed state |
-| 4 Cart and checkout | Client cart, addresses, totals, `POST /api/orders` |
+| 3 Discovery | Home, search, filters and sort, restaurant page, closed state |
+| 4 Cart and checkout | Client cart, addresses, `pricingService` and `POST /api/quote`, `POST /api/orders` |
 | 5 Orders | History, detail with polling, cancel, owner live orders |
 | 6 Admin | Disable/enable restaurants, read-only users and orders |
 | 7 Ratings | Review flow and rating aggregates |
 | 8 Email | `emailService` and templates |
-| 9 Launch | Seed data, empty/error states and accessibility pass, deploy |
+| 9 Launch | Seed data, empty/error states and accessibility pass, deploy, rate limiting and security headers, Playwright e2e |
 
 ## 14. Decisions and open questions
 

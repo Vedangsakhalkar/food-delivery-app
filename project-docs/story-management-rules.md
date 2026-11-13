@@ -7,7 +7,7 @@ These rules are always followed. They are also summarised in CLAUDE.md.
 - `project-docs/stories.yaml` — the single source of truth for each story's state, branch and PR (all epics).
 - `project-docs/stories/` — one file per story. **Always create story files in this folder.**
 - File name: kebab-case, `story-us-<epic>.<n>-<short-title>.md`, e.g. `story-us-1.1-sign-up-with-role.md`.
-- Story files are created **only for the epic the user asks for**. Today: epics 0 and 1. Do not create files for other epics until asked.
+- Story files are created **only for the epic the user asks for**. All epics (0-9) are detailed today; add any new story to both `stories.yaml` and `stories/`.
 
 ## Story file format
 Title, a small table (epic, status, PRD refs, dependencies, branch, PR), the user story (As a / I want / so that), numbered acceptance criteria, tasks, technical notes and a definition of done.

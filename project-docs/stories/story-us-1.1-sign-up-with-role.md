@@ -20,14 +20,14 @@
 1. Given I am on `/signup`, when I submit a valid name, phone, email, password (8+ chars) and choose Customer or Owner, then an account is created and I am told to confirm my email.
 2. Given the email is already registered, then I see a clear error and no second account is created.
 3. Given I try to submit the role `admin` (or any other value), the server rejects it with 422.
-4. After first sign-in, a `users` row exists with my Supabase user id and the chosen role.
+4. After first sign-in, a `users` row exists with my Supabase user id and the chosen role (created by `requireUser`/`ensureUser` from US-0.5, exposed through `GET /api/me`).
 5. Validation errors show inline under each field (mock A2).
 
 ## Tasks
 - [ ] Build the sign-up page with shadcn `Form`, `Input`, `RadioGroup`.
 - [ ] Zod schema in `src/validators/auth.ts`.
-- [ ] Role is passed in the sign-up metadata and whitelisted to `customer`/`owner` on first `GET /api/me`.
-- [ ] `userService.ensureUser` + `userRepository`.
+- [ ] Role is passed in the sign-up metadata (`options.data.role`); whitelisting is done by `ensureUser` (US-0.5).
+- [ ] `GET /api/me` controller returning the signed-in user.
 
 ## Technical notes
 - Never trust a client-supplied role beyond the whitelist.
