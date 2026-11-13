@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 1 — Authentication and profile |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-1, FR-3 |
 | Depends on | US-0.5, US-0.6 |
 | Branch | `feature/us-1.1-sign-up-with-role` |
