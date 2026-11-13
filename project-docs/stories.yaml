@@ -260,7 +260,7 @@ stories:
   - id: "5.1"
     title: "Customer order history"
     epic: 5
-    status: review
+    status: done
     file: project-docs/stories/story-us-5.1-customer-order-history.md
     branch: feature/us-5.1-customer-order-history
     pr: 38
