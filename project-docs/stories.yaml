@@ -269,9 +269,9 @@ stories:
   - id: "5.2"
     title: "Order detail with live status"
     epic: 5
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-5.2-order-detail-live-status.md
-    branch: null
+    branch: feature/us-5.2-order-detail-live-status
     pr: null
     prd: ["FR-14", "FR-15"]
     depends_on: ["5.1"]
