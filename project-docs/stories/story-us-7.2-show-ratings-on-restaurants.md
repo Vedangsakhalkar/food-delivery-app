@@ -7,7 +7,7 @@
 | PRD refs | FR-7, FR-22 |
 | Depends on | US-7.1, US-3.3 |
 | Branch | `feature/us-7.2-show-ratings-on-restaurants` |
-| PR | — |
+| PR | #47 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 

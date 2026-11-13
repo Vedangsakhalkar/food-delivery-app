@@ -344,7 +344,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-7.2-show-ratings-on-restaurants.md
     branch: feature/us-7.2-show-ratings-on-restaurants
-    pr: null
+    pr: 47
     prd: ["FR-7", "FR-22"]
     depends_on: ["7.1", "3.3"]
   - id: "8.1"
