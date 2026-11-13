@@ -60,6 +60,6 @@ Put the values in `.env.local` on your machine. Do **not** paste secret keys or 
 
 ## Notes
 - The browser signs users in with `@supabase/supabase-js` (publishable key) and holds a session (access token, JWT).
-- The browser sends the access token to `/api` routes as `Authorization: Bearer <token>`.
-- API routes verify it on the server with `supabase.auth.getUser(token)`, then load the user's role from the PostgreSQL `users` table by Supabase user id.
+- The session is stored in cookies by `@supabase/ssr`, so the browser sends it to `/api` routes automatically.
+- API routes verify it on the server with `supabase.auth.getUser()`, then load the user's role from the PostgreSQL `users` table by Supabase user id.
 - The secret key and database URLs are used only in server code (`src/lib`, `src/repositories`), never in components.

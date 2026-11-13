@@ -62,10 +62,10 @@ stories:
   - id: "0.5"
     title: "Auth and role-based access helpers"
     epic: 0
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-0.5-auth-and-rbac-helpers.md
-    branch: null
-    pr: null
+    branch: feature/us-0.5-auth-and-rbac-helpers
+    pr: 15
     prd: ["FR-3"]
     depends_on: ["0.3", "0.4"]
   - id: "0.6"

@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-3 |
 | Depends on | US-0.3, US-0.4 |
 | Branch | `feature/us-0.5-auth-and-rbac-helpers` |
-| PR | — |
+| PR | #15 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,17 +23,17 @@
 4. Unit tests cover no session, wrong role, first login (row created, role whitelist) and success.
 
 ## Tasks
-- [ ] Create the Supabase clients.
-- [ ] `User` model, `userRepository` and `userService.ensureUser`.
-- [ ] Implement `requireUser`.
-- [ ] Write tests with a mocked Supabase client.
+- [x] Create the Supabase clients.
+- [x] `User` model, `userRepository` and `userService.ensureUser`.
+- [x] Implement `requireUser`.
+- [x] Write tests with a mocked Supabase client.
 
 ## Technical notes
 - Roles: `customer`, `owner`, `admin`. Admins are created manually in the database.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
