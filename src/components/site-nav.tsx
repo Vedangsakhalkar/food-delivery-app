@@ -9,7 +9,7 @@ export async function SiteNav() {
   if (!user) {
     return (
       <>
-        <Link href="/login" className="hover:text-primary">
+        <Link href="/login" className="rounded-full px-3 py-2 hover:bg-muted hover:text-primary">
           Log in
         </Link>
         <Link href="/signup" className={buttonVariants({ size: "sm" })}>
@@ -21,17 +21,17 @@ export async function SiteNav() {
   return (
     <>
       {user.role === "customer" && (
-        <Link href="/orders" className="hover:text-primary">
+        <Link href="/orders" className="rounded-full px-3 py-2 hover:bg-muted hover:text-primary">
           Orders
         </Link>
       )}
       {user.role === "owner" && (
-        <Link href="/owner" className="hover:text-primary">
+        <Link href="/owner" className="rounded-full px-3 py-2 hover:bg-muted hover:text-primary">
           Dashboard
         </Link>
       )}
       {user.role === "admin" && (
-        <Link href="/admin" className="hover:text-primary">
+        <Link href="/admin" className="rounded-full px-3 py-2 hover:bg-muted hover:text-primary">
           Admin
         </Link>
       )}

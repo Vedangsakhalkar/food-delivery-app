@@ -102,7 +102,7 @@ async function main() {
     const coverPath = `restaurants/${ownerId}/cover.png`;
     const coverUrl = await upload(
       coverPath,
-      await renderer.cover(r.name, r.coverEmojis, coverColours(r.hue)),
+      await renderer.cover(r.coverEmojis, coverColours(r.hue)),
     );
     const dishImages = new Map<string, { path: string; url: string }>();
     let catIndex = 0;

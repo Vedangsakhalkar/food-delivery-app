@@ -3,7 +3,8 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { EmptyState } from "@/components/empty-state";
-import { RestaurantCard } from "@/components/restaurants/restaurant-card";
+import { RestaurantCard, RestaurantCardSkeleton } from "@/components/restaurants/restaurant-card";
+import { cuisineEmoji } from "@/lib/cuisine-emoji";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -12,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
 import { apiFetch } from "@/lib/api-client";
 import type { PublicRestaurant } from "@/models/public-restaurant";
 import { cn } from "@/lib/utils";
@@ -89,16 +89,20 @@ export function RestaurantList() {
 
   const chip = (on: boolean) =>
     cn(
-      "rounded-full border bg-white px-3.5 py-1.5 text-sm",
-      on && "border-primary bg-primary text-primary-foreground",
+      "flex flex-none items-center gap-1.5 rounded-full border bg-white px-4 py-2 text-sm font-medium shadow-sm transition hover:border-primary/60 hover:shadow",
+      on && "border-primary bg-primary text-primary-foreground hover:border-primary",
     );
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by cuisine">
+      <div className="flex flex-col gap-3">
+        <div
+          className="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 py-1 sm:mx-0 sm:px-0"
+          role="group"
+          aria-label="Filter by cuisine"
+        >
           <button className={chip(selected.length === 0)} onClick={() => setQuery({ cuisine: [] })}>
-            All
+            <span aria-hidden>🍴</span> All
           </button>
           {cuisines.map((c) => (
             <button
@@ -107,12 +111,12 @@ export function RestaurantList() {
               aria-pressed={selected.includes(c.toLowerCase())}
               onClick={() => toggle(c)}
             >
-              {c}
+              <span aria-hidden>{cuisineEmoji(c)}</span> {c}
             </button>
           ))}
         </div>
         <Select value={sort} onValueChange={(v) => setQuery({ sort: String(v) })}>
-          <SelectTrigger className="w-[190px]" aria-label="Sort restaurants">
+          <SelectTrigger className="w-[190px] self-end" aria-label="Sort restaurants">
             <SelectValue>{SORTS.find((s) => s.value === sort)?.label}</SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -126,9 +130,9 @@ export function RestaurantList() {
       </div>
 
       {state === "loading" && (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
-          {[0, 1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-60 w-full rounded-xl" />
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5">
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+            <RestaurantCardSkeleton key={i} />
           ))}
         </div>
       )}
@@ -151,9 +155,15 @@ export function RestaurantList() {
       )}
       {state === "ready" && items.length > 0 && (
         <>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
-            {items.map((r) => (
-              <RestaurantCard key={r.id} restaurant={r} />
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5">
+            {items.map((r, i) => (
+              <div
+                key={r.id}
+                className="animate-in fade-in slide-in-from-bottom-2 duration-300 fill-mode-both"
+                style={{ animationDelay: `${Math.min(i, 11) * 40}ms` }}
+              >
+                <RestaurantCard restaurant={r} />
+              </div>
             ))}
           </div>
           {cursor && (

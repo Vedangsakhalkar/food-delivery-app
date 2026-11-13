@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import { CartProvider } from "@/components/cart/cart-provider";
+import { CartBar } from "@/components/cart/cart-bar";
 import { CartLink } from "@/components/cart/cart-link";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <SiteFooter />
+          <CartBar />
           <Toaster richColors position="top-center" />
         </CartProvider>
       </body>

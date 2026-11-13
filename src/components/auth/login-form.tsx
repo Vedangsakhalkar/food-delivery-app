@@ -68,7 +68,7 @@ export function LoginForm() {
   }
 
   return (
-    <AuthCard title="Welcome back">
+    <AuthCard title="Welcome back" subtitle="Log in to order your favourites.">
       <Button type="button" variant="outline" className="w-full" onClick={google}>
         Continue with Google
       </Button>

@@ -49,7 +49,7 @@ export function AddToCart({
 
   if (qty > 0) {
     return (
-      <div className="flex items-center overflow-hidden rounded-lg border border-primary font-bold text-primary">
+      <div className="flex items-center overflow-hidden rounded-lg border border-primary bg-white font-bold text-primary shadow-sm animate-in zoom-in-95 duration-150">
         <button
           className="px-3 py-1"
           aria-label="Decrease quantity"
@@ -72,7 +72,13 @@ export function AddToCart({
   }
   return (
     <>
-      <Button size="sm" variant="outline" disabled={disabled} onClick={add}>
+      <Button
+        size="sm"
+        variant="outline"
+        disabled={disabled}
+        onClick={add}
+        className="border-primary bg-white px-6 font-bold text-primary shadow-sm hover:bg-primary hover:text-primary-foreground disabled:border-muted-foreground/30 disabled:text-muted-foreground"
+      >
         {label}
       </Button>
       <ConfirmDialog

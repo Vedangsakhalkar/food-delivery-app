@@ -20,10 +20,13 @@ export function OrderPlaced({ id }: { id: string }) {
     <div className="mx-auto max-w-[440px]">
       <Card>
         <CardContent className="flex flex-col items-center gap-3 text-center">
-          <div className="text-5xl text-green-600" aria-hidden>
+          <div
+            className="grid size-20 animate-in place-items-center rounded-full bg-green-100 text-5xl text-green-700 zoom-in-50 duration-500"
+            aria-hidden
+          >
             ✔
           </div>
-          <h1 className="text-2xl font-semibold">Order placed!</h1>
+          <h1 className="text-2xl font-bold">Order placed!</h1>
           <p className="text-muted-foreground">
             Order #{o.code} · Pay {formatMoney(o.totalPaise)} on delivery.
           </p>
