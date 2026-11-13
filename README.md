@@ -11,6 +11,9 @@ Food delivery web app (MVP). Next.js (App Router), Tailwind, shadcn/ui, Supabase
 ## Scripts
 `dev`, `build`, `lint`, `typecheck`, `format:check`, `test`, `test:int` (integration tests against the dev database), `db:migrate`, `db:seed`.
 
+### End-to-end tests
+`npm run e2e` (Playwright) starts its own server and runs: accessibility (axe), mobile-width and security-header checks, and the full order journey (owner creates restaurant and menu, customer orders cash on delivery, owner accepts and delivers, customer reviews). The journey uses throwaway users created through the Supabase admin API and signs them in server-side; it needs `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` and a database URL in `.env.local` and is skipped otherwise. If `NEXT_PUBLIC_SUPABASE_ANON_KEY` (the publishable key) is not set locally, run with `E2E_ALLOW_SECRET_AS_ANON=1` (localhost only, never in CI). In CI the journey runs when the `E2E_*` repository secrets in `.github/workflows/e2e.yml` are set.
+
 ### Demo data
 `npm run db:seed` creates 8 demo restaurants (one demo owner each, e.g. `seed-owner-spice-route@dabba.test`) and `demo-customer@dabba.test`, all with password `Demo@12345`. It is idempotent and refuses to run when `NODE_ENV=production`.
 

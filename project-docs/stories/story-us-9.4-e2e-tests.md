@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | in-progress |
+| Status | review |
 | PRD refs | Architecture 11 |
 | Depends on | US-5.4 |
 | Branch | `feature/us-9.4-e2e-tests` |
