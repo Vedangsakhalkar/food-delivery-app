@@ -224,7 +224,7 @@ stories:
   - id: "4.2"
     title: "One restaurant per cart"
     epic: 4
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-4.2-one-restaurant-per-cart.md
     branch: feature/us-4.2-one-restaurant-per-cart
     pr: null

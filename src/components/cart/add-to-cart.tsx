@@ -1,7 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { useCart } from "@/components/cart/cart-provider";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/lib/use-current-user";
@@ -21,6 +23,7 @@ export function AddToCart({
   const router = useRouter();
   const user = useCurrentUser();
   const cart = useCart();
+  const [confirmReplace, setConfirmReplace] = useState(false);
   const qty =
     cart.cart.restaurantId === restaurantId
       ? (cart.cart.lines.find((l) => l.itemId === itemId)?.qty ?? 0)
@@ -38,7 +41,7 @@ export function AddToCart({
       return;
     }
     if (cart.conflictsWith(restaurantId)) {
-      toast.error("Your cart has items from another restaurant. Clear it first.");
+      setConfirmReplace(true);
       return;
     }
     cart.add(restaurantId, itemId);
@@ -68,8 +71,18 @@ export function AddToCart({
     );
   }
   return (
-    <Button size="sm" variant="outline" disabled={disabled} onClick={add}>
-      {label}
-    </Button>
+    <>
+      <Button size="sm" variant="outline" disabled={disabled} onClick={add}>
+        {label}
+      </Button>
+      <ConfirmDialog
+        open={confirmReplace}
+        onOpenChange={setConfirmReplace}
+        title="Replace cart items?"
+        description="Your cart has items from another restaurant. Replace them with this restaurant's items?"
+        confirmLabel="Replace"
+        onConfirm={() => cart.replaceWith(restaurantId, itemId)}
+      />
+    </>
   );
 }
