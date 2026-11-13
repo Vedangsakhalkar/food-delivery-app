@@ -6,6 +6,7 @@ import { menuCategoryService } from "@/services/menu-category-service";
 import { menuItemService } from "@/services/menu-item-service";
 import { addressService } from "@/services/address-service";
 import { orderService } from "@/services/order-service";
+import { reviewService } from "@/services/review-service";
 import { adminService } from "@/services/admin-service";
 import { discoveryService } from "@/services/discovery-service";
 import { ownerOrderService } from "@/services/owner-order-service";
@@ -229,5 +230,40 @@ describe("placing an order against the real database", () => {
     });
     expect(customers.users).toHaveLength(0);
     expect((await adminService.listUsers({ q: "%", limit: 10 })).users).toHaveLength(0);
+  });
+
+  it("reviews: only delivered orders, once each, and the restaurant rating updates", async () => {
+    const deliver = async () => {
+      const o = await orderService.placeOrder(customer, order());
+      await query("update orders set status = 'delivered' where id = $1", [o.id]);
+      return o;
+    };
+    const pending = await orderService.placeOrder(customer, order());
+    await expect(
+      reviewService.create(customer, pending.id, { rating: 5, comment: null }),
+    ).rejects.toThrow("after it has been delivered");
+
+    const a = await deliver();
+    const b = await deliver();
+    const first = await reviewService.create(customer, a.id, {
+      rating: 5,
+      comment: "Great biryani",
+    });
+    expect(first.reviewerName).toBe("Test");
+    await reviewService.create(customer, b.id, { rating: 4, comment: null });
+    await expect(
+      reviewService.create(customer, a.id, { rating: 1, comment: null }),
+    ).rejects.toThrow("already reviewed");
+    await expect(reviewService.create(other, b.id, { rating: 1, comment: null })).rejects.toThrow(
+      "Order not found",
+    );
+
+    const r = await restaurantService.getMine(owner);
+    expect(r.ratingCount).toBe(2);
+    expect(r.avgRating).toBe(4.5);
+    expect((await orderService.getForCustomer(customer, a.id)).reviewed).toBe(true);
+    expect((await orderService.getForCustomer(customer, pending.id)).reviewed).toBe(false);
+    const list = await reviewService.listForRestaurant(restaurantId, { limit: 10 });
+    expect(list.reviews).toHaveLength(2);
   });
 });

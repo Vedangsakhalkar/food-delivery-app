@@ -8,6 +8,7 @@ interface OrderRow {
   customer_id: string;
   restaurant_id: string;
   restaurant_name: string;
+  reviewed?: boolean;
   customer_name?: string;
   customer_phone?: string | null;
   address_snapshot: AddressSnapshot;
@@ -31,9 +32,9 @@ interface ItemRow {
   quantity: number;
 }
 
-const OWNER_SELECT = `select o.*, r.name as restaurant_name, u.name as customer_name, u.phone as customer_phone
+const OWNER_SELECT = `select o.*, exists(select 1 from reviews rv where rv.order_id = o.id) as reviewed, r.name as restaurant_name, u.name as customer_name, u.phone as customer_phone
   from orders o join restaurants r on r.id = o.restaurant_id join users u on u.id = o.customer_id`;
-const SELECT = `select o.*, r.name as restaurant_name from orders o join restaurants r on r.id = o.restaurant_id`;
+const SELECT = `select o.*, exists(select 1 from reviews rv where rv.order_id = o.id) as reviewed, r.name as restaurant_name from orders o join restaurants r on r.id = o.restaurant_id`;
 
 export const toOrder = (r: OrderRow, items: OrderItem[]): Order => ({
   id: r.id,
@@ -41,6 +42,7 @@ export const toOrder = (r: OrderRow, items: OrderItem[]): Order => ({
   customerId: r.customer_id,
   restaurantId: r.restaurant_id,
   restaurantName: r.restaurant_name,
+  reviewed: r.reviewed,
   customerName: r.customer_name,
   customerPhone: r.customer_phone,
   address: r.address_snapshot,

@@ -42,6 +42,8 @@ export interface Order {
   totalPaise: number;
   paymentMethod: "cod";
   notes: string | null;
+  /** True once the customer has reviewed this order. */
+  reviewed?: boolean;
   createdAt: Date;
   items: OrderItem[];
 }
