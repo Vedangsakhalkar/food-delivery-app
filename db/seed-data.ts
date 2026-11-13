@@ -4,7 +4,9 @@ export interface SeedItem {
   description: string;
   price: number;
   veg: boolean;
-  available?: boolean;
+  /** shown on the generated dish image */
+  emoji: string;
+  available: boolean;
 }
 export interface SeedCategory {
   name: string;
@@ -18,12 +20,27 @@ export interface SeedRestaurant {
   opensAt: string;
   closesAt: string;
   deliveryTimeMin: number;
-  /** [r, g, b] cover colour for the generated PNG */
-  colour: [number, number, number];
+  /** colour hue (0-360) used for the generated images */
+  hue: number;
+  coverEmojis: [string, string, string];
   categories: SeedCategory[];
 }
 
 export const DEMO_PASSWORD = "Demo@12345";
+
+/** Shorthand: item(name, description, price, veg, emoji, available?) */
+const item = (
+  name: string,
+  description: string,
+  price: number,
+  veg: boolean,
+  emoji: string,
+  available = true,
+): SeedItem => ({ name, description, price, veg, emoji, available });
+
+// Demo restaurants are open all day so a customer can always place a test order,
+// except Midnight Bites, which keeps overnight hours to show the "Closed" state.
+const ALL_DAY = { opensAt: "00:00", closesAt: "23:59" } as const;
 
 export const RESTAURANTS: SeedRestaurant[] = [
   {
@@ -31,67 +48,34 @@ export const RESTAURANTS: SeedRestaurant[] = [
     name: "Spice Route",
     cuisine: "North Indian, Biryani",
     address: "MG Road, Pune",
-    opensAt: "11:00",
-    closesAt: "23:00",
+    ...ALL_DAY,
     deliveryTimeMin: 30,
-    colour: [226, 120, 80],
+    hue: 14,
+    coverEmojis: ["🍛", "🍗", "🫓"],
     categories: [
       {
         name: "Biryani",
         items: [
-          {
-            name: "Chicken Dum Biryani",
-            description: "Slow-cooked basmati with spiced chicken.",
-            price: 320,
-            veg: false,
-          },
-          {
-            name: "Veg Biryani",
-            description: "Seasonal vegetables and saffron rice.",
-            price: 240,
-            veg: true,
-          },
-          {
-            name: "Paneer Tikka Biryani",
-            description: "Smoky paneer layered with rice.",
-            price: 280,
-            veg: true,
-          },
+          item("Chicken Dum Biryani", "Slow-cooked basmati with spiced chicken.", 320, false, "🍛"),
+          item("Veg Biryani", "Seasonal vegetables and saffron rice.", 240, true, "🍚"),
+          item("Paneer Tikka Biryani", "Smoky paneer layered with rice.", 280, true, "🥘"),
+          item("Mutton Biryani", "Tender mutton, whole spices, long-grain rice.", 380, false, "🍛"),
         ],
       },
       {
         name: "Breads",
         items: [
-          {
-            name: "Butter Naan",
-            description: "Soft tandoor naan brushed with butter.",
-            price: 50,
-            veg: true,
-            available: false,
-          },
-          {
-            name: "Garlic Naan",
-            description: "Naan topped with garlic and coriander.",
-            price: 60,
-            veg: true,
-          },
+          item("Butter Naan", "Soft tandoor naan brushed with butter.", 50, true, "🫓", false),
+          item("Garlic Naan", "Naan topped with garlic and coriander.", 60, true, "🫓"),
+          item("Tandoori Roti", "Whole wheat roti from the tandoor.", 30, true, "🫓"),
         ],
       },
       {
         name: "Curries",
         items: [
-          {
-            name: "Butter Chicken",
-            description: "Creamy tomato gravy with tandoori chicken.",
-            price: 340,
-            veg: false,
-          },
-          {
-            name: "Dal Makhani",
-            description: "Black lentils simmered overnight.",
-            price: 220,
-            veg: true,
-          },
+          item("Butter Chicken", "Creamy tomato gravy with tandoori chicken.", 340, false, "🍗"),
+          item("Dal Makhani", "Black lentils simmered overnight.", 220, true, "🍲"),
+          item("Paneer Butter Masala", "Cottage cheese in a rich tomato gravy.", 260, true, "🧀"),
         ],
       },
     ],
@@ -101,49 +85,26 @@ export const RESTAURANTS: SeedRestaurant[] = [
     name: "Dosa Corner",
     cuisine: "South Indian",
     address: "FC Road, Pune",
-    opensAt: "07:00",
-    closesAt: "22:00",
+    ...ALL_DAY,
     deliveryTimeMin: 20,
-    colour: [240, 190, 90],
+    hue: 42,
+    coverEmojis: ["🥞", "🍚", "🥥"],
     categories: [
       {
         name: "Dosas",
         items: [
-          {
-            name: "Masala Dosa",
-            description: "Crisp dosa with spiced potato filling.",
-            price: 120,
-            veg: true,
-          },
-          {
-            name: "Mysore Masala Dosa",
-            description: "Red chutney spread, potato masala.",
-            price: 140,
-            veg: true,
-          },
-          {
-            name: "Cheese Dosa",
-            description: "Dosa loaded with melted cheese.",
-            price: 150,
-            veg: true,
-          },
+          item("Masala Dosa", "Crisp dosa with spiced potato filling.", 120, true, "🥞"),
+          item("Mysore Masala Dosa", "Red chutney spread, potato masala.", 140, true, "🌯"),
+          item("Cheese Dosa", "Dosa loaded with melted cheese.", 150, true, "🧀"),
+          item("Paper Dosa", "Large, paper-thin and extra crisp.", 110, true, "🥞"),
         ],
       },
       {
         name: "Idli & Vada",
         items: [
-          {
-            name: "Idli Sambar (2 pc)",
-            description: "Steamed rice cakes with sambar.",
-            price: 70,
-            veg: true,
-          },
-          {
-            name: "Medu Vada (2 pc)",
-            description: "Crunchy lentil doughnuts.",
-            price: 80,
-            veg: true,
-          },
+          item("Idli Sambar (2 pc)", "Steamed rice cakes with sambar.", 70, true, "🍚"),
+          item("Medu Vada (2 pc)", "Crunchy lentil doughnuts.", 80, true, "🍩"),
+          item("Filter Coffee", "Strong South Indian filter coffee.", 40, true, "☕"),
         ],
       },
     ],
@@ -153,49 +114,26 @@ export const RESTAURANTS: SeedRestaurant[] = [
     name: "Wok & Roll",
     cuisine: "Chinese",
     address: "Koregaon Park, Pune",
-    opensAt: "12:00",
-    closesAt: "23:30",
+    ...ALL_DAY,
     deliveryTimeMin: 35,
-    colour: [120, 170, 110],
+    hue: 120,
+    coverEmojis: ["🍜", "🥟", "🍤"],
     categories: [
       {
         name: "Noodles & Rice",
         items: [
-          {
-            name: "Veg Hakka Noodles",
-            description: "Wok-tossed noodles with vegetables.",
-            price: 180,
-            veg: true,
-          },
-          {
-            name: "Chicken Fried Rice",
-            description: "Egg and chicken fried rice.",
-            price: 210,
-            veg: false,
-          },
+          item("Veg Hakka Noodles", "Wok-tossed noodles with vegetables.", 180, true, "🍜"),
+          item("Chicken Fried Rice", "Egg and chicken fried rice.", 210, false, "🍚"),
+          item("Schezwan Noodles", "Fiery noodles in schezwan sauce.", 200, true, "🍜"),
         ],
       },
       {
         name: "Starters",
         items: [
-          {
-            name: "Veg Manchurian",
-            description: "Crispy balls in spicy Manchurian sauce.",
-            price: 170,
-            veg: true,
-          },
-          {
-            name: "Chilli Chicken",
-            description: "Indo-Chinese dry chilli chicken.",
-            price: 240,
-            veg: false,
-          },
-          {
-            name: "Spring Rolls (4 pc)",
-            description: "Crunchy vegetable rolls.",
-            price: 130,
-            veg: true,
-          },
+          item("Veg Manchurian", "Crispy balls in spicy Manchurian sauce.", 170, true, "🥟"),
+          item("Chilli Chicken", "Indo-Chinese dry chilli chicken.", 240, false, "🍗"),
+          item("Spring Rolls (4 pc)", "Crunchy vegetable rolls.", 130, true, "🌯"),
+          item("Chicken Momos (6 pc)", "Steamed dumplings with red chutney.", 150, false, "🥟"),
         ],
       },
     ],
@@ -205,44 +143,26 @@ export const RESTAURANTS: SeedRestaurant[] = [
     name: "Slice House",
     cuisine: "Pizza, Italian",
     address: "Baner, Pune",
-    opensAt: "11:30",
-    closesAt: "23:00",
+    ...ALL_DAY,
     deliveryTimeMin: 30,
-    colour: [200, 80, 80],
+    hue: 2,
+    coverEmojis: ["🍕", "🍝", "🧀"],
     categories: [
       {
         name: "Pizzas",
         items: [
-          {
-            name: "Margherita",
-            description: "Tomato, mozzarella and basil.",
-            price: 249,
-            veg: true,
-          },
-          {
-            name: "Farmhouse",
-            description: "Capsicum, onion, mushroom and olives.",
-            price: 349,
-            veg: true,
-          },
-          {
-            name: "Pepperoni",
-            description: "Classic pepperoni and cheese.",
-            price: 399,
-            veg: false,
-          },
+          item("Margherita", "Tomato, mozzarella and basil.", 249, true, "🍕"),
+          item("Farmhouse", "Capsicum, onion, mushroom and olives.", 349, true, "🍕"),
+          item("Pepperoni", "Classic pepperoni and cheese.", 399, false, "🍕"),
+          item("Cheese Burst", "Molten cheese in the crust.", 429, true, "🧀"),
         ],
       },
       {
         name: "Pasta",
         items: [
-          { name: "Penne Arrabbiata", description: "Spicy tomato sauce.", price: 229, veg: true },
-          {
-            name: "Chicken Alfredo",
-            description: "Creamy white sauce pasta.",
-            price: 289,
-            veg: false,
-          },
+          item("Penne Arrabbiata", "Spicy tomato sauce.", 229, true, "🍝"),
+          item("Chicken Alfredo", "Creamy white sauce pasta.", 289, false, "🍝"),
+          item("Garlic Bread", "Toasted with garlic butter.", 119, true, "🥖"),
         ],
       },
     ],
@@ -255,36 +175,23 @@ export const RESTAURANTS: SeedRestaurant[] = [
     opensAt: "18:00",
     closesAt: "02:00",
     deliveryTimeMin: 25,
-    colour: [70, 70, 90],
+    hue: 228,
+    coverEmojis: ["🍔", "🍟", "🥤"],
     categories: [
       {
         name: "Burgers",
         items: [
-          {
-            name: "Classic Chicken Burger",
-            description: "Crispy chicken, lettuce, mayo.",
-            price: 190,
-            veg: false,
-          },
-          { name: "Aloo Tikki Burger", description: "Spiced potato patty.", price: 140, veg: true },
-          {
-            name: "Double Cheese Burger",
-            description: "Two patties, double cheese.",
-            price: 260,
-            veg: false,
-          },
+          item("Classic Chicken Burger", "Crispy chicken, lettuce, mayo.", 190, false, "🍔"),
+          item("Aloo Tikki Burger", "Spiced potato patty.", 140, true, "🍔"),
+          item("Double Cheese Burger", "Two patties, double cheese.", 260, false, "🍔"),
         ],
       },
       {
         name: "Sides",
         items: [
-          { name: "French Fries", description: "Salted and crispy.", price: 90, veg: true },
-          {
-            name: "Peri Peri Fries",
-            description: "Tossed in peri peri masala.",
-            price: 110,
-            veg: true,
-          },
+          item("French Fries", "Salted and crispy.", 90, true, "🍟"),
+          item("Peri Peri Fries", "Tossed in peri peri masala.", 110, true, "🍟"),
+          item("Cola (300 ml)", "Chilled soft drink.", 50, true, "🥤"),
         ],
       },
     ],
@@ -294,43 +201,25 @@ export const RESTAURANTS: SeedRestaurant[] = [
     name: "Sweet Tooth",
     cuisine: "Desserts",
     address: "Kalyani Nagar, Pune",
-    opensAt: "10:00",
-    closesAt: "23:30",
+    ...ALL_DAY,
     deliveryTimeMin: 25,
-    colour: [235, 150, 190],
+    hue: 330,
+    coverEmojis: ["🍰", "🍨", "🍩"],
     categories: [
       {
         name: "Cakes",
         items: [
-          {
-            name: "Chocolate Truffle Slice",
-            description: "Rich dark chocolate cake.",
-            price: 130,
-            veg: true,
-          },
-          {
-            name: "Red Velvet Slice",
-            description: "Cream cheese frosting.",
-            price: 140,
-            veg: true,
-          },
+          item("Chocolate Truffle Slice", "Rich dark chocolate cake.", 130, true, "🍰"),
+          item("Red Velvet Slice", "Cream cheese frosting.", 140, true, "🧁"),
+          item("Blueberry Cheesecake", "Baked cheesecake, blueberry compote.", 170, true, "🍰"),
         ],
       },
       {
         name: "Ice Cream",
         items: [
-          {
-            name: "Brownie Sundae",
-            description: "Warm brownie, vanilla ice cream, fudge.",
-            price: 180,
-            veg: true,
-          },
-          {
-            name: "Kulfi Falooda",
-            description: "Pistachio kulfi with falooda.",
-            price: 150,
-            veg: true,
-          },
+          item("Brownie Sundae", "Warm brownie, vanilla ice cream, fudge.", 180, true, "🍨"),
+          item("Kulfi Falooda", "Pistachio kulfi with falooda.", 150, true, "🍧"),
+          item("Gulab Jamun (2 pc)", "Warm syrupy dumplings.", 90, true, "🍮"),
         ],
       },
     ],
@@ -340,49 +229,25 @@ export const RESTAURANTS: SeedRestaurant[] = [
     name: "Chaat Street",
     cuisine: "Street Food, North Indian",
     address: "Camp, Pune",
-    opensAt: "10:00",
-    closesAt: "22:30",
+    ...ALL_DAY,
     deliveryTimeMin: 20,
-    colour: [210, 160, 60],
+    hue: 36,
+    coverEmojis: ["🥙", "🧆", "🌯"],
     categories: [
       {
         name: "Chaat",
         items: [
-          {
-            name: "Pani Puri (6 pc)",
-            description: "Crisp puris with spicy mint water.",
-            price: 60,
-            veg: true,
-          },
-          {
-            name: "Sev Puri",
-            description: "Crisp puris with chutneys and sev.",
-            price: 70,
-            veg: true,
-          },
-          {
-            name: "Dahi Papdi Chaat",
-            description: "Papdi with yoghurt and tamarind.",
-            price: 90,
-            veg: true,
-          },
+          item("Pani Puri (6 pc)", "Crisp puris with spicy mint water.", 60, true, "🧆"),
+          item("Sev Puri", "Crisp puris with chutneys and sev.", 70, true, "🥙"),
+          item("Dahi Papdi Chaat", "Papdi with yoghurt and tamarind.", 90, true, "🥗"),
         ],
       },
       {
         name: "Rolls",
         items: [
-          {
-            name: "Paneer Kathi Roll",
-            description: "Spiced paneer wrapped in paratha.",
-            price: 130,
-            veg: true,
-          },
-          {
-            name: "Egg Kathi Roll",
-            description: "Egg-coated paratha roll.",
-            price: 110,
-            veg: false,
-          },
+          item("Paneer Kathi Roll", "Spiced paneer wrapped in paratha.", 130, true, "🌯"),
+          item("Egg Kathi Roll", "Egg-coated paratha roll.", 110, false, "🌯"),
+          item("Masala Chai", "Kadak ginger-cardamom tea.", 30, true, "🍵"),
         ],
       },
     ],
@@ -392,43 +257,259 @@ export const RESTAURANTS: SeedRestaurant[] = [
     name: "Green Bowl",
     cuisine: "Healthy, Salads",
     address: "Aundh, Pune",
-    opensAt: "09:00",
-    closesAt: "21:30",
+    ...ALL_DAY,
     deliveryTimeMin: 30,
-    colour: [100, 170, 100],
+    hue: 140,
+    coverEmojis: ["🥗", "🥑", "🍊"],
     categories: [
       {
         name: "Bowls",
         items: [
-          {
-            name: "Quinoa Power Bowl",
-            description: "Quinoa, roasted veggies, hummus.",
-            price: 270,
-            veg: true,
-          },
-          {
-            name: "Grilled Chicken Bowl",
-            description: "Brown rice, grilled chicken, greens.",
-            price: 310,
-            veg: false,
-          },
+          item("Quinoa Power Bowl", "Quinoa, roasted veggies, hummus.", 270, true, "🥗"),
+          item("Grilled Chicken Bowl", "Brown rice, grilled chicken, greens.", 310, false, "🍱"),
+          item("Avocado Toast", "Sourdough, smashed avocado, seeds.", 220, true, "🥑"),
         ],
       },
       {
         name: "Drinks",
         items: [
-          {
-            name: "Fresh Orange Juice",
-            description: "Cold-pressed, no sugar.",
-            price: 110,
-            veg: true,
-          },
-          {
-            name: "Green Detox Smoothie",
-            description: "Spinach, apple, cucumber.",
-            price: 150,
-            veg: true,
-          },
+          item("Fresh Orange Juice", "Cold-pressed, no sugar.", 110, true, "🍊"),
+          item("Green Detox Smoothie", "Spinach, apple, cucumber.", 150, true, "🥤"),
+          item("Mango Lassi", "Thick yoghurt and Alphonso mango.", 120, true, "🥭"),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "hyderabad-biryani-house",
+    name: "Hyderabad Biryani House",
+    cuisine: "Biryani, Hyderabadi",
+    address: "Kondhwa, Pune",
+    ...ALL_DAY,
+    deliveryTimeMin: 40,
+    hue: 22,
+    coverEmojis: ["🍛", "🥚", "🍗"],
+    categories: [
+      {
+        name: "Dum Biryani",
+        items: [
+          item("Hyderabadi Chicken Biryani", "Layered dum biryani with raita.", 299, false, "🍛"),
+          item("Hyderabadi Veg Biryani", "Vegetables, mint and saffron.", 229, true, "🍚"),
+          item("Egg Biryani", "Boiled eggs on fragrant rice.", 199, false, "🥚"),
+          item("Mutton Dum Biryani", "Slow-cooked mutton biryani.", 399, false, "🍛"),
+        ],
+      },
+      {
+        name: "Starters & Sides",
+        items: [
+          item("Chicken 65", "Spicy deep-fried chicken bites.", 220, false, "🍗"),
+          item("Mirchi Ka Salan", "Peanut-sesame chilli curry.", 90, true, "🌶️"),
+          item("Double Ka Meetha", "Hyderabadi bread pudding.", 110, true, "🍮"),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "burger-barn",
+    name: "Burger Barn",
+    cuisine: "Burgers, American",
+    address: "Kothrud, Pune",
+    ...ALL_DAY,
+    deliveryTimeMin: 25,
+    hue: 30,
+    coverEmojis: ["🍔", "🌭", "🍟"],
+    categories: [
+      {
+        name: "Burgers",
+        items: [
+          item("Barn Classic Beef Burger", "Beef patty, cheddar, pickles.", 280, false, "🍔"),
+          item("Crispy Veg Burger", "Crunchy veg patty, slaw, sauce.", 160, true, "🍔"),
+          item(
+            "Smoky BBQ Chicken Burger",
+            "Grilled chicken, BBQ sauce, onion rings.",
+            240,
+            false,
+            "🍔",
+          ),
+          item("Paneer Zinger Burger", "Crispy paneer, jalapeno mayo.", 190, true, "🍔"),
+        ],
+      },
+      {
+        name: "Sides & Shakes",
+        items: [
+          item("Loaded Cheesy Fries", "Fries, cheese sauce, jalapenos.", 150, true, "🍟"),
+          item("Hot Dog", "Grilled sausage, mustard, onions.", 170, false, "🌭"),
+          item("Chocolate Shake", "Thick chocolate milkshake.", 160, true, "🥛"),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "tandoor-tales",
+    name: "Tandoor Tales",
+    cuisine: "Kebabs, North Indian",
+    address: "Deccan, Pune",
+    ...ALL_DAY,
+    deliveryTimeMin: 35,
+    hue: 8,
+    coverEmojis: ["🍢", "🍗", "🫓"],
+    categories: [
+      {
+        name: "Kebabs & Tikkas",
+        items: [
+          item("Chicken Tikka", "Smoky chicken tikka from the tandoor.", 290, false, "🍢"),
+          item("Paneer Tikka", "Marinated paneer, peppers and onion.", 260, true, "🍢"),
+          item("Seekh Kebab", "Minced lamb skewers with spices.", 320, false, "🍢"),
+          item("Tandoori Chicken (Half)", "Classic charred tandoori chicken.", 340, false, "🍗"),
+        ],
+      },
+      {
+        name: "Mains & Breads",
+        items: [
+          item("Kadai Paneer", "Paneer in a spicy kadai masala.", 250, true, "🍲"),
+          item("Chicken Tikka Masala", "Tikka in a creamy masala gravy.", 330, false, "🍛"),
+          item("Laccha Paratha", "Flaky layered paratha.", 55, true, "🫓"),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "momo-junction",
+    name: "Momo Junction",
+    cuisine: "Momos, Tibetan",
+    address: "Shivajinagar, Pune",
+    ...ALL_DAY,
+    deliveryTimeMin: 25,
+    hue: 8,
+    coverEmojis: ["🥟", "🍜", "🌶️"],
+    categories: [
+      {
+        name: "Momos",
+        items: [
+          item("Veg Steamed Momos (8 pc)", "Cabbage and carrot dumplings.", 110, true, "🥟"),
+          item("Chicken Steamed Momos (8 pc)", "Juicy chicken dumplings.", 140, false, "🥟"),
+          item("Paneer Fried Momos (8 pc)", "Crispy fried paneer dumplings.", 150, true, "🥟"),
+          item("Chicken Kurkure Momos (6 pc)", "Crunchy-coated chicken momos.", 170, false, "🥟"),
+        ],
+      },
+      {
+        name: "Soups & Noodles",
+        items: [
+          item("Thukpa", "Tibetan noodle soup with vegetables.", 160, true, "🍜"),
+          item("Hot & Sour Soup", "Tangy peppery soup.", 120, true, "🍲"),
+          item("Chicken Thukpa", "Hearty noodle soup with chicken.", 190, false, "🍜"),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "thali-ghar",
+    name: "Thali Ghar",
+    cuisine: "Gujarati, Thali",
+    address: "Sadashiv Peth, Pune",
+    ...ALL_DAY,
+    deliveryTimeMin: 30,
+    hue: 48,
+    coverEmojis: ["🍱", "🫓", "🥘"],
+    categories: [
+      {
+        name: "Thalis",
+        items: [
+          item("Gujarati Thali", "Dal, kadhi, 2 sabzis, rotli, rice, sweet.", 260, true, "🍱"),
+          item("Mini Thali", "Dal, 1 sabzi, 2 rotli, rice.", 160, true, "🍱"),
+          item("Special Deluxe Thali", "Everything plus farsan and shrikhand.", 340, true, "🍱"),
+        ],
+      },
+      {
+        name: "Snacks & Sweets",
+        items: [
+          item("Dhokla (6 pc)", "Soft steamed gram-flour cake.", 90, true, "🧆"),
+          item("Thepla with Pickle (4 pc)", "Fenugreek flatbreads.", 100, true, "🫓"),
+          item("Shrikhand", "Sweet saffron yoghurt dessert.", 90, true, "🍮"),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "brew-and-co",
+    name: "Brew & Co",
+    cuisine: "Cafe, Beverages",
+    address: "Koregaon Park, Pune",
+    ...ALL_DAY,
+    deliveryTimeMin: 20,
+    hue: 24,
+    coverEmojis: ["☕", "🥐", "🍰"],
+    categories: [
+      {
+        name: "Coffee & Tea",
+        items: [
+          item("Cappuccino", "Espresso with silky steamed milk.", 150, true, "☕"),
+          item("Cold Coffee", "Chilled blended coffee with ice cream.", 170, true, "🥤"),
+          item("Masala Chai Latte", "Spiced tea with frothed milk.", 130, true, "🍵"),
+        ],
+      },
+      {
+        name: "Bakes & Bites",
+        items: [
+          item("Butter Croissant", "Flaky, freshly baked.", 110, true, "🥐"),
+          item("Chicken Club Sandwich", "Toasted triple-decker sandwich.", 230, false, "🥪"),
+          item("Chocolate Chip Cookie", "Warm and gooey.", 80, true, "🍪"),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "sakura-sushi",
+    name: "Sakura Sushi",
+    cuisine: "Japanese, Sushi",
+    address: "Balewadi, Pune",
+    ...ALL_DAY,
+    deliveryTimeMin: 45,
+    hue: 345,
+    coverEmojis: ["🍣", "🍱", "🍤"],
+    categories: [
+      {
+        name: "Sushi & Rolls",
+        items: [
+          item("California Roll (8 pc)", "Crab, avocado, cucumber.", 380, false, "🍣"),
+          item("Veg Maki Roll (8 pc)", "Cucumber, avocado, carrot.", 320, true, "🍙"),
+          item("Salmon Nigiri (4 pc)", "Fresh salmon over seasoned rice.", 460, false, "🍣"),
+        ],
+      },
+      {
+        name: "Bowls & Sides",
+        items: [
+          item("Chicken Teriyaki Bowl", "Grilled chicken, rice, teriyaki glaze.", 340, false, "🍱"),
+          item("Prawn Tempura (5 pc)", "Light and crispy.", 360, false, "🍤"),
+          item("Miso Soup", "Tofu, seaweed and spring onion.", 140, true, "🍲"),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "pav-bhaji-point",
+    name: "Pav Bhaji Point",
+    cuisine: "Street Food, Mumbai",
+    address: "Pimpri, Pune",
+    ...ALL_DAY,
+    deliveryTimeMin: 20,
+    hue: 16,
+    coverEmojis: ["🍲", "🍞", "🧈"],
+    categories: [
+      {
+        name: "Pav Bhaji",
+        items: [
+          item("Classic Pav Bhaji", "Buttery mashed vegetables with 2 pav.", 140, true, "🍲"),
+          item("Cheese Pav Bhaji", "Topped with grated cheese.", 180, true, "🧀"),
+          item("Jain Pav Bhaji", "Made without onion or garlic.", 150, true, "🍲"),
+        ],
+      },
+      {
+        name: "Snacks",
+        items: [
+          item("Vada Pav (2 pc)", "Mumbai's favourite potato fritter burger.", 60, true, "🍔"),
+          item("Misal Pav", "Spicy sprouts curry with pav.", 120, true, "🍛"),
+          item("Sugarcane Juice", "Fresh-pressed with ginger and lemon.", 50, true, "🥤"),
         ],
       },
     ],

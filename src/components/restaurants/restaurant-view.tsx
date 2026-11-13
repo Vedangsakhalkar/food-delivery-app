@@ -79,18 +79,18 @@ export function RestaurantView({ id }: { id: string }) {
   const r = data.restaurant;
   return (
     <div className="flex flex-col gap-4">
-      <div
-        className={`flex h-48 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-rose-100 to-amber-100 text-sm text-muted-foreground ${r.isOpen ? "" : "grayscale"}`}
-      >
-        {r.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element -- remote Supabase Storage URL
-          <img src={r.imageUrl} alt={r.name} className="h-full w-full object-cover" />
-        ) : (
-          "Cover image"
-        )}
-      </div>
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div>
+      <div className="flex flex-col gap-4 rounded-xl border bg-white p-4 sm:flex-row sm:items-center">
+        <div
+          className={`flex aspect-[3/2] w-full flex-none items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-rose-100 to-amber-100 text-sm text-muted-foreground sm:w-72 ${r.isOpen ? "" : "grayscale"}`}
+        >
+          {r.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element -- remote Supabase Storage URL
+            <img src={r.imageUrl} alt={r.name} className="h-full w-full object-cover" />
+          ) : (
+            "Cover image"
+          )}
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
           <h1 className="text-2xl font-semibold">
             {r.name}
             {!r.isOpen && (
@@ -99,15 +99,19 @@ export function RestaurantView({ id }: { id: string }) {
               </span>
             )}
           </h1>
+          <div className="text-muted-foreground">{r.cuisine}</div>
           <div className="text-sm text-muted-foreground">
-            {r.cuisine} · {r.address} · Open {r.opensAt}–{r.closesAt}
+            {r.address} · Open {r.opensAt}–{r.closesAt}
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <RatingBadge rating={r.avgRating} count={r.ratingCount} />
-          {r.ratingCount > 0 && (
-            <span className="text-sm text-muted-foreground">({r.ratingCount} reviews)</span>
-          )}
+          <div className="flex items-center gap-2">
+            <RatingBadge rating={r.avgRating} count={r.ratingCount} />
+            {r.ratingCount > 0 && (
+              <span className="text-sm text-muted-foreground">({r.ratingCount} reviews)</span>
+            )}
+            <span className="text-sm text-muted-foreground">
+              · {r.deliveryTimeMin}–{r.deliveryTimeMin + 5} min
+            </span>
+          </div>
         </div>
       </div>
 
