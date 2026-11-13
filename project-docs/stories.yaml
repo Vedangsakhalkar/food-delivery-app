@@ -35,9 +35,9 @@ stories:
   - id: "0.2"
     title: "Set up developer tooling"
     epic: 0
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-0.2-developer-tooling.md
-    branch: null
+    branch: feature/us-0.2-developer-tooling
     pr: null
     prd: ["NFR Maintainability"]
     depends_on: ["0.1"]
