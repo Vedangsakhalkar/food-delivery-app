@@ -31,12 +31,19 @@ const ACTION_LABEL: Partial<Record<OrderStatus, string>> = {
   delivered: "Mark delivered",
 };
 
+/** Dialog asking for a short reason (rejecting an order, disabling a restaurant). */
 export function RejectDialog({
   onClose,
   onSubmit,
+  title = "Reject this order?",
+  submitLabel = "Reject order",
+  placeholder = "Reason, e.g. Out of stock",
 }: {
   onClose: () => void;
   onSubmit: (reason: string) => Promise<void>;
+  title?: string;
+  submitLabel?: string;
+  placeholder?: string;
 }) {
   const [reason, setReason] = useState("");
   const [busy, setBusy] = useState(false);
@@ -57,19 +64,19 @@ export function RejectDialog({
           }}
         >
           <DialogHeader>
-            <DialogTitle>Reject this order?</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
           <Input
             autoFocus
             value={reason}
             maxLength={200}
             onChange={(e) => setReason(e.target.value)}
-            placeholder="Reason, e.g. Out of stock"
+            placeholder={placeholder}
             aria-label="Reason for rejecting"
           />
           <DialogFooter>
             <Button type="submit" disabled={busy || !reason.trim()}>
-              Reject order
+              {submitLabel}
             </Button>
           </DialogFooter>
         </form>

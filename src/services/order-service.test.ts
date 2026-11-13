@@ -174,3 +174,25 @@ describe("orderService.cancel", () => {
     await expect(svc.cancel({ id: "x" } as User, "o1")).rejects.toBeInstanceOf(NotFoundError);
   });
 });
+
+describe("ordering from a disabled restaurant", () => {
+  it("is refused with 409", async () => {
+    const svc = createOrderService({
+      orders: {
+        create: vi.fn(),
+        findById: vi.fn(),
+        listByCustomer: vi.fn(),
+        transition: vi.fn(),
+        listByRestaurant: vi.fn(),
+        findForRestaurant: vi.fn(),
+      },
+      quotes: {
+        priceCart: async () => {
+          throw new NotFoundError("This restaurant is no longer available");
+        },
+      },
+      addresses: { getOwned: vi.fn() },
+    });
+    await expect(svc.placeOrder(customer, input)).rejects.toBeInstanceOf(ConflictError);
+  });
+});

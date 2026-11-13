@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 6 — Admin |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-20 |
 | Depends on | US-2.1, US-3.1 |
 | Branch | `feature/us-6.1-admin-disable-enable-restaurants` |
-| PR | — |
+| PR | #43 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -24,16 +24,16 @@
 5. Only role `admin` can call the admin APIs.
 
 ## Tasks
-- [ ] `adminService` restaurant methods; `GET /api/admin/restaurants`, `PATCH /api/admin/restaurants/[id]`.
-- [ ] Admin restaurants page with `Table`, `Dialog`.
-- [ ] Server-side check of `is_disabled` in `placeOrder` (verify US-4.5 covers it; add a test).
+- [x] `adminService` restaurant methods; `GET /api/admin/restaurants`, `PATCH /api/admin/restaurants/[id]`.
+- [x] Admin restaurants page with `Table`, `Dialog`.
+- [x] Server-side check of `is_disabled` in `placeOrder` (verify US-4.5 covers it; add a test).
 
 ## Technical notes
 - Admins are created manually in the database.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
