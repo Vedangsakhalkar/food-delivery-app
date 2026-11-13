@@ -233,9 +233,9 @@ stories:
   - id: "4.3"
     title: "Manage saved delivery addresses"
     epic: 4
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-4.3-manage-saved-addresses.md
-    branch: null
+    branch: feature/us-4.3-manage-saved-addresses
     pr: null
     prd: ["FR-4", "FR-12"]
     depends_on: ["1.5"]
