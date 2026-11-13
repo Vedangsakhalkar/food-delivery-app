@@ -7,7 +7,7 @@
 | PRD refs | FR-17 |
 | Depends on | US-1.3, US-0.6 |
 | Branch | `feature/us-2.1-owner-creates-restaurant` |
-| PR | — |
+| PR | #24 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
