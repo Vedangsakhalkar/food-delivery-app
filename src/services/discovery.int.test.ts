@@ -54,13 +54,27 @@ describe("discovery against the real database", () => {
   });
 
   it("lists the restaurant, and hides it once disabled", async () => {
-    const all = await discoveryService.list({ limit: 50 });
+    const all = await discoveryService.list({ limit: 50, cuisine: [] });
     expect(all.restaurants.some((r) => r.id === restaurantId)).toBe(true);
     await query("update restaurants set is_disabled = true where id = $1", [restaurantId]);
-    const after = await discoveryService.list({ limit: 50 });
+    const after = await discoveryService.list({ limit: 50, cuisine: [] });
     expect(after.restaurants.some((r) => r.id === restaurantId)).toBe(false);
     const found = await searchService.search(TAG);
     expect(found.restaurants).toHaveLength(0);
     expect(found.dishes).toHaveLength(0);
+  });
+});
+
+describe("filter and sort against the real database", () => {
+  it("filters by cuisine token and sorts by delivery time", async () => {
+    await query("update restaurants set is_disabled = false where id = $1", [restaurantId]);
+    const hit = await discoveryService.list({ limit: 50, cuisine: ["fusion"] });
+    expect(hit.restaurants.some((r) => r.id === restaurantId)).toBe(true);
+    const miss = await discoveryService.list({ limit: 50, cuisine: ["nonexistent-cuisine"] });
+    expect(miss.restaurants).toHaveLength(0);
+    expect(await discoveryService.cuisines()).toContain("Fusion");
+    const byDelivery = await discoveryService.list({ limit: 50, cuisine: [], sort: "delivery" });
+    const times = byDelivery.restaurants.map((r) => r.deliveryTimeMin);
+    expect(times).toEqual([...times].sort((a, b) => a - b));
   });
 });

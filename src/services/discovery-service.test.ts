@@ -28,9 +28,9 @@ describe("discoveryService.list", () => {
     const listActive = vi.fn(async ({ limit }: { limit: number }) =>
       Array.from({ length: limit }, (_, i) => row(i)),
     );
-    const svc = createDiscoveryService({ listActive });
+    const svc = createDiscoveryService({ listActive, listCuisines: async () => [] });
     const res = await svc.list(listRestaurantsSchema.parse({ limit: "2" }));
-    expect(listActive).toHaveBeenCalledWith({ limit: 3, offset: 0 });
+    expect(listActive).toHaveBeenCalledWith(expect.objectContaining({ limit: 3, offset: 0 }));
     expect(res.restaurants).toHaveLength(2);
     expect(decodeCursor(res.nextCursor!)).toBe(2);
     expect(JSON.stringify(res)).not.toContain("secret-owner");
@@ -38,7 +38,10 @@ describe("discoveryService.list", () => {
   });
 
   it("has no next cursor on the last page", async () => {
-    const svc = createDiscoveryService({ listActive: async () => [row(1)] });
+    const svc = createDiscoveryService({
+      listActive: async () => [row(1)],
+      listCuisines: async () => [],
+    });
     expect((await svc.list(listRestaurantsSchema.parse({}))).nextCursor).toBeNull();
   });
 });
@@ -47,5 +50,25 @@ describe("listRestaurantsSchema", () => {
   it("defaults and bounds limit", () => {
     expect(listRestaurantsSchema.parse({}).limit).toBe(12);
     expect(listRestaurantsSchema.safeParse({ limit: "500" }).success).toBe(false);
+  });
+});
+
+describe("filters and sort", () => {
+  it("normalises cuisines and validates sort", () => {
+    const q = listRestaurantsSchema.parse({ cuisine: " North Indian ,Chinese,, ", sort: "rating" });
+    expect(q.cuisine).toEqual(["north indian", "chinese"]);
+    expect(q.sort).toBe("rating");
+    expect(listRestaurantsSchema.parse({}).cuisine).toEqual([]);
+    expect(listRestaurantsSchema.safeParse({ sort: "price" }).success).toBe(false);
+  });
+
+  it("passes filters to the repository", async () => {
+    const listActive = vi.fn(async () => []);
+    const svc = createDiscoveryService({ listActive, listCuisines: async () => ["Pizza"] });
+    await svc.list(listRestaurantsSchema.parse({ cuisine: "pizza", sort: "delivery" }));
+    expect(listActive).toHaveBeenCalledWith(
+      expect.objectContaining({ cuisines: ["pizza"], sort: "delivery" }),
+    );
+    expect(await svc.cuisines()).toEqual(["Pizza"]);
   });
 });
