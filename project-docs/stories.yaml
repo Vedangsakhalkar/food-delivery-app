@@ -323,10 +323,10 @@ stories:
   - id: "6.3"
     title: "Admin views all users"
     epic: 6
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-6.3-admin-view-users.md
-    branch: null
-    pr: null
+    branch: feature/us-6.3-admin-view-users
+    pr: 45
     prd: ["FR-21"]
     depends_on: ["1.3"]
   - id: "7.1"

@@ -28,6 +28,7 @@ describe("ensureUser", () => {
       findById: async () => null,
       insertIfMissing,
       updateProfile: vi.fn(),
+      list: vi.fn(),
     };
     const user = await createUserService(repo).ensureUser(identity);
     expect(insertIfMissing).toHaveBeenCalledWith({
@@ -47,6 +48,7 @@ describe("ensureUser", () => {
       findById: async () => existing,
       insertIfMissing,
       updateProfile: vi.fn(),
+      list: vi.fn(),
     };
     expect(await createUserService(repo).ensureUser(identity)).toBe(existing);
     expect(insertIfMissing).not.toHaveBeenCalled();
@@ -56,7 +58,12 @@ describe("ensureUser", () => {
 describe("updateProfile", () => {
   it("updates the given user id only", async () => {
     const updateProfile = vi.fn(async () => ({ id: "u1" }) as User);
-    const repo: UserRepository = { findById: vi.fn(), insertIfMissing: vi.fn(), updateProfile };
+    const repo: UserRepository = {
+      findById: vi.fn(),
+      insertIfMissing: vi.fn(),
+      updateProfile,
+      list: vi.fn(),
+    };
     await createUserService(repo).updateProfile("u1", { name: "New", phone: "+919876543210" });
     expect(updateProfile).toHaveBeenCalledWith("u1", { name: "New", phone: "+919876543210" });
   });

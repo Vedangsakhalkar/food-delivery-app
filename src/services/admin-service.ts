@@ -2,6 +2,8 @@ import { NotFoundError } from "@/lib/errors";
 import { decodeCursor, encodeCursor } from "@/lib/pagination";
 import type { Order, OrderStatus } from "@/models/order";
 import type { Restaurant } from "@/models/restaurant";
+import type { Role, User } from "@/models/user";
+import { userRepository, type UserRepository } from "@/repositories/user-repository";
 import { orderRepository, type OrderRepository } from "@/repositories/order-repository";
 import {
   restaurantRepository,
@@ -12,6 +14,7 @@ import {
 export function createAdminService(
   restaurants: RestaurantRepository,
   orders?: Pick<OrderRepository, "listAll">,
+  users?: Pick<UserRepository, "list">,
 ) {
   return {
     async listRestaurants(q: {
@@ -51,6 +54,26 @@ export function createAdminService(
       };
     },
 
+    /** Read-only list of every user. */
+    async listUsers(q: {
+      role?: Role;
+      q?: string;
+      limit: number;
+      cursor?: string;
+    }): Promise<{ users: User[]; nextCursor: string | null }> {
+      const offset = decodeCursor(q.cursor);
+      const rows = await users!.list({
+        role: q.role,
+        q: q.q || undefined,
+        limit: q.limit + 1,
+        offset,
+      });
+      return {
+        users: rows.slice(0, q.limit),
+        nextCursor: rows.length > q.limit ? encodeCursor(offset + q.limit) : null,
+      };
+    },
+
     /** Disabled restaurants disappear from discovery and refuse orders; data is kept. */
     async setRestaurantDisabled(
       id: string,
@@ -68,4 +91,8 @@ export function createAdminService(
   };
 }
 
-export const adminService = createAdminService(restaurantRepository, orderRepository);
+export const adminService = createAdminService(
+  restaurantRepository,
+  orderRepository,
+  userRepository,
+);
