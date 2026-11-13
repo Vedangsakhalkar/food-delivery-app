@@ -170,10 +170,10 @@ stories:
   - id: "3.1"
     title: "Browse restaurants on the home page"
     epic: 3
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-3.1-browse-restaurants-home.md
-    branch: null
-    pr: null
+    branch: feature/us-3.1-browse-restaurants-home
+    pr: 28
     prd: ["FR-5"]
     depends_on: ["2.1"]
   - id: "3.2"
