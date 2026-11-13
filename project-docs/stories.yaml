@@ -206,9 +206,9 @@ stories:
   - id: "3.5"
     title: "Closed restaurant state"
     epic: 3
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-3.5-closed-restaurant-state.md
-    branch: null
+    branch: feature/us-3.5-closed-restaurant-state
     pr: null
     prd: ["FR-8"]
     depends_on: ["3.4"]
