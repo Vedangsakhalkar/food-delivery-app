@@ -17,7 +17,7 @@
 **so that** my food is prepared and delivered.
 
 ## Acceptance criteria
-1. Given a valid cart and a chosen or new address, when I place the order, then `POST /api/orders` creates the order with status `placed` and returns its code (e.g. `DAB-10234`), and I see the confirmation page (mock C7).
+1. Given a valid cart and a chosen or new address, when I place the order, then `POST /api/orders` creates the order with status `placed` and returns its code (e.g. `TDK-10234`), and I see the confirmation page (mock C7).
 2. The server rechecks everything: restaurant exists, is open and not disabled; every item exists, is available and belongs to that restaurant; quantities are 1-20; totals are recomputed.
 3. Order, order items and the address are inserted in one transaction as snapshots (name, price, address).
 4. Payment method is always `cod`; any other value is rejected with 422.

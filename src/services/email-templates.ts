@@ -27,7 +27,7 @@ function itemsTable(order: Order): string {
 
 function layout(title: string, body: string): string {
   return `<div style="font-family:system-ui,sans-serif;color:#1c1c1c;max-width:560px">
-    <h2 style="color:#e23744;margin:0 0 12px">Dabba</h2><h3 style="margin:0 0 8px">${esc(title)}</h3>${body}</div>`;
+    <h2 style="color:#e23744;margin:0 0 12px">Tadka</h2><h3 style="margin:0 0 8px">${esc(title)}</h3>${body}</div>`;
 }
 
 const address = (o: Order) =>

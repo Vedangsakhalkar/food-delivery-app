@@ -2,7 +2,7 @@ import Link from "next/link";
 import { MessageCard } from "@/components/message-card";
 import { buttonVariants } from "@/components/ui/button";
 
-export const metadata = { title: "Access denied | Dabba" };
+export const metadata = { title: "Access denied | Tadka" };
 
 export default function AccessDeniedPage() {
   return (

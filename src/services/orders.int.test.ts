@@ -69,7 +69,7 @@ afterAll(async () => {
 describe("placing an order against the real database", () => {
   it("creates order + items + snapshots with server-computed totals", async () => {
     const o = await orderService.placeOrder(customer, order({ notes: "ring twice" }));
-    expect(o.code).toMatch(/^DAB-\d+$/);
+    expect(o.code).toMatch(/^TDK-\d+$/);
     expect(o.status).toBe("placed");
     expect(o).toMatchObject({
       subtotalPaise: 20000,

@@ -1,4 +1,4 @@
-# Product Requirements Document — Dabba (MVP)
+# Product Requirements Document — Tadka (MVP)
 
 | Field | Value |
 |---|---|

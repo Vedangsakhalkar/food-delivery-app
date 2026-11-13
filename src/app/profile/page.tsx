@@ -2,7 +2,7 @@ import { AddressesCard } from "@/components/profile/addresses-card";
 import { ProfileForm } from "@/components/profile/profile-form";
 import { requirePageUser } from "@/lib/page-guard";
 
-export const metadata = { title: "My profile | Dabba" };
+export const metadata = { title: "My profile | Tadka" };
 
 export default async function ProfilePage() {
   const user = await requirePageUser();

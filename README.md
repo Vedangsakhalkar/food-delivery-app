@@ -1,4 +1,4 @@
-# Dabba
+# Tadka
 
 Food delivery web app (MVP). Next.js (App Router), Tailwind, shadcn/ui, Supabase, `pg`.
 
