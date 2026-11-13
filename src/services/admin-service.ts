@@ -1,13 +1,18 @@
 import { NotFoundError } from "@/lib/errors";
 import { decodeCursor, encodeCursor } from "@/lib/pagination";
+import type { Order, OrderStatus } from "@/models/order";
 import type { Restaurant } from "@/models/restaurant";
+import { orderRepository, type OrderRepository } from "@/repositories/order-repository";
 import {
   restaurantRepository,
   type AdminRestaurant,
   type RestaurantRepository,
 } from "@/repositories/restaurant-repository";
 
-export function createAdminService(restaurants: RestaurantRepository) {
+export function createAdminService(
+  restaurants: RestaurantRepository,
+  orders?: Pick<OrderRepository, "listAll">,
+) {
   return {
     async listRestaurants(q: {
       disabled?: boolean;
@@ -22,6 +27,26 @@ export function createAdminService(restaurants: RestaurantRepository) {
       });
       return {
         restaurants: rows.slice(0, q.limit),
+        nextCursor: rows.length > q.limit ? encodeCursor(offset + q.limit) : null,
+      };
+    },
+
+    /** Read-only list of every order, newest first. */
+    async listOrders(q: {
+      status?: OrderStatus;
+      code?: string;
+      limit: number;
+      cursor?: string;
+    }): Promise<{ orders: Order[]; nextCursor: string | null }> {
+      const offset = decodeCursor(q.cursor);
+      const rows = await orders!.listAll({
+        status: q.status,
+        code: q.code || undefined,
+        limit: q.limit + 1,
+        offset,
+      });
+      return {
+        orders: rows.slice(0, q.limit),
         nextCursor: rows.length > q.limit ? encodeCursor(offset + q.limit) : null,
       };
     },
@@ -43,4 +68,4 @@ export function createAdminService(restaurants: RestaurantRepository) {
   };
 }
 
-export const adminService = createAdminService(restaurantRepository);
+export const adminService = createAdminService(restaurantRepository, orderRepository);

@@ -1,4 +1,5 @@
 import { query, withTransaction } from "@/lib/db";
+import { likePattern } from "@/lib/like";
 import type { AddressSnapshot, Order, OrderItem, OrderStatus } from "@/models/order";
 
 interface OrderRow {
@@ -117,6 +118,13 @@ export interface OrderRepository {
   ): Promise<Order[]>;
   /** One order, only if it belongs to the restaurant (with customer contact). */
   findForRestaurant(id: string, restaurantId: string): Promise<Order | null>;
+  /** Every order in the system for the admin (read-only), newest first, with optional filters. */
+  listAll(opts: {
+    status?: OrderStatus;
+    code?: string;
+    limit: number;
+    offset: number;
+  }): Promise<Order[]>;
   /** A customer's orders, newest first. */
   listByCustomer(customerId: string, opts: { limit: number; offset: number }): Promise<Order[]>;
 }
@@ -176,6 +184,17 @@ export const orderRepository: OrderRepository = {
       restaurantId,
     ]);
     return res.rows[0] ? (await hydrate(res.rows))[0] : null;
+  },
+
+  async listAll({ status, code, limit, offset }) {
+    const res = await query<OrderRow>(
+      `${OWNER_SELECT}
+       where ($1::text is null or o.status = $1)
+         and ($2::text is null or o.code ilike $2)
+       order by o.created_at desc, o.id limit $3 offset $4`,
+      [status ?? null, code ? likePattern(code) : null, limit, offset],
+    );
+    return hydrate(res.rows);
   },
 
   async listByCustomer(customerId, { limit, offset }) {

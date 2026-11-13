@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { createSearchService } from "@/services/search-service";
-import { likePattern } from "@/repositories/search-repository";
+import { likePattern } from "@/lib/like";
 import { searchSchema } from "@/validators/discovery";
 import type { Restaurant } from "@/models/restaurant";
 

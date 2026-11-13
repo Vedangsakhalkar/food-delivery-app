@@ -20,6 +20,7 @@ function setup(status: OrderStatus = "placed", opts: { found?: boolean; won?: bo
       listByCustomer: vi.fn(),
       listByRestaurant,
       findForRestaurant: vi.fn(async () => (found ? ({ id: "x", status } as Order) : null)),
+      listAll: vi.fn(),
       transition,
     },
     { findByOwner: async () => ({ id: "r1" }) as never },
