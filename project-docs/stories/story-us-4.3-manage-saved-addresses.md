@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 4 — Cart and checkout |
-| Status | review |
+| Status | done |
 | PRD refs | FR-4, FR-12 |
 | Depends on | US-1.5 |
 | Branch | `feature/us-4.3-manage-saved-addresses` |
@@ -24,17 +24,17 @@
 5. `/api/me/addresses` only ever returns and changes the signed-in user's addresses.
 
 ## Tasks
-- [ ] Migration `addresses` table (RLS on, index on `user_id`).
-- [ ] `addressRepository`, `addressService`.
-- [ ] `GET/POST /api/me/addresses`, `PATCH/DELETE /api/me/addresses/[id]`.
-- [ ] Addresses card on the profile page (shadcn `Dialog`, `Form`, `RadioGroup`).
+- [x] Migration `addresses` table (RLS on, index on `user_id`).
+- [x] `addressRepository`, `addressService`.
+- [x] `GET/POST /api/me/addresses`, `PATCH/DELETE /api/me/addresses/[id]`.
+- [x] Addresses card on the profile page (shadcn `Dialog`, `Form`, `RadioGroup`).
 
 ## Technical notes
 - Limit to 10 addresses per user.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

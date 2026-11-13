@@ -233,7 +233,7 @@ stories:
   - id: "4.3"
     title: "Manage saved delivery addresses"
     epic: 4
-    status: review
+    status: done
     file: project-docs/stories/story-us-4.3-manage-saved-addresses.md
     branch: feature/us-4.3-manage-saved-addresses
     pr: 35
