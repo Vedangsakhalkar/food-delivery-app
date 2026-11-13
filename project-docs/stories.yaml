@@ -242,10 +242,10 @@ stories:
   - id: "4.4"
     title: "Subtotal, taxes, delivery fee and total"
     epic: 4
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-4.4-price-breakdown.md
-    branch: null
-    pr: null
+    branch: feature/us-4.4-price-breakdown
+    pr: 36
     prd: ["FR-11"]
     depends_on: ["4.2"]
   - id: "4.5"

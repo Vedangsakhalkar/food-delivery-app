@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 4 — Cart and checkout |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-11 |
 | Depends on | US-4.2 |
 | Branch | `feature/us-4.4-price-breakdown` |
-| PR | — |
+| PR | #36 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,16 +23,16 @@
 4. `POST /api/quote` (or the order endpoint) recomputes totals from database prices so the UI never relies on client prices.
 
 ## Tasks
-- [ ] `pricingService.calculate(items)` and config constants.
-- [ ] Quote endpoint used by the cart and checkout pages.
-- [ ] Totals summary component.
+- [x] `pricingService.calculate(items)` and config constants.
+- [x] Quote endpoint used by the cart and checkout pages.
+- [x] Totals summary component.
 
 ## Technical notes
 - The same `pricingService` is used when the order is placed (US-4.5).
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
