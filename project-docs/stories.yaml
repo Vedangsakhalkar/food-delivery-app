@@ -341,9 +341,9 @@ stories:
   - id: "7.2"
     title: "Show ratings and reviews on restaurants"
     epic: 7
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-7.2-show-ratings-on-restaurants.md
-    branch: null
+    branch: feature/us-7.2-show-ratings-on-restaurants
     pr: null
     prd: ["FR-7", "FR-22"]
     depends_on: ["7.1", "3.3"]
