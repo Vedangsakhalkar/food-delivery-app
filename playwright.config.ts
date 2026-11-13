@@ -21,6 +21,13 @@ export default defineConfig({
       : `npm run dev -- -p ${PORT}`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
+    // The journey signs users in server-side. When the project's publishable key is missing locally,
+    // E2E_ALLOW_SECRET_AS_ANON=1 lets the *local test server* use the secret key instead. This puts
+    // the secret into that server's client bundle, so only ever use it on localhost, never in CI/deploys.
+    env:
+      !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY && process.env.E2E_ALLOW_SECRET_AS_ANON
+        ? { NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "" }
+        : undefined,
     timeout: 240_000,
   },
 });
