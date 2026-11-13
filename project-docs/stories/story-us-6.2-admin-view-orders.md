@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 6 — Admin |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-21 |
 | Depends on | US-4.5 |
 | Branch | `feature/us-6.2-admin-view-orders` |
