@@ -353,7 +353,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-8.1-order-placed-emails.md
     branch: feature/us-8.1-order-placed-emails
-    pr: null
+    pr: 48
     prd: ["FR-23", "FR-25", "FR-26"]
     depends_on: ["4.5"]
   - id: "8.2"

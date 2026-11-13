@@ -7,7 +7,7 @@
 | PRD refs | FR-23, FR-25, FR-26 |
 | Depends on | US-4.5 |
 | Branch | `feature/us-8.1-order-placed-emails` |
-| PR | — |
+| PR | #48 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
