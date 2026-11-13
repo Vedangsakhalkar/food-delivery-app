@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 1 — Authentication and profile |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-1, FR-2 |
 | Depends on | US-1.1 |
 | Branch | `feature/us-1.2-sign-in-sign-out` |

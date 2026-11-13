@@ -98,9 +98,9 @@ stories:
   - id: "1.2"
     title: "Sign in and sign out"
     epic: 1
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-1.2-sign-in-sign-out.md
-    branch: null
+    branch: feature/us-1.2-sign-in-sign-out
     pr: null
     prd: ["FR-1", "FR-2"]
     depends_on: ["1.1"]
