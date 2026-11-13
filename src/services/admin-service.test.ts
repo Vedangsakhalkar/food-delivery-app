@@ -64,3 +64,16 @@ describe("adminService.listOrders", () => {
     expect(page.nextCursor).not.toBeNull();
   });
 });
+
+describe("adminService.listUsers", () => {
+  it("filters by role and search text, paginates", async () => {
+    const list = vi.fn(async (o: { limit: number }) =>
+      Array.from({ length: o.limit }, (_, i) => ({ id: `u${i}` })),
+    );
+    const svc = createAdminService(repo(), undefined, { list } as never);
+    const page = await svc.listUsers({ role: "owner", q: "", limit: 2 });
+    expect(list).toHaveBeenCalledWith({ role: "owner", q: undefined, limit: 3, offset: 0 });
+    expect(page.users).toHaveLength(2);
+    expect(page.nextCursor).not.toBeNull();
+  });
+});

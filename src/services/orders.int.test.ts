@@ -217,4 +217,17 @@ describe("placing an order against the real database", () => {
     expect(placed.orders.some((x) => x.id === o.id)).toBe(true);
     expect((await adminService.listOrders({ code: "%", limit: 10 })).orders).toHaveLength(0);
   });
+
+  it("admin lists users, filterable by role and by email", async () => {
+    const owners = await adminService.listUsers({ role: "owner", q: ownerT.email, limit: 10 });
+    expect(owners.users.map((u) => u.id)).toEqual([owner.id]);
+    expect(owners.users[0].role).toBe("owner");
+    const customers = await adminService.listUsers({
+      role: "customer",
+      q: ownerT.email,
+      limit: 10,
+    });
+    expect(customers.users).toHaveLength(0);
+    expect((await adminService.listUsers({ q: "%", limit: 10 })).users).toHaveLength(0);
+  });
 });
