@@ -56,7 +56,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-0.4-error-handling-logging-and-health.md
     branch: feature/us-0.4-error-handling-logging-and-health
-    pr: null
+    pr: 14
     prd: ["Architecture 8"]
     depends_on: ["0.3"]
   - id: "0.5"

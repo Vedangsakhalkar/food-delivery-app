@@ -7,7 +7,7 @@
 | PRD refs | Architecture 8 |
 | Depends on | US-0.3 |
 | Branch | `feature/us-0.4-error-handling-logging-and-health` |
-| PR | — |
+| PR | #14 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
