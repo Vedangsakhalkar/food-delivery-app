@@ -395,7 +395,7 @@ stories:
   - id: "9.4"
     title: "End-to-end tests for key flows"
     epic: 9
-    status: review
+    status: done
     file: project-docs/stories/story-us-9.4-e2e-tests.md
     branch: feature/us-9.4-e2e-tests
     pr: 53

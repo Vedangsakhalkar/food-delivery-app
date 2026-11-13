@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | review |
+| Status | done |
 | PRD refs | Architecture 11 |
 | Depends on | US-5.4 |
 | Branch | `feature/us-9.4-e2e-tests` |
@@ -22,13 +22,13 @@
 3. The suite runs in CI (as a separate job or on `release/dev`) and failures upload traces.
 
 ## Tasks
-- [ ] Configure Playwright and a test environment.
-- [ ] Write the journeys above.
-- [ ] Wire into GitHub Actions.
+- [x] Configure Playwright and a test environment.
+- [x] Write the journeys above.
+- [x] Wire into GitHub Actions.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
