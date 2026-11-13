@@ -1,0 +1,15 @@
+node_modules
+.next
+coverage
+package-lock.json
+project-docs/mockups
+project docs
+project-docs
+my-docs
+prompts
+CLAUDE.md
+AGENTS.md
+git-commands.md
+README.md
+src/components/ui
+components.json
