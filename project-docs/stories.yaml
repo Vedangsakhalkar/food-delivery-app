@@ -386,9 +386,9 @@ stories:
   - id: "9.3"
     title: "Rate limiting and security headers"
     epic: 9
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-9.3-rate-limiting-security-headers.md
-    branch: null
+    branch: feature/us-9.3-rate-limiting-security-headers
     pr: null
     prd: ["NFR Security"]
     depends_on: ["4.5"]
