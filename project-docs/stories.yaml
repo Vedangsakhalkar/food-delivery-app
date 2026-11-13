@@ -251,7 +251,7 @@ stories:
   - id: "4.5"
     title: "Place an order with cash on delivery"
     epic: 4
-    status: review
+    status: done
     file: project-docs/stories/story-us-4.5-place-order-cod.md
     branch: feature/us-4.5-place-order-cod
     pr: 37
