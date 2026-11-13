@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | review |
+| Status | done |
 | PRD refs | Roadmap |
 | Depends on | US-2.4 |
 | Branch | `feature/us-9.1-seed-demo-data` |
@@ -23,12 +23,12 @@
 4. Seed images are uploaded to Storage bucket `images` or use stable public URLs.
 
 ## Tasks
-- [ ] `db/seed.ts` using repositories/services.
-- [ ] npm script and docs in the README.
+- [x] `db/seed.ts` using repositories/services.
+- [x] npm script and docs in the README.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
