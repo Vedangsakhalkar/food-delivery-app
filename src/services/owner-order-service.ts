@@ -7,11 +7,14 @@ import {
   restaurantRepository,
   type RestaurantRepository,
 } from "@/repositories/restaurant-repository";
+import { logger, serializeError } from "@/lib/logger";
+import { notificationService } from "@/lib/notifications";
 import { assertTransition } from "@/services/order-state";
 
 export function createOwnerOrderService(
   orders: OrderRepository,
   restaurants: Pick<RestaurantRepository, "findByOwner">,
+  onStatusChanged: Array<(order: Order) => Promise<void> | void> = [],
 ) {
   async function restaurantIdOf(owner: User) {
     const r = await restaurants.findByOwner(owner.id);
@@ -46,9 +49,20 @@ export function createOwnerOrderService(
       assertTransition(order.status, to, "owner");
       const ok = await orders.transition(id, order.status, to, to === "rejected" ? reason : null);
       if (!ok) throw new ConflictError("This order was just updated. Refresh and try again.");
-      return (await orders.findForRestaurant(id, restaurantId))!;
+      const updated = (await orders.findForRestaurant(id, restaurantId))!;
+      // Notify after the change is committed; a failing notification never affects the update.
+      for (const hook of onStatusChanged) {
+        try {
+          await hook(updated);
+        } catch (err) {
+          logger.error("status change hook failed", { orderId: id, ...serializeError(err) });
+        }
+      }
+      return updated;
     },
   };
 }
 
-export const ownerOrderService = createOwnerOrderService(orderRepository, restaurantRepository);
+export const ownerOrderService = createOwnerOrderService(orderRepository, restaurantRepository, [
+  (order) => notificationService.statusChanged(order),
+]);

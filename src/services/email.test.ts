@@ -117,3 +117,59 @@ describe("notificationService.orderPlaced", () => {
     spy.mockRestore();
   });
 });
+
+describe("notificationService.statusChanged", () => {
+  const users = {
+    findById: vi.fn(async () => ({ id: "c1", email: "cust@x.co", name: "Asha" }) as never),
+  };
+  const restaurants = { findById: vi.fn() };
+  const make = () => {
+    const send = vi.fn(async (m: EmailMessage) => Boolean(m));
+    return {
+      send,
+      svc: createNotificationService({ users, restaurants, email: { send }, appUrl: "http://app" }),
+    };
+  };
+
+  it.each(["accepted", "out_for_delivery", "delivered", "rejected", "cancelled"] as const)(
+    "emails the customer once when the order becomes %s",
+    async (status) => {
+      const { send, svc } = make();
+      await svc.statusChanged({ ...order, status, rejectionReason: "Out of <stock>" });
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(send.mock.calls[0][0].to).toBe("cust@x.co");
+      expect(send.mock.calls[0][0].subject).toContain(order.code);
+    },
+  );
+
+  it("does not email for Preparing or Placed", async () => {
+    const { send, svc } = make();
+    await svc.statusChanged({ ...order, status: "preparing" });
+    await svc.statusChanged({ ...order, status: "placed" });
+    expect(send).not.toHaveBeenCalled();
+  });
+
+  it("includes the (escaped) reason for a rejection", async () => {
+    const { send, svc } = make();
+    await svc.statusChanged({ ...order, status: "rejected", rejectionReason: "Out of <stock>" });
+    const html = send.mock.calls[0][0].html;
+    expect(html).toContain("Out of &#60;stock&#62;");
+    expect(html).not.toContain("<stock>");
+  });
+
+  it("never throws when the lookup fails", async () => {
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const svc = createNotificationService({
+      users: {
+        findById: async () => {
+          throw new Error("db");
+        },
+      },
+      restaurants,
+      email: { send: vi.fn() },
+      appUrl: "x",
+    });
+    await expect(svc.statusChanged({ ...order, status: "accepted" })).resolves.toBeUndefined();
+    spy.mockRestore();
+  });
+});

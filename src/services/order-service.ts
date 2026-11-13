@@ -27,8 +27,9 @@ export function createOrderService(deps: {
   quotes: Quotes;
   addresses: Addresses;
   onPlaced?: OrderPlacedHook[];
+  onStatusChanged?: OrderPlacedHook[];
 }) {
-  const { orders, quotes, addresses, onPlaced = [] } = deps;
+  const { orders, quotes, addresses, onPlaced = [], onStatusChanged = [] } = deps;
 
   return {
     /**
@@ -99,7 +100,15 @@ export function createOrderService(deps: {
         // The restaurant accepted it a moment before the cancel went through.
         throw new ConflictError("This order can no longer be cancelled");
       }
-      return this.getForCustomer(customer, id);
+      const cancelled = await this.getForCustomer(customer, id);
+      for (const hook of onStatusChanged) {
+        try {
+          await hook(cancelled);
+        } catch (err) {
+          logger.error("status change hook failed", { orderId: id, ...serializeError(err) });
+        }
+      }
+      return cancelled;
     },
 
     /** A customer can only ever read their own orders. */
@@ -116,4 +125,5 @@ export const orderService = createOrderService({
   quotes: quoteService,
   addresses: addressService,
   onPlaced: [(order) => notificationService.orderPlaced(order)],
+  onStatusChanged: [(order) => notificationService.statusChanged(order)],
 });

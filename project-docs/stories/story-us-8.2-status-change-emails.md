@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 8 — Email notifications |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-24, FR-26 |
 | Depends on | US-5.4, US-8.1 |
 | Branch | `feature/us-8.2-status-change-emails` |
-| PR | — |
+| PR | #49 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,13 +23,13 @@
 4. Each transition sends at most one email.
 
 ## Tasks
-- [ ] Add status templates to `emailService`.
-- [ ] Call from `orderService.updateStatus` and cancel flow after commit.
-- [ ] Unit tests for each transition.
+- [x] Add status templates to `emailService`.
+- [x] Call from `orderService.updateStatus` and cancel flow after commit.
+- [x] Unit tests for each transition.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

@@ -199,3 +199,27 @@ describe("ordering from a disabled restaurant", () => {
     await expect(svc.placeOrder(customer, input)).rejects.toBeInstanceOf(ConflictError);
   });
 });
+
+describe("cancel notifications", () => {
+  const withHook = (hook: (o: Order) => void) =>
+    createOrderService({
+      orders: {
+        create: vi.fn(),
+        findById: vi.fn(async () => ({ id: "o1", customerId: "c1", status: "placed" }) as Order),
+        listByCustomer: vi.fn(),
+        transition: vi.fn(async () => true),
+        listByRestaurant: vi.fn(),
+        findForRestaurant: vi.fn(),
+        listAll: vi.fn(),
+      },
+      quotes: { priceCart: vi.fn() },
+      addresses: { getOwned: vi.fn() },
+      onStatusChanged: [hook],
+    });
+
+  it("notifies once after a customer cancels", async () => {
+    const hook = vi.fn();
+    await withHook(hook).cancel(customer, "o1");
+    expect(hook).toHaveBeenCalledTimes(1);
+  });
+});
