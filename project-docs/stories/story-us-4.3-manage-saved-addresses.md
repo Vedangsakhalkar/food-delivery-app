@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 4 — Cart and checkout |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-4, FR-12 |
 | Depends on | US-1.5 |
 | Branch | `feature/us-4.3-manage-saved-addresses` |
