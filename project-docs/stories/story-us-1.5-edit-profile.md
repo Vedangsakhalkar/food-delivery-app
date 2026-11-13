@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 1 — Authentication and profile |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-4 |
 | Depends on | US-1.3 |
 | Branch | `feature/us-1.5-edit-profile` |
-| PR | — |
+| PR | #23 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,13 +23,13 @@
 4. `GET/PATCH /api/me` only ever affect the signed-in user.
 
 ## Tasks
-- [ ] Profile page (mock A4, details card only; addresses come in story 4.3).
-- [ ] `PATCH /api/me` with Zod validation.
-- [ ] `userService.updateProfile`.
+- [x] Profile page (mock A4, details card only; addresses come in story 4.3).
+- [x] `PATCH /api/me` with Zod validation.
+- [x] `userService.updateProfile`.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

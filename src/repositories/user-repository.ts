@@ -31,6 +31,7 @@ export interface UserRepository {
   findById(id: string): Promise<User | null>;
   /** Inserts the user; if the id already exists returns the existing row (race safe). */
   insertIfMissing(user: NewUser): Promise<User>;
+  updateProfile(id: string, fields: { name: string; phone: string }): Promise<User>;
 }
 
 export const userRepository: UserRepository = {
@@ -46,6 +47,14 @@ export const userRepository: UserRepository = {
       [u.id, u.email, u.name, u.phone, u.role],
     );
     const res = await query<UserRow>("select * from users where id = $1", [u.id]);
+    return toUser(res.rows[0]);
+  },
+
+  async updateProfile(id, fields) {
+    const res = await query<UserRow>(
+      "update users set name = $2, phone = $3 where id = $1 returning *",
+      [id, fields.name, fields.phone],
+    );
     return toUser(res.rows[0]);
   },
 };

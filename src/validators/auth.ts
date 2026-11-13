@@ -28,3 +28,9 @@ export type SignInInput = z.infer<typeof signInSchema>;
 
 export const forgotPasswordSchema = z.object({ email: emailSchema });
 export const resetPasswordSchema = z.object({ password: passwordSchema });
+
+export const updateProfileSchema = z.object({
+  name: z.string().trim().min(1, "Enter your name").max(100),
+  phone: phoneSchema,
+});
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
