@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | in-progress |
+| Status | review |
 | PRD refs | NFR Maintainability |
 | Depends on | US-0.1 |
 | Branch | `feature/us-0.2-developer-tooling` |
