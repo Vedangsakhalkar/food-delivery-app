@@ -341,7 +341,7 @@ stories:
   - id: "7.2"
     title: "Show ratings and reviews on restaurants"
     epic: 7
-    status: review
+    status: done
     file: project-docs/stories/story-us-7.2-show-ratings-on-restaurants.md
     branch: feature/us-7.2-show-ratings-on-restaurants
     pr: 47

@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 7 — Ratings and reviews |
-| Status | review |
+| Status | done |
 | PRD refs | FR-7, FR-22 |
 | Depends on | US-7.1, US-3.3 |
 | Branch | `feature/us-7.2-show-ratings-on-restaurants` |
@@ -23,15 +23,15 @@
 4. A restaurant with no reviews shows 'New'.
 
 ## Tasks
-- [ ] `GET /api/restaurants/[id]/reviews`.
-- [ ] Reviews section on the restaurant page.
+- [x] `GET /api/restaurants/[id]/reviews`.
+- [x] Reviews section on the restaurant page.
 
 ## Technical notes
 - Do not expose reviewer email or full name.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
