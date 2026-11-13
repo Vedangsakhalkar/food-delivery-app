@@ -7,7 +7,7 @@
 | PRD refs | FR-9 |
 | Depends on | US-3.4 |
 | Branch | `feature/us-4.1-cart-add-remove-change` |
-| PR | — |
+| PR | #33 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 

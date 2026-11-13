@@ -218,7 +218,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-4.1-cart-add-remove-change.md
     branch: feature/us-4.1-cart-add-remove-change
-    pr: null
+    pr: 33
     prd: ["FR-9"]
     depends_on: ["3.4"]
   - id: "4.2"
