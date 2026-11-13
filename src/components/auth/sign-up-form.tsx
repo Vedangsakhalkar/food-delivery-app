@@ -68,7 +68,10 @@ export function SignUpForm() {
   }
 
   return (
-    <AuthCard title="Create your account">
+    <AuthCard
+      title="Create your account"
+      subtitle="Order food in minutes, or start selling as a restaurant."
+    >
       <form onSubmit={onSubmit} noValidate>
         <FieldGroup>
           <RadioGroup

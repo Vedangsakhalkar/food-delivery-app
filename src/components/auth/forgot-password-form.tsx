@@ -49,7 +49,7 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <AuthCard title="Reset your password">
+    <AuthCard title="Reset your password" subtitle="We will email you a link to choose a new one.">
       <p className="text-muted-foreground">Enter your email and we&apos;ll send a reset link.</p>
       <form onSubmit={onSubmit} noValidate>
         <FieldGroup>

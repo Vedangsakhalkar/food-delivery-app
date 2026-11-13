@@ -3,7 +3,7 @@ import { chromium, type Browser } from "@playwright/test";
 /** Renders illustrated food images (large emoji on a gradient) to PNG with headless Chromium. */
 export async function openRenderer(): Promise<{
   item(emoji: string, colours: [string, string]): Promise<Buffer>;
-  cover(name: string, emojis: string[], colours: [string, string]): Promise<Buffer>;
+  cover(emojis: string[], colours: [string, string]): Promise<Buffer>;
   close(): Promise<void>;
 }> {
   const browser: Browser = await chromium.launch();
@@ -29,15 +29,14 @@ export async function openRenderer(): Promise<{
         400,
         400,
       ),
-    cover: (name, emojis, [a, b]) =>
+    cover: (emojis, [a, b]) =>
       shot(
-        `<div style="width:100%;height:100%;background:linear-gradient(135deg,${a},${b});position:relative;font-family:${font};color:#fff">
-          <div style="position:absolute;right:-60px;top:-80px;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.18)"></div>
-          <div style="position:absolute;left:-80px;bottom:-120px;width:380px;height:380px;border-radius:50%;background:rgba(255,255,255,.14)"></div>
-          <div style="position:absolute;right:40px;top:50px;font-size:120px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))">${emojis[0] ?? ""}</div>
-          <div style="position:absolute;right:210px;top:200px;font-size:96px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))">${emojis[1] ?? ""}</div>
-          <div style="position:absolute;right:50px;top:230px;font-size:84px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))">${emojis[2] ?? ""}</div>
-          <div style="position:absolute;left:36px;bottom:36px;font:800 52px/1.05 system-ui,sans-serif;text-shadow:0 3px 12px rgba(0,0,0,.35);max-width:330px">${name.replace(/&/g, "&amp;")}</div></div>`,
+        `<div style="width:100%;height:100%;background:linear-gradient(135deg,${a},${b});position:relative;font-family:${font}">
+          <div style="position:absolute;right:-70px;top:-90px;width:380px;height:380px;border-radius:50%;background:rgba(255,255,255,.16)"></div>
+          <div style="position:absolute;left:-90px;bottom:-130px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.12)"></div>
+          <div style="position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-size:190px;line-height:1;filter:drop-shadow(0 12px 14px rgba(0,0,0,.28))">${emojis[0] ?? ""}</div>
+          <div style="position:absolute;left:62px;top:52px;font-size:92px;line-height:1;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))">${emojis[1] ?? ""}</div>
+          <div style="position:absolute;right:58px;top:70px;font-size:84px;line-height:1;filter:drop-shadow(0 8px 10px rgba(0,0,0,.25))">${emojis[2] ?? ""}</div></div>`,
         600,
         400,
       ),

@@ -142,7 +142,7 @@ test.describe("order journey", () => {
     await page.getByRole("link", { name: new RegExp(restaurantName) }).click();
     await expect(page.getByRole("heading", { name: "Reviews" })).toBeVisible();
     await expect(page.getByText("Fantastic e2e biryani")).toBeVisible();
-    await expect(page.getByText("5.0 ★").first()).toBeVisible();
+    await expect(page.getByText("5.0", { exact: true }).first()).toBeVisible();
   });
 
   test("role protection: a customer cannot open owner or admin pages", async () => {
