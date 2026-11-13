@@ -61,3 +61,15 @@ describe("parseStoredCart", () => {
     expect(parseStoredCart('{"restaurantId":1,"lines":[]}')).toEqual(EMPTY_CART);
   });
 });
+
+describe("replacing the cart (one restaurant at a time)", () => {
+  it("clear then add starts a new cart for the new restaurant", () => {
+    const old = add(add(EMPTY_CART, "a"), "b");
+    const fresh = cartReducer(cartReducer(old, { type: "clear" }), {
+      type: "add",
+      restaurantId: "r2",
+      itemId: "x",
+    });
+    expect(fresh).toEqual({ restaurantId: "r2", lines: [{ itemId: "x", qty: 1 }] });
+  });
+});
