@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 1 — Authentication and profile |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-4 |
 | Depends on | US-1.3 |
 | Branch | `feature/us-1.5-edit-profile` |

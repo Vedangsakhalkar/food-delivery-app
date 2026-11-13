@@ -17,6 +17,11 @@ export function resolveRole(value: unknown): Role {
 
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
+export interface ProfileInput {
+  name: string;
+  phone: string;
+}
+
 export function createUserService(repo: UserRepository) {
   return {
     /** Returns the users row for an authenticated identity, creating it on first login. */
@@ -30,6 +35,10 @@ export function createUserService(repo: UserRepository) {
         phone: str(identity.metadata.phone, 20) || null,
         role: resolveRole(identity.metadata.role),
       });
+    },
+    /** Updates only the signed-in user's own name and phone. */
+    updateProfile(userId: string, input: ProfileInput): Promise<User> {
+      return repo.updateProfile(userId, input);
     },
   };
 }
