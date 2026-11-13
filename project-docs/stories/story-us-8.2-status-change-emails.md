@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 8 — Email notifications |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-24, FR-26 |
 | Depends on | US-5.4, US-8.1 |
 | Branch | `feature/us-8.2-status-change-emails` |

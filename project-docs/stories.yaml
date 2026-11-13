@@ -359,9 +359,9 @@ stories:
   - id: "8.2"
     title: "Status change emails to the customer"
     epic: 8
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-8.2-status-change-emails.md
-    branch: null
+    branch: feature/us-8.2-status-change-emails
     pr: null
     prd: ["FR-24", "FR-26"]
     depends_on: ["5.4", "8.1"]
