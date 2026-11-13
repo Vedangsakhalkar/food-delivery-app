@@ -386,7 +386,7 @@ stories:
   - id: "9.3"
     title: "Rate limiting and security headers"
     epic: 9
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-9.3-rate-limiting-security-headers.md
     branch: feature/us-9.3-rate-limiting-security-headers
     pr: null

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { ROLES_FOR } from "@/lib/access-rules";
 import { requireUser } from "@/lib/auth";
 import { withErrorHandling } from "@/lib/handle-error";
+import { enforce } from "@/lib/rate-limit";
+import { limiters } from "@/lib/rate-limiters";
 import { orderService } from "@/services/order-service";
 import { listOrdersSchema, placeOrderSchema } from "@/validators/order";
 
@@ -13,6 +15,7 @@ export const GET = withErrorHandling(async (req) => {
 
 export const POST = withErrorHandling(async (req) => {
   const customer = await requireUser(ROLES_FOR.customer);
+  enforce(limiters.orders, customer.id);
   const input = placeOrderSchema.parse(await req.json().catch(() => ({})));
   const order = await orderService.placeOrder(customer, input);
   return NextResponse.json(

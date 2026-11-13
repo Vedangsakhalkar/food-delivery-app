@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | in-progress |
+| Status | review |
 | PRD refs | NFR Security |
 | Depends on | US-4.5 |
 | Branch | `feature/us-9.3-rate-limiting-security-headers` |
