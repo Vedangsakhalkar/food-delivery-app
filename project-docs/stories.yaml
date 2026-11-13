@@ -188,7 +188,7 @@ stories:
   - id: "3.3"
     title: "Filter by cuisine and sort"
     epic: 3
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-3.3-filter-by-cuisine-and-sort.md
     branch: feature/us-3.3-filter-by-cuisine-and-sort
     pr: null

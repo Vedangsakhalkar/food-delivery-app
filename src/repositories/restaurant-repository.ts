@@ -43,7 +43,14 @@ export const toRestaurant = (r: RestaurantRow): Restaurant => ({
 export interface RestaurantRepository {
   findByOwner(ownerId: string): Promise<Restaurant | null>;
   /** Active (not disabled) restaurants, newest first. */
-  listActive(opts: { limit: number; offset: number }): Promise<Restaurant[]>;
+  listActive(opts: {
+    limit: number;
+    offset: number;
+    cuisines?: string[];
+    sort?: "rating" | "delivery";
+  }): Promise<Restaurant[]>;
+  /** Distinct cuisine names (split on commas) across active restaurants. */
+  listCuisines(): Promise<string[]>;
   insert(ownerId: string, input: RestaurantInput): Promise<Restaurant>;
   update(
     ownerId: string,
@@ -60,13 +67,31 @@ export const restaurantRepository: RestaurantRepository = {
     return res.rows[0] ? toRestaurant(res.rows[0]) : null;
   },
 
-  async listActive({ limit, offset }) {
+  async listActive({ limit, offset, cuisines = [], sort }) {
+    const order =
+      sort === "rating"
+        ? "(rating_count = 0), avg_rating desc, created_at desc, id"
+        : sort === "delivery"
+          ? "delivery_time_min asc, created_at desc, id"
+          : "created_at desc, id";
     const res = await query<RestaurantRow>(
-      `select * from restaurants where is_disabled = false
-       order by created_at desc, id limit $1 offset $2`,
-      [limit, offset],
+      `select * from restaurants
+       where is_disabled = false
+         and ($3::text[] = '{}' or exists (
+           select 1 from unnest(string_to_array(cuisine, ',')) c where lower(trim(c)) = any($3)))
+       order by ${order} limit $1 offset $2`,
+      [limit, offset, cuisines],
     );
     return res.rows.map(toRestaurant);
+  },
+
+  async listCuisines() {
+    const res = await query<{ name: string }>(
+      `select distinct trim(c) as name
+       from restaurants, unnest(string_to_array(cuisine, ',')) c
+       where is_disabled = false and trim(c) <> '' order by 1`,
+    );
+    return res.rows.map((r) => r.name);
   },
 
   async insert(ownerId, i) {
