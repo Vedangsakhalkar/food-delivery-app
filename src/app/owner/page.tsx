@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 
-export const metadata = { title: "Owner | Dabba" };
+export const metadata = { title: "Owner | Tadka" };
 
 /** Mock O1. Owners with a restaurant are one click from their profile. */
 export default function OwnerWelcomePage() {

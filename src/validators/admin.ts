@@ -31,7 +31,7 @@ export const adminListOrdersSchema = z.object({
       "cancelled",
     ])
     .optional(),
-  /** order code search, e.g. "10234" or "DAB-10234" */
+  /** order code search, e.g. "10234" or "TDK-10234" */
   code: z.string().trim().max(30).optional(),
   limit: z.coerce.number().int().min(1).max(100).default(25),
   cursor: z.string().max(200).optional(),

@@ -7,7 +7,7 @@ import type { EmailMessage } from "@/services/email-templates";
 
 const order = {
   id: "o1",
-  code: "DAB-10001",
+  code: "TDK-10001",
   customerId: "c1",
   restaurantId: "r1",
   restaurantName: "Spice <b>Route</b>",

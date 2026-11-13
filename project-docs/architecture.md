@@ -1,4 +1,4 @@
-# Architecture — Dabba (MVP)
+# Architecture — Tadka (MVP)
 
 | Field | Value |
 |---|---|
@@ -61,7 +61,7 @@ Browser (View)  ──fetch──▶  /api route handlers (Controller)
 3. **Service** checks the restaurant is open and not disabled, items exist and are available, then recomputes prices and totals from the database.
 4. **Repository** inserts `orders` and `order_items` in one transaction.
 5. **Service** asks `emailService` to send confirmations (failures are logged, never block the order).
-6. **Controller** returns `201 { code: "DAB-10234" }`; the View shows the confirmation page.
+6. **Controller** returns `201 { code: "TDK-10234" }`; the View shows the confirmation page.
 
 ## 4. Folder structure
 
@@ -92,7 +92,7 @@ UI rule: every component comes from shadcn/ui wherever possible (`npx shadcn@lat
 | `restaurants` | `id`, `owner_id` FK, `name`, `cuisine`, `address`, `opens_at`, `closes_at`, `image_path`, `image_url`, `delivery_time_min`, `is_disabled`, `disabled_reason`, `avg_rating`, `rating_count`, `created_at` |
 | `menu_categories` | `id`, `restaurant_id` FK, `name`, `sort_order` |
 | `menu_items` | `id`, `category_id` FK, `restaurant_id` FK, `name`, `description`, `price_paise`, `is_veg`, `is_available`, `image_path`, `image_url` |
-| `orders` | `id`, `code` (e.g. DAB-10234), `customer_id` FK, `restaurant_id` FK, `address_snapshot` (jsonb), `status`, `rejection_reason`, `subtotal_paise`, `tax_paise`, `delivery_fee_paise`, `total_paise`, `payment_method` (`cod`), `notes`, `created_at` |
+| `orders` | `id`, `code` (e.g. TDK-10234), `customer_id` FK, `restaurant_id` FK, `address_snapshot` (jsonb), `status`, `rejection_reason`, `subtotal_paise`, `tax_paise`, `delivery_fee_paise`, `total_paise`, `payment_method` (`cod`), `notes`, `created_at` |
 | `order_items` | `id`, `order_id` FK, `menu_item_id`, `name_snapshot`, `price_paise`, `quantity` |
 | `reviews` | `id`, `order_id` UNIQUE FK, `restaurant_id` FK, `customer_id` FK, `rating` (1–5), `comment`, `created_at` |
 

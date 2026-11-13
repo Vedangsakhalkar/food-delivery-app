@@ -34,7 +34,7 @@ const quote = (over: Partial<Quote> = {}): Quote => ({
 function setup(q: Quote = quote(), hooks: Array<(o: Order) => void | Promise<void>> = []) {
   const create = vi.fn(
     async (o) =>
-      ({ id: "o1", code: "DAB-10001", customerId: o.customerId, status: "placed" }) as Order,
+      ({ id: "o1", code: "TDK-10001", customerId: o.customerId, status: "placed" }) as Order,
   );
   const svc = createOrderService({
     orders: {
@@ -111,7 +111,7 @@ describe("orderService.placeOrder", () => {
       throw new Error("email down");
     };
     const { svc } = setup(quote(), [failing, ok]);
-    await expect(svc.placeOrder(customer, input)).resolves.toMatchObject({ code: "DAB-10001" });
+    await expect(svc.placeOrder(customer, input)).resolves.toMatchObject({ code: "TDK-10001" });
     expect(ok).toHaveBeenCalled();
     spy.mockRestore();
   });
