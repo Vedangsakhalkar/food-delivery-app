@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 1 — Authentication and profile |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-1 |
 | Depends on | US-1.2 |
 | Branch | `feature/us-1.4-password-reset` |
