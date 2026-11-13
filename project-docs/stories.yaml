@@ -317,7 +317,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-6.2-admin-view-orders.md
     branch: feature/us-6.2-admin-view-orders
-    pr: null
+    pr: 44
     prd: ["FR-21"]
     depends_on: ["4.5"]
   - id: "6.3"
