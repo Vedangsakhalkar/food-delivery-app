@@ -377,9 +377,9 @@ stories:
   - id: "9.2"
     title: "Loading, empty, error states and accessibility pass"
     epic: 9
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-9.2-states-accessibility-privacy.md
-    branch: null
+    branch: feature/us-9.2-states-accessibility-privacy
     pr: null
     prd: ["NFR Usability"]
     depends_on: ["7.2", "5.5", "6.3"]
