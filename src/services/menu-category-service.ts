@@ -5,6 +5,8 @@ import {
   menuCategoryRepository,
   type MenuCategoryRepository,
 } from "@/repositories/menu-category-repository";
+import { menuItemRepository, type MenuItemRepository } from "@/repositories/menu-item-repository";
+import { storageService } from "@/lib/supabase/storage-adapter";
 import {
   restaurantRepository,
   type RestaurantRepository,
@@ -15,6 +17,10 @@ const isUniqueViolation = (e: unknown) => (e as { code?: string }).code === "235
 export function createMenuCategoryService(
   categories: MenuCategoryRepository,
   restaurants: Pick<RestaurantRepository, "findByOwner">,
+  cleanup?: {
+    items: Pick<MenuItemRepository, "listByRestaurant">;
+    removeImage: (path: string | null) => Promise<void>;
+  },
 ) {
   async function restaurantIdOf(owner: User) {
     const r = await restaurants.findByOwner(owner.id);
@@ -74,8 +80,15 @@ export function createMenuCategoryService(
     /** Deleting a category also deletes its items (database cascade); the UI confirms first. */
     async remove(owner: User, id: string): Promise<void> {
       const restaurantId = await restaurantIdOf(owner);
-      if (!(await categories.remove(id, restaurantId)))
+      const images = cleanup
+        ? (await cleanup.items.listByRestaurant(restaurantId))
+            .filter((i) => i.categoryId === id)
+            .map((i) => i.imagePath)
+        : [];
+      if (!(await categories.remove(id, restaurantId))) {
         throw new NotFoundError("Category not found");
+      }
+      for (const path of images) await cleanup?.removeImage(path);
     },
   };
 }
@@ -83,4 +96,5 @@ export function createMenuCategoryService(
 export const menuCategoryService = createMenuCategoryService(
   menuCategoryRepository,
   restaurantRepository,
+  { items: menuItemRepository, removeImage: (p) => storageService.removeQuietly(p) },
 );

@@ -3,6 +3,8 @@ import { createTestUser } from "@/test/int-helpers";
 import { userService } from "@/services/user-service";
 import { restaurantService } from "@/services/restaurant-service";
 import { menuCategoryService } from "@/services/menu-category-service";
+import { menuItemService } from "@/services/menu-item-service";
+import { itemSchema } from "@/validators/menu";
 import { getPool } from "@/lib/db";
 import { ConflictError } from "@/lib/errors";
 import type { User } from "@/models/user";
@@ -61,5 +63,29 @@ describe("owner restaurant + categories against the real database", () => {
     await expect(menuCategoryService.create(owner, "snacks")).rejects.toBeInstanceOf(ConflictError);
     await menuCategoryService.remove(owner, a.id);
     expect((await menuCategoryService.list(owner)).map((c) => c.name)).toEqual(["Mains"]);
+  });
+
+  it("manages items with integer paise, availability and cascade on category delete", async () => {
+    const cat = await menuCategoryService.create(owner, "Biryani");
+    const item = await menuItemService.create(
+      owner,
+      itemSchema.parse({ name: "Dum Biryani", categoryId: cat.id, price: "320.5", isVeg: false }),
+    );
+    expect(item.pricePaise).toBe(32050);
+    const edited = await menuItemService.update(
+      owner,
+      item.id,
+      itemSchema.parse({
+        name: "Dum Biryani",
+        categoryId: cat.id,
+        price: "330",
+        isAvailable: false,
+      }),
+    );
+    expect(edited.pricePaise).toBe(33000);
+    expect(edited.isAvailable).toBe(false);
+    expect(await menuItemService.list(owner)).toHaveLength(1);
+    await menuCategoryService.remove(owner, cat.id);
+    expect(await menuItemService.list(owner)).toHaveLength(0);
   });
 });

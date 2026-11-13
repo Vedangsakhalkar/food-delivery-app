@@ -161,7 +161,7 @@ stories:
   - id: "2.4"
     title: "Owner manages menu items with images"
     epic: 2
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-2.4-owner-manages-menu-items.md
     branch: feature/us-2.4-owner-manages-menu-items
     pr: null
