@@ -6,6 +6,7 @@ import type { User } from "@/models/user";
 import { assertTransition } from "@/services/order-state";
 import { orderRepository, type OrderRepository } from "@/repositories/order-repository";
 import { addressService, type createAddressService } from "@/services/address-service";
+import { notificationService } from "@/lib/notifications";
 import { quoteService, type createQuoteService } from "@/services/quote-service";
 import type { PlaceOrderInput } from "@/validators/order";
 
@@ -114,4 +115,5 @@ export const orderService = createOrderService({
   orders: orderRepository,
   quotes: quoteService,
   addresses: addressService,
+  onPlaced: [(order) => notificationService.orderPlaced(order)],
 });

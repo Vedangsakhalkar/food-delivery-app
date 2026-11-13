@@ -1,15 +1,8 @@
+import { STATUS_LABEL } from "@/lib/order-status";
 import type { OrderStatus } from "@/models/order";
-import { cn } from "@/lib/utils";
 
-export const STATUS_LABEL: Record<OrderStatus, string> = {
-  placed: "Placed",
-  accepted: "Accepted",
-  preparing: "Preparing",
-  out_for_delivery: "Out for delivery",
-  delivered: "Delivered",
-  rejected: "Rejected",
-  cancelled: "Cancelled",
-};
+export { STATUS_LABEL };
+import { cn } from "@/lib/utils";
 
 const TONE: Record<OrderStatus, string> = {
   placed: "bg-amber-100 text-amber-800",
