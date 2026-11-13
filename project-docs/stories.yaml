@@ -116,10 +116,10 @@ stories:
   - id: "1.4"
     title: "Reset a forgotten password"
     epic: 1
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-1.4-password-reset.md
-    branch: null
-    pr: null
+    branch: feature/us-1.4-password-reset
+    pr: 22
     prd: ["FR-1"]
     depends_on: ["1.2"]
   - id: "1.5"
