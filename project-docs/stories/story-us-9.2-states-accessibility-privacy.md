@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | review |
+| Status | done |
 | PRD refs | NFR Usability |
 | Depends on | US-7.2, US-5.5, US-6.3 |
 | Branch | `feature/us-9.2-states-accessibility-privacy` |
@@ -24,13 +24,13 @@
 5. An automated accessibility check (e.g. axe) runs on key pages with no critical issues.
 
 ## Tasks
-- [ ] Audit every page against the checklist and fix gaps.
-- [ ] Add `/privacy` page and footer.
-- [ ] Add axe checks to the e2e suite when US-9.4 exists, or run manually.
+- [x] Audit every page against the checklist and fix gaps.
+- [x] Add `/privacy` page and footer.
+- [x] Add axe checks to the e2e suite when US-9.4 exists, or run manually.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
