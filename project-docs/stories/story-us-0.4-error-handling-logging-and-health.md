@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | Architecture 8 |
 | Depends on | US-0.3 |
 | Branch | `feature/us-0.4-error-handling-logging-and-health` |
-| PR | — |
+| PR | #14 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,13 +23,13 @@
 4. `GET /api/health` returns 200 and confirms database connectivity.
 
 ## Tasks
-- [ ] Create errors, handler and logger in `src/lib`.
-- [ ] Add the health route.
-- [ ] Unit test the error mapping.
+- [x] Create errors, handler and logger in `src/lib`.
+- [x] Add the health route.
+- [x] Unit test the error mapping.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

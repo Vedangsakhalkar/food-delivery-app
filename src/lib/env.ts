@@ -35,6 +35,15 @@ export function parseServerEnv(source: Record<string, string | undefined>): Serv
   return result.data;
 }
 
+const dbSchema = z.object({ DATABASE_URL: z.string().min(1) });
+
+/** Validates only what the database pool needs, so it works before other keys are filled in. */
+export function getDatabaseUrl(): string {
+  const result = dbSchema.safeParse(process.env);
+  if (!result.success) throw new EnvError(["DATABASE_URL"]);
+  return result.data.DATABASE_URL;
+}
+
 let cached: ServerEnv | undefined;
 
 /** Lazily validated server config. Throws EnvError with a clear message on first use. */
