@@ -170,7 +170,7 @@ stories:
   - id: "3.1"
     title: "Browse restaurants on the home page"
     epic: 3
-    status: review
+    status: done
     file: project-docs/stories/story-us-3.1-browse-restaurants-home.md
     branch: feature/us-3.1-browse-restaurants-home
     pr: 28

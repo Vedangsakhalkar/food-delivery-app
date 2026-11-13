@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 3 — Restaurant discovery (customer) |
-| Status | review |
+| Status | done |
 | PRD refs | FR-5 |
 | Depends on | US-2.1 |
 | Branch | `feature/us-3.1-browse-restaurants-home` |
@@ -24,16 +24,16 @@
 5. `GET /api/restaurants` is public.
 
 ## Tasks
-- [ ] `restaurantRepository.listActive` with keyset pagination.
-- [ ] `GET /api/restaurants` controller and `restaurantService.list`.
-- [ ] Home page and restaurant card (shadcn `Card`, `Badge`, `Skeleton`).
+- [x] `restaurantRepository.listActive` with keyset pagination.
+- [x] `GET /api/restaurants` controller and `restaurantService.list`.
+- [x] Home page and restaurant card (shadcn `Card`, `Badge`, `Skeleton`).
 
 ## Technical notes
 - Restaurants with no ratings show 'New' instead of a rating.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
