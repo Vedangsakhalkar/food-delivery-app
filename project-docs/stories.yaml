@@ -290,7 +290,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-5.4-owner-live-orders.md
     branch: feature/us-5.4-owner-live-orders
-    pr: null
+    pr: 41
     prd: ["FR-19"]
     depends_on: ["4.5", "1.3"]
   - id: "5.5"

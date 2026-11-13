@@ -7,7 +7,7 @@
 | PRD refs | FR-19 |
 | Depends on | US-4.5, US-1.3 |
 | Branch | `feature/us-5.4-owner-live-orders` |
-| PR | — |
+| PR | #41 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
