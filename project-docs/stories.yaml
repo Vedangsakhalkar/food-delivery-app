@@ -35,7 +35,7 @@ stories:
   - id: "0.2"
     title: "Set up developer tooling"
     epic: 0
-    status: review
+    status: done
     file: project-docs/stories/story-us-0.2-developer-tooling.md
     branch: feature/us-0.2-developer-tooling
     pr: 12
