@@ -111,4 +111,23 @@ describe("placing an order against the real database", () => {
     const o = await orderService.placeOrder(customer, order());
     await expect(orderService.getForCustomer(other, o.id)).rejects.toThrow("Order not found");
   });
+
+  it("cancels a placed order, but not one the restaurant already accepted", async () => {
+    const a = await orderService.placeOrder(customer, order());
+    const cancelled = await orderService.cancel(customer, a.id);
+    expect(cancelled.status).toBe("cancelled");
+    await expect(orderService.cancel(customer, a.id)).rejects.toThrow("cannot be changed");
+
+    const b = await orderService.placeOrder(customer, order());
+    await query("update orders set status = 'accepted' where id = $1", [b.id]);
+    await expect(orderService.cancel(customer, b.id)).rejects.toThrow("cannot be changed");
+  });
+
+  it("compare-and-set transition loses the race instead of overwriting", async () => {
+    const o = await orderService.placeOrder(customer, order());
+    const { orderRepository } = await import("@/repositories/order-repository");
+    expect(await orderRepository.transition(o.id, "placed", "accepted")).toBe(true);
+    expect(await orderRepository.transition(o.id, "placed", "cancelled")).toBe(false);
+    expect((await orderService.getForCustomer(customer, o.id)).status).toBe("accepted");
+  });
 });

@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 5 — Order management |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-16 |
 | Depends on | US-5.2 |
 | Branch | `feature/us-5.3-cancel-order` |
-| PR | — |
+| PR | #40 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,15 +23,15 @@
 4. Cancelling someone else's order returns 404.
 
 ## Tasks
-- [ ] Order status state machine in `orderService` (transition table, one place).
-- [ ] `POST /api/orders/[id]/cancel` and confirm `AlertDialog`.
+- [x] Order status state machine in `orderService` (transition table, one place).
+- [x] `POST /api/orders/[id]/cancel` and confirm `AlertDialog`.
 
 ## Technical notes
 - The state machine is created here and reused by US-5.4.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

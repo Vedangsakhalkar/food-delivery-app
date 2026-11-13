@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
+import { ConfirmDialog } from "@/components/confirm-dialog";
+import { Button } from "@/components/ui/button";
+import { ApiError, apiFetch } from "@/lib/api-client";
 import { EmptyState } from "@/components/empty-state";
 import { StatusTracker } from "@/components/orders/status-tracker";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,6 +19,7 @@ const POLL_MS = 12_000;
 /** Order detail with live status (mock C9). Polls until the order reaches a final status. */
 export function OrderDetail({ id }: { id: string }) {
   const [done, setDone] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   // Polls until the order is delivered, rejected or cancelled, then stops.
   const first = useApi<{ order: Order }>(`/api/orders/${id}`, { pollMs: done ? 0 : POLL_MS });
   const order = first.data?.order;
@@ -27,6 +32,16 @@ export function OrderDetail({ id }: { id: string }) {
         <EmptyState tone="error">We couldn&apos;t find that order.</EmptyState>
       </div>
     );
+  }
+
+  async function cancel() {
+    try {
+      await apiFetch(`/api/orders/${id}/cancel`, { method: "POST" });
+      toast.success("Order cancelled");
+    } catch (err) {
+      toast.error(err instanceof ApiError ? err.message : "Could not cancel the order");
+    }
+    await first.reload();
   }
 
   const rejectedOrCancelled = order.status === "rejected" || order.status === "cancelled";
@@ -79,6 +94,25 @@ export function OrderDetail({ id }: { id: string }) {
           </div>
         </CardContent>
       </Card>
+
+      {order.status === "placed" && (
+        <div className="flex items-center gap-3">
+          <Button variant="outline" onClick={() => setConfirming(true)}>
+            Cancel order
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            You can cancel until the restaurant accepts your order.
+          </span>
+        </div>
+      )}
+      <ConfirmDialog
+        open={confirming}
+        onOpenChange={setConfirming}
+        title="Cancel this order?"
+        description="The restaurant has not accepted it yet, so it can be cancelled for free."
+        confirmLabel="Cancel order"
+        onConfirm={cancel}
+      />
 
       <Card>
         <CardContent>

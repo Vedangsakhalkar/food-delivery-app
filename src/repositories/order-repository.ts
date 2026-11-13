@@ -93,6 +93,17 @@ export interface OrderRepository {
   /** Inserts the order and its items in one transaction. */
   create(order: NewOrder): Promise<Order>;
   findById(id: string): Promise<Order | null>;
+  /**
+   * Moves an order from one status to another only if it is still in `from`
+   * (compare-and-set, so a cancel and an accept racing each other cannot both win).
+   * Returns false when the order was no longer in `from`.
+   */
+  transition(
+    id: string,
+    from: OrderStatus,
+    to: OrderStatus,
+    reason?: string | null,
+  ): Promise<boolean>;
   /** A customer's orders, newest first. */
   listByCustomer(customerId: string, opts: { limit: number; offset: number }): Promise<Order[]>;
 }
@@ -126,6 +137,15 @@ export const orderRepository: OrderRepository = {
       return orderId;
     });
     return (await this.findById(id))!;
+  },
+
+  async transition(id, from, to, reason = null) {
+    const res = await query(
+      `update orders set status = $3, rejection_reason = coalesce($4, rejection_reason), updated_at = now()
+       where id = $1 and status = $2`,
+      [id, from, to, reason],
+    );
+    return (res.rowCount ?? 0) > 0;
   },
 
   async listByCustomer(customerId, { limit, offset }) {

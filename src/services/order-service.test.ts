@@ -40,6 +40,7 @@ function setup(q: Quote = quote(), hooks: Array<(o: Order) => void | Promise<voi
     orders: {
       create,
       findById: vi.fn(async () => ({ id: "o1", customerId: "c1" }) as Order),
+      transition: vi.fn(async () => true),
       listByCustomer: vi.fn(async (_c: string, o: { limit: number }) =>
         Array.from({ length: o.limit }, (_, i) => ({ id: `o${i}` }) as Order),
       ),
@@ -125,5 +126,47 @@ describe("orderService.listForCustomer", () => {
     const page = await svc.listForCustomer(customer, { limit: 3 });
     expect(page.orders).toHaveLength(3);
     expect(page.nextCursor).not.toBeNull();
+  });
+});
+
+describe("orderService.cancel", () => {
+  const withStatus = (status: string, transitioned = true) => {
+    const transition = vi.fn(async () => transitioned);
+    const svc = createOrderService({
+      orders: {
+        create: vi.fn(),
+        findById: vi.fn(async () => ({ id: "o1", customerId: "c1", status }) as Order),
+        listByCustomer: vi.fn(),
+        transition,
+      },
+      quotes: { priceCart: vi.fn() },
+      addresses: { getOwned: vi.fn() },
+    });
+    return { svc, transition };
+  };
+
+  it("cancels a placed order", async () => {
+    const { svc, transition } = withStatus("placed");
+    await svc.cancel(customer, "o1");
+    expect(transition).toHaveBeenCalledWith("o1", "placed", "cancelled");
+  });
+
+  it.each(["accepted", "preparing", "out_for_delivery", "delivered", "rejected", "cancelled"])(
+    "refuses to cancel a %s order with 409",
+    async (status) => {
+      const { svc, transition } = withStatus(status);
+      await expect(svc.cancel(customer, "o1")).rejects.toBeInstanceOf(ConflictError);
+      expect(transition).not.toHaveBeenCalled();
+    },
+  );
+
+  it("returns 409 when the restaurant accepted it first (lost the race)", async () => {
+    const { svc } = withStatus("placed", false);
+    await expect(svc.cancel(customer, "o1")).rejects.toThrow("can no longer be cancelled");
+  });
+
+  it("404s for someone else's order", async () => {
+    const { svc } = withStatus("placed");
+    await expect(svc.cancel({ id: "x" } as User, "o1")).rejects.toBeInstanceOf(NotFoundError);
   });
 });

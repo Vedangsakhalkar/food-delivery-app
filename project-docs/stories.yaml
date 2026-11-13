@@ -278,10 +278,10 @@ stories:
   - id: "5.3"
     title: "Cancel an order before acceptance"
     epic: 5
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-5.3-cancel-order.md
-    branch: null
-    pr: null
+    branch: feature/us-5.3-cancel-order
+    pr: 40
     prd: ["FR-16"]
     depends_on: ["5.2"]
   - id: "5.4"

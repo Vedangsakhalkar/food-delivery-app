@@ -3,6 +3,7 @@ import { decodeCursor, encodeCursor } from "@/lib/pagination";
 import { logger, serializeError } from "@/lib/logger";
 import type { Order } from "@/models/order";
 import type { User } from "@/models/user";
+import { assertTransition } from "@/services/order-state";
 import { orderRepository, type OrderRepository } from "@/repositories/order-repository";
 import { addressService, type createAddressService } from "@/services/address-service";
 import { quoteService, type createQuoteService } from "@/services/quote-service";
@@ -81,6 +82,17 @@ export function createOrderService(deps: {
         orders: rows.slice(0, q.limit),
         nextCursor: rows.length > q.limit ? encodeCursor(offset + q.limit) : null,
       };
+    },
+
+    /** Customers can cancel only while the order is still "placed". */
+    async cancel(customer: User, id: string): Promise<Order> {
+      const order = await this.getForCustomer(customer, id);
+      assertTransition(order.status, "cancelled", "customer");
+      if (!(await orders.transition(id, order.status, "cancelled"))) {
+        // The restaurant accepted it a moment before the cancel went through.
+        throw new ConflictError("This order can no longer be cancelled");
+      }
+      return this.getForCustomer(customer, id);
     },
 
     /** A customer can only ever read their own orders. */
