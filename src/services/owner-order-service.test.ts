@@ -98,3 +98,46 @@ describe("ownerOrderService.list", () => {
     expect(page.nextCursor).not.toBeNull();
   });
 });
+
+describe("status change notifications", () => {
+  const build = (hooks: Array<(o: Order) => void | Promise<void>>, won = true) =>
+    createOwnerOrderService(
+      {
+        create: vi.fn(),
+        findById: vi.fn(),
+        listByCustomer: vi.fn(),
+        listByRestaurant: vi.fn(),
+        listAll: vi.fn(),
+        findForRestaurant: vi.fn(async () => ({ id: "x", status: "placed" }) as Order),
+        transition: vi.fn(async () => won),
+      },
+      { findByOwner: async () => ({ id: "r1" }) as never },
+      hooks,
+    );
+
+  it("calls each hook once after a successful change", async () => {
+    const hook = vi.fn();
+    await build([hook]).updateStatus(owner, "x", "accepted");
+    expect(hook).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not notify when the change is refused or lost the race", async () => {
+    const hook = vi.fn();
+    await expect(build([hook]).updateStatus(owner, "x", "delivered")).rejects.toBeInstanceOf(
+      ConflictError,
+    );
+    await expect(build([hook], false).updateStatus(owner, "x", "accepted")).rejects.toBeInstanceOf(
+      ConflictError,
+    );
+    expect(hook).not.toHaveBeenCalled();
+  });
+
+  it("a failing hook never fails the update", async () => {
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const failing = () => {
+      throw new Error("email down");
+    };
+    await expect(build([failing]).updateStatus(owner, "x", "accepted")).resolves.toBeTruthy();
+    spy.mockRestore();
+  });
+});
