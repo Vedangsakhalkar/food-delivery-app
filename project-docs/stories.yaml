@@ -215,10 +215,10 @@ stories:
   - id: "4.1"
     title: "Add, remove and change items in the cart"
     epic: 4
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-4.1-cart-add-remove-change.md
-    branch: null
-    pr: null
+    branch: feature/us-4.1-cart-add-remove-change
+    pr: 33
     prd: ["FR-9"]
     depends_on: ["3.4"]
   - id: "4.2"
