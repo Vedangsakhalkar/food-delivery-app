@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 2 — Restaurant and menu management (owner) |
-| Status | review |
+| Status | done |
 | PRD refs | FR-17 |
 | Depends on | US-1.3, US-0.6 |
 | Branch | `feature/us-2.1-owner-creates-restaurant` |
@@ -24,18 +24,18 @@
 5. Only users with role `owner` can call the owner restaurant APIs; customers get 403.
 
 ## Tasks
-- [ ] Migration `restaurants` table (architecture section 5) with indexes on `cuisine` and `lower(name)`, RLS enabled with no policies.
-- [ ] `Restaurant` model, `restaurantRepository`, `restaurantService.create`.
-- [ ] `GET/POST /api/owner/restaurant` with Zod schema in `src/validators/restaurant.ts`.
-- [ ] Owner welcome page and create form (shadcn `Card`, `Form`, `Input`, `Select`).
+- [x] Migration `restaurants` table (architecture section 5) with indexes on `cuisine` and `lower(name)`, RLS enabled with no policies.
+- [x] `Restaurant` model, `restaurantRepository`, `restaurantService.create`.
+- [x] `GET/POST /api/owner/restaurant` with Zod schema in `src/validators/restaurant.ts`.
+- [x] Owner welcome page and create form (shadcn `Card`, `Form`, `Input`, `Select`).
 
 ## Technical notes
 - Opening hours are stored as `opens_at`/`closes_at` (time, IST). Overnight hours (closing before opening) are allowed.
 - Image upload is added in US-2.2; this story creates the restaurant without an image.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
