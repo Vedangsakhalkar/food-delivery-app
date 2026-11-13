@@ -395,9 +395,9 @@ stories:
   - id: "9.4"
     title: "End-to-end tests for key flows"
     epic: 9
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-9.4-e2e-tests.md
-    branch: null
+    branch: feature/us-9.4-e2e-tests
     pr: null
     prd: ["Architecture 11"]
     depends_on: ["5.4"]
