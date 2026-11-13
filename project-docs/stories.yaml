@@ -260,9 +260,9 @@ stories:
   - id: "5.1"
     title: "Customer order history"
     epic: 5
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-5.1-customer-order-history.md
-    branch: null
+    branch: feature/us-5.1-customer-order-history
     pr: null
     prd: ["FR-15"]
     depends_on: ["4.5"]

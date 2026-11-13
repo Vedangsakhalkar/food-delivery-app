@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 5 — Order management |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-15 |
 | Depends on | US-4.5 |
 | Branch | `feature/us-5.1-customer-order-history` |
