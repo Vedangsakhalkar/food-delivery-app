@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | in-progress |
+| Status | review |
 | PRD refs | Architecture 9 |
 | Depends on | US-0.2 |
 | Branch | `feature/us-0.7-ci-pipeline` |

@@ -80,7 +80,7 @@ stories:
   - id: "0.7"
     title: "CI pipeline"
     epic: 0
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-0.7-ci-pipeline.md
     branch: feature/us-0.7-ci-pipeline
     pr: null
