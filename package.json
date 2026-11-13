@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "prepare": "husky",
-    "db:migrate": "node --env-file=.env.local scripts/migrate.mjs"
+    "db:migrate": "node --env-file=.env.local scripts/migrate.mjs",
+    "test:int": "node --env-file=.env.local node_modules/vitest/vitest.mjs run --config vitest.int.config.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

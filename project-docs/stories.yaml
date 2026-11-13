@@ -152,7 +152,7 @@ stories:
   - id: "2.3"
     title: "Owner manages menu categories"
     epic: 2
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-2.3-owner-manages-menu-categories.md
     branch: feature/us-2.3-owner-manages-menu-categories
     pr: null
