@@ -8,5 +8,9 @@ export default defineConfig({
       "server-only": path.resolve(__dirname, "src/test/server-only-stub.ts"),
     },
   },
-  test: { environment: "node", include: ["src/**/*.test.ts", "src/**/*.test.tsx"] },
+  test: {
+    environment: "node",
+    include: ["src/**/*.test.ts", "src/**/*.test.tsx"],
+    exclude: ["src/**/*.int.test.ts", "node_modules/**"],
+  },
 });

@@ -9,12 +9,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ApiError, apiFetch } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
-import type { MenuCategory } from "@/models/menu";
+import type { MenuCategory, MenuItem } from "@/models/menu";
+import { formatMoney } from "@/lib/format";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 type Dialogs =
   | { type: "add" }
   | { type: "rename"; category: MenuCategory }
   | { type: "delete"; category: MenuCategory }
+  | { type: "deleteItem"; item: MenuItem }
   | null;
 
 const url = (id: string) => `/api/owner/categories/${id}`;
@@ -23,13 +27,14 @@ export function MenuManager() {
   const { data, error, loading, reload } = useApi<{ categories: MenuCategory[] }>(
     "/api/owner/categories",
   );
+  const items = useApi<{ items: MenuItem[] }>("/api/owner/items");
   const [dialog, setDialog] = useState<Dialogs>(null);
 
   async function run(action: () => Promise<unknown>, success: string) {
     try {
       await action();
       toast.success(success);
-      await reload();
+      await Promise.all([reload(), items.reload()]);
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "Something went wrong");
       throw err;
@@ -45,9 +50,16 @@ export function MenuManager() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Menu</h1>
-        <Button size="sm" variant="outline" onClick={() => setDialog({ type: "add" })}>
-          + Category
-        </Button>
+        <span className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => setDialog({ type: "add" })}>
+            + Category
+          </Button>
+          {categories.length > 0 && (
+            <Link href="/owner/menu/items/new" className={buttonVariants({ size: "sm" })}>
+              + Item
+            </Link>
+          )}
+        </span>
       </div>
 
       {loading && <Skeleton className="h-32 w-full" />}
@@ -62,42 +74,77 @@ export function MenuManager() {
 
       {categories.map((c, i) => (
         <Card key={c.id}>
-          <CardContent className="flex items-center justify-between gap-2">
-            <h3 className="font-semibold">{c.name}</h3>
-            <div className="flex flex-wrap gap-1">
-              <Button
-                size="sm"
-                variant="ghost"
-                disabled={i === 0}
-                aria-label={`Move ${c.name} up`}
-                onClick={() => void move(c.id, "up")}
-              >
-                ↑
-              </Button>
-              <Button
-                size="sm"
-                variant="ghost"
-                disabled={i === categories.length - 1}
-                aria-label={`Move ${c.name} down`}
-                onClick={() => void move(c.id, "down")}
-              >
-                ↓
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => setDialog({ type: "rename", category: c })}
-              >
-                Rename
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => setDialog({ type: "delete", category: c })}
-              >
-                Delete
-              </Button>
+          <CardContent className="flex flex-col gap-2">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="font-semibold">{c.name}</h3>
+              <div className="flex flex-wrap gap-1">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  disabled={i === 0}
+                  aria-label={`Move ${c.name} up`}
+                  onClick={() => void move(c.id, "up")}
+                >
+                  ↑
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  disabled={i === categories.length - 1}
+                  aria-label={`Move ${c.name} down`}
+                  onClick={() => void move(c.id, "down")}
+                >
+                  ↓
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setDialog({ type: "rename", category: c })}
+                >
+                  Rename
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setDialog({ type: "delete", category: c })}
+                >
+                  Delete
+                </Button>
+              </div>
             </div>
+            {(items.data?.items ?? [])
+              .filter((it) => it.categoryId === c.id)
+              .map((it) => (
+                <div key={it.id} className="flex items-center justify-between gap-2 border-t py-3">
+                  <span>
+                    <span
+                      className={`mr-2 inline-block size-3 border-[1.5px] align-middle ${it.isVeg ? "border-green-600" : "border-red-700"}`}
+                      aria-label={it.isVeg ? "Vegetarian" : "Non-vegetarian"}
+                    />
+                    <b>{it.name}</b> · {formatMoney(it.pricePaise)}
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span
+                      className={`rounded-md px-2 py-0.5 text-xs font-semibold ${it.isAvailable ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
+                    >
+                      {it.isAvailable ? "Available" : "Unavailable"}
+                    </span>
+                    <Link
+                      href={`/owner/menu/items/${it.id}`}
+                      className={buttonVariants({ size: "sm", variant: "outline" })}
+                    >
+                      Edit
+                    </Link>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setDialog({ type: "deleteItem", item: it })}
+                    >
+                      Delete
+                    </Button>
+                  </span>
+                </div>
+              ))}
           </CardContent>
         </Card>
       ))}
@@ -128,6 +175,21 @@ export function MenuManager() {
               () => apiFetch(url(dialog.category.id), { method: "PATCH", body: { name } }),
               "Category renamed",
             )
+          }
+        />
+      )}
+      {dialog?.type === "deleteItem" && (
+        <ConfirmDialog
+          open
+          onOpenChange={() => setDialog(null)}
+          title={`Delete ${dialog.item.name}?`}
+          description="This item and its image will be removed."
+          confirmLabel="Delete"
+          onConfirm={() =>
+            run(
+              () => apiFetch(`/api/owner/items/${dialog.item.id}`, { method: "DELETE" }),
+              "Item deleted",
+            ).catch(() => undefined)
           }
         />
       )}
