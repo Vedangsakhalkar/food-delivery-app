@@ -245,7 +245,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-4.4-price-breakdown.md
     branch: feature/us-4.4-price-breakdown
-    pr: null
+    pr: 36
     prd: ["FR-11"]
     depends_on: ["4.2"]
   - id: "4.5"

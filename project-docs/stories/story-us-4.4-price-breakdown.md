@@ -7,7 +7,7 @@
 | PRD refs | FR-11 |
 | Depends on | US-4.2 |
 | Branch | `feature/us-4.4-price-breakdown` |
-| PR | — |
+| PR | #36 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
