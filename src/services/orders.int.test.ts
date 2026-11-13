@@ -6,6 +6,7 @@ import { menuCategoryService } from "@/services/menu-category-service";
 import { menuItemService } from "@/services/menu-item-service";
 import { addressService } from "@/services/address-service";
 import { orderService } from "@/services/order-service";
+import { ownerOrderService } from "@/services/owner-order-service";
 import { itemSchema } from "@/validators/menu";
 import { addressSchema } from "@/validators/address";
 import { placeOrderSchema } from "@/validators/order";
@@ -129,5 +130,60 @@ describe("placing an order against the real database", () => {
     expect(await orderRepository.transition(o.id, "placed", "accepted")).toBe(true);
     expect(await orderRepository.transition(o.id, "placed", "cancelled")).toBe(false);
     expect((await orderService.getForCustomer(customer, o.id)).status).toBe("accepted");
+  });
+
+  it("owner moves an order through the full lifecycle, with customer contact visible", async () => {
+    const o = await orderService.placeOrder(customer, order());
+    const list = await ownerOrderService.list(owner, {
+      statuses: ["placed"],
+      limit: 20,
+    });
+    const mine = list.orders.find((x) => x.id === o.id);
+    expect(mine?.customerName).toBe("Test User");
+    expect(mine?.customerPhone).toBe("9876543210");
+
+    for (const next of ["accepted", "preparing", "out_for_delivery", "delivered"] as const) {
+      const updated = await ownerOrderService.updateStatus(owner, o.id, next);
+      expect(updated.status).toBe(next);
+    }
+    await expect(ownerOrderService.updateStatus(owner, o.id, "preparing")).rejects.toThrow(
+      "cannot be changed",
+    );
+    expect((await orderService.getForCustomer(customer, o.id)).status).toBe("delivered");
+  });
+
+  it("stores a rejection reason and shows it to the customer", async () => {
+    const o = await orderService.placeOrder(customer, order());
+    await ownerOrderService.updateStatus(owner, o.id, "rejected", "Out of stock");
+    const seen = await orderService.getForCustomer(customer, o.id);
+    expect(seen.status).toBe("rejected");
+    expect(seen.rejectionReason).toBe("Out of stock");
+  });
+
+  it("another owner cannot see or change this restaurant's orders", async () => {
+    const o = await orderService.placeOrder(customer, order());
+    const t2 = await createTestUser("owner");
+    try {
+      const owner2 = await userService.ensureUser({
+        id: t2.id,
+        email: t2.email,
+        metadata: t2.metadata,
+      });
+      await restaurantService.create(owner2, {
+        name: "Other Kitchen",
+        cuisine: "x",
+        address: "x",
+        opensAt: "10:00",
+        closesAt: "22:00",
+        deliveryTimeMin: 20,
+      });
+      await expect(ownerOrderService.updateStatus(owner2, o.id, "accepted")).rejects.toThrow(
+        "Order not found",
+      );
+      const theirs = await ownerOrderService.list(owner2, { statuses: ["placed"], limit: 50 });
+      expect(theirs.orders.some((x) => x.id === o.id)).toBe(false);
+    } finally {
+      await t2.cleanup();
+    }
   });
 });

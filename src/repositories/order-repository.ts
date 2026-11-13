@@ -7,6 +7,8 @@ interface OrderRow {
   customer_id: string;
   restaurant_id: string;
   restaurant_name: string;
+  customer_name?: string;
+  customer_phone?: string | null;
   address_snapshot: AddressSnapshot;
   status: OrderStatus;
   rejection_reason: string | null;
@@ -28,6 +30,8 @@ interface ItemRow {
   quantity: number;
 }
 
+const OWNER_SELECT = `select o.*, r.name as restaurant_name, u.name as customer_name, u.phone as customer_phone
+  from orders o join restaurants r on r.id = o.restaurant_id join users u on u.id = o.customer_id`;
 const SELECT = `select o.*, r.name as restaurant_name from orders o join restaurants r on r.id = o.restaurant_id`;
 
 export const toOrder = (r: OrderRow, items: OrderItem[]): Order => ({
@@ -36,6 +40,8 @@ export const toOrder = (r: OrderRow, items: OrderItem[]): Order => ({
   customerId: r.customer_id,
   restaurantId: r.restaurant_id,
   restaurantName: r.restaurant_name,
+  customerName: r.customer_name,
+  customerPhone: r.customer_phone,
   address: r.address_snapshot,
   status: r.status,
   rejectionReason: r.rejection_reason,
@@ -104,6 +110,13 @@ export interface OrderRepository {
     to: OrderStatus,
     reason?: string | null,
   ): Promise<boolean>;
+  /** Orders of one restaurant (with customer contact), newest first, optionally filtered by status. */
+  listByRestaurant(
+    restaurantId: string,
+    opts: { statuses: OrderStatus[]; limit: number; offset: number },
+  ): Promise<Order[]>;
+  /** One order, only if it belongs to the restaurant (with customer contact). */
+  findForRestaurant(id: string, restaurantId: string): Promise<Order | null>;
   /** A customer's orders, newest first. */
   listByCustomer(customerId: string, opts: { limit: number; offset: number }): Promise<Order[]>;
 }
@@ -146,6 +159,23 @@ export const orderRepository: OrderRepository = {
       [id, from, to, reason],
     );
     return (res.rowCount ?? 0) > 0;
+  },
+
+  async listByRestaurant(restaurantId, { statuses, limit, offset }) {
+    const res = await query<OrderRow>(
+      `${OWNER_SELECT} where o.restaurant_id = $1 and o.status = any($2)
+       order by o.created_at desc, o.id limit $3 offset $4`,
+      [restaurantId, statuses, limit, offset],
+    );
+    return hydrate(res.rows);
+  },
+
+  async findForRestaurant(id, restaurantId) {
+    const res = await query<OrderRow>(`${OWNER_SELECT} where o.id = $1 and o.restaurant_id = $2`, [
+      id,
+      restaurantId,
+    ]);
+    return res.rows[0] ? (await hydrate(res.rows))[0] : null;
   },
 
   async listByCustomer(customerId, { limit, offset }) {
