@@ -236,7 +236,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-4.3-manage-saved-addresses.md
     branch: feature/us-4.3-manage-saved-addresses
-    pr: null
+    pr: 35
     prd: ["FR-4", "FR-12"]
     depends_on: ["1.5"]
   - id: "4.4"

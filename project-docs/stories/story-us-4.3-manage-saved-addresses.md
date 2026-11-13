@@ -7,7 +7,7 @@
 | PRD refs | FR-4, FR-12 |
 | Depends on | US-1.5 |
 | Branch | `feature/us-4.3-manage-saved-addresses` |
-| PR | — |
+| PR | #35 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
