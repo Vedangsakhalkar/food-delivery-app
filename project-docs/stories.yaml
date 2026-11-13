@@ -332,7 +332,7 @@ stories:
   - id: "7.1"
     title: "Rate and review a delivered order"
     epic: 7
-    status: review
+    status: done
     file: project-docs/stories/story-us-7.1-rate-and-review-order.md
     branch: feature/us-7.1-rate-and-review-order
     pr: 46
