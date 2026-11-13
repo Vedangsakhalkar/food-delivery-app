@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 4 — Cart and checkout |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-10 |
 | Depends on | US-4.1 |
 | Branch | `feature/us-4.2-one-restaurant-per-cart` |
