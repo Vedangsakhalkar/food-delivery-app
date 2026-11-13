@@ -1,7 +1,11 @@
+import { isOpenNow } from "@/lib/opening-hours";
 import type { Restaurant } from "@/models/restaurant";
 
 /** What anyone may see about a restaurant. Never includes owner or admin fields. */
-export type PublicRestaurant = Pick<
+export type PublicRestaurant = {
+  /** Computed on the server from opening hours (IST) at request time. */
+  isOpen: boolean;
+} & Pick<
   Restaurant,
   | "id"
   | "name"
@@ -15,7 +19,8 @@ export type PublicRestaurant = Pick<
   | "closesAt"
 >;
 
-export const toPublic = (r: Restaurant): PublicRestaurant => ({
+export const toPublic = (r: Restaurant, now: Date = new Date()): PublicRestaurant => ({
+  isOpen: isOpenNow(r.opensAt, r.closesAt, now),
   id: r.id,
   name: r.name,
   cuisine: r.cuisine,
