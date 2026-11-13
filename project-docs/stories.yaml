@@ -182,7 +182,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-3.2-search-restaurants-and-dishes.md
     branch: feature/us-3.2-search-restaurants-and-dishes
-    pr: null
+    pr: 29
     prd: ["FR-6"]
     depends_on: ["3.1", "2.4"]
   - id: "3.3"
