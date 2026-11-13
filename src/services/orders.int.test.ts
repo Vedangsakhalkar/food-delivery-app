@@ -266,4 +266,13 @@ describe("placing an order against the real database", () => {
     const list = await reviewService.listForRestaurant(restaurantId, { limit: 10 });
     expect(list.reviews).toHaveLength(2);
   });
+
+  it("sorting by rating uses the real ratings: rated restaurants first, unrated last", async () => {
+    const list = await discoveryService.list({ limit: 50, cuisine: [], sort: "rating" });
+    const mine = list.restaurants.find((r) => r.id === restaurantId);
+    expect(mine?.avgRating).toBe(4.5);
+    expect(mine?.ratingCount).toBe(2);
+    const counts = list.restaurants.map((r) => r.ratingCount > 0);
+    expect(counts).toEqual([...counts].sort((a, b) => Number(b) - Number(a)));
+  });
 });
