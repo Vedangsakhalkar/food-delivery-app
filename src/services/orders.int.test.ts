@@ -6,6 +6,8 @@ import { menuCategoryService } from "@/services/menu-category-service";
 import { menuItemService } from "@/services/menu-item-service";
 import { addressService } from "@/services/address-service";
 import { orderService } from "@/services/order-service";
+import { adminService } from "@/services/admin-service";
+import { discoveryService } from "@/services/discovery-service";
 import { ownerOrderService } from "@/services/owner-order-service";
 import { itemSchema } from "@/validators/menu";
 import { addressSchema } from "@/validators/address";
@@ -185,5 +187,23 @@ describe("placing an order against the real database", () => {
     } finally {
       await t2.cleanup();
     }
+  });
+
+  it("admin can disable a restaurant: hidden from discovery, ordering refused, then re-enabled", async () => {
+    await adminService.setRestaurantDisabled(restaurantId, true, "Policy violation");
+    const listed = await discoveryService.list({ limit: 50, cuisine: [] });
+    expect(listed.restaurants.some((r) => r.id === restaurantId)).toBe(false);
+    await expect(orderService.placeOrder(customer, order())).rejects.toThrow("no longer available");
+    const mine = await restaurantService.getMine(owner);
+    expect(mine.isDisabled).toBe(true);
+    expect(mine.disabledReason).toBe("Policy violation");
+
+    await adminService.setRestaurantDisabled(restaurantId, false);
+    expect((await restaurantService.getMine(owner)).disabledReason).toBeNull();
+    await expect(orderService.placeOrder(customer, order())).resolves.toBeTruthy();
+    const all = await adminService.listRestaurants({ limit: 100 });
+    expect(
+      all.restaurants.some((r) => r.id === restaurantId && r.ownerEmail === ownerT.email),
+    ).toBe(true);
   });
 });

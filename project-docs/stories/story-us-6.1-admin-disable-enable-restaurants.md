@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 6 — Admin |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-20 |
 | Depends on | US-2.1, US-3.1 |
 | Branch | `feature/us-6.1-admin-disable-enable-restaurants` |

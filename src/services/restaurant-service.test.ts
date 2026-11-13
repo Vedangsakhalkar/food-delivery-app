@@ -28,6 +28,8 @@ const repo = (over: Partial<RestaurantRepository> = {}): RestaurantRepository =>
   findActiveById: async () => null,
   listActive: async () => [],
   listCuisines: async () => [],
+  listForAdmin: async () => [],
+  setDisabled: async () => null,
   insert: async () => restaurant,
   update: async () => restaurant,
   ...over,

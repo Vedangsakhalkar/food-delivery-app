@@ -40,7 +40,17 @@ export const toRestaurant = (r: RestaurantRow): Restaurant => ({
   createdAt: r.created_at,
 });
 
+export type AdminRestaurant = Restaurant & { ownerName: string; ownerEmail: string };
+
 export interface RestaurantRepository {
+  /** All restaurants for the admin, optionally only disabled (true) or only active (false). */
+  listForAdmin(opts: {
+    disabled?: boolean;
+    limit: number;
+    offset: number;
+  }): Promise<AdminRestaurant[]>;
+  /** Disables or re-enables a restaurant. Returns null if it does not exist. */
+  setDisabled(id: string, disabled: boolean, reason: string | null): Promise<Restaurant | null>;
   findByOwner(ownerId: string): Promise<Restaurant | null>;
   /** Active (not disabled) restaurants, newest first. */
   listActive(opts: {
@@ -66,6 +76,29 @@ export const restaurantRepository: RestaurantRepository = {
     const res = await query<RestaurantRow>("select * from restaurants where owner_id = $1", [
       ownerId,
     ]);
+    return res.rows[0] ? toRestaurant(res.rows[0]) : null;
+  },
+
+  async listForAdmin({ disabled, limit, offset }) {
+    const res = await query<RestaurantRow & { owner_name: string; owner_email: string }>(
+      `select r.*, u.name as owner_name, u.email as owner_email
+       from restaurants r join users u on u.id = r.owner_id
+       where ($1::boolean is null or r.is_disabled = $1)
+       order by r.created_at desc, r.id limit $2 offset $3`,
+      [disabled ?? null, limit, offset],
+    );
+    return res.rows.map((r) => ({
+      ...toRestaurant(r),
+      ownerName: r.owner_name,
+      ownerEmail: r.owner_email,
+    }));
+  },
+
+  async setDisabled(id, disabled, reason) {
+    const res = await query<RestaurantRow>(
+      `update restaurants set is_disabled = $2, disabled_reason = $3 where id = $1 returning *`,
+      [id, disabled, disabled ? reason : null],
+    );
     return res.rows[0] ? toRestaurant(res.rows[0]) : null;
   },
 

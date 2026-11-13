@@ -36,7 +36,13 @@ export function createOrderService(deps: {
      * recomputed from database prices. Order, items and address snapshot are saved in one transaction.
      */
     async placeOrder(customer: User, input: PlaceOrderInput, now?: Date): Promise<Order> {
-      const priced = await quotes.priceCart(input, now);
+      const priced = await quotes.priceCart(input, now).catch((err: unknown) => {
+        // A disabled or deleted restaurant refuses orders with 409, like other "cannot order now" cases.
+        if (err instanceof NotFoundError) {
+          throw new ConflictError("This restaurant is no longer available");
+        }
+        throw err;
+      });
       const { quote } = priced;
       if (quote.issues.length > 0) {
         const first = quote.issues[0];
