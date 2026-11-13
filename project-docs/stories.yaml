@@ -380,7 +380,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-9.2-states-accessibility-privacy.md
     branch: feature/us-9.2-states-accessibility-privacy
-    pr: null
+    pr: 52
     prd: ["NFR Usability"]
     depends_on: ["7.2", "5.5", "6.3"]
   - id: "9.3"

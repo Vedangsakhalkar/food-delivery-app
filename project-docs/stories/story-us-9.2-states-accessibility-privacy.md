@@ -7,7 +7,7 @@
 | PRD refs | NFR Usability |
 | Depends on | US-7.2, US-5.5, US-6.3 |
 | Branch | `feature/us-9.2-states-accessibility-privacy` |
-| PR | — |
+| PR | #52 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
