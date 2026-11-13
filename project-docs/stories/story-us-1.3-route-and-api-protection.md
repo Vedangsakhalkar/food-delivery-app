@@ -7,7 +7,7 @@
 | PRD refs | FR-3 |
 | Depends on | US-0.5, US-1.2 |
 | Branch | `feature/us-1.3-route-and-api-protection` |
-| PR | — |
+| PR | #21 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
