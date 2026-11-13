@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 4 — Cart and checkout |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-12, FR-13 |
 | Depends on | US-4.3, US-4.4, US-3.5 |
 | Branch | `feature/us-4.5-place-order-cod` |
