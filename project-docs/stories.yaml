@@ -179,7 +179,7 @@ stories:
   - id: "3.2"
     title: "Search restaurants and dishes"
     epic: 3
-    status: review
+    status: done
     file: project-docs/stories/story-us-3.2-search-restaurants-and-dishes.md
     branch: feature/us-3.2-search-restaurants-and-dishes
     pr: 29
