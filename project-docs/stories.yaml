@@ -377,7 +377,7 @@ stories:
   - id: "9.2"
     title: "Loading, empty, error states and accessibility pass"
     epic: 9
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-9.2-states-accessibility-privacy.md
     branch: feature/us-9.2-states-accessibility-privacy
     pr: null

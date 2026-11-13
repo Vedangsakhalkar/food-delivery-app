@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | in-progress |
+| Status | review |
 | PRD refs | NFR Usability |
 | Depends on | US-7.2, US-5.5, US-6.3 |
 | Branch | `feature/us-9.2-states-accessibility-privacy` |
