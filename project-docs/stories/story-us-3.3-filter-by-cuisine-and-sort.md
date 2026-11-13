@@ -7,7 +7,7 @@
 | PRD refs | FR-7 |
 | Depends on | US-3.1 |
 | Branch | `feature/us-3.3-filter-by-cuisine-and-sort` |
-| PR | — |
+| PR | #30 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
