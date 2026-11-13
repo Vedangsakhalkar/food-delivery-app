@@ -7,7 +7,7 @@
 | PRD refs | FR-16 |
 | Depends on | US-5.2 |
 | Branch | `feature/us-5.3-cancel-order` |
-| PR | — |
+| PR | #40 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
