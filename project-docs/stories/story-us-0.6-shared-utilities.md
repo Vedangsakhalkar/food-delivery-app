@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | review |
+| Status | done |
 | PRD refs | NFR Usability |
 | Depends on | US-0.1, US-0.4 |
 | Branch | `feature/us-0.6-shared-utilities` |
@@ -23,13 +23,13 @@
 4. `not-found` and `error` pages exist (mock S4).
 
 ## Tasks
-- [ ] Add utils in `src/lib`.
-- [ ] Install shadcn `sonner`, `skeleton`, `card`.
-- [ ] Build the layout and error pages.
+- [x] Add utils in `src/lib`.
+- [x] Install shadcn `sonner`, `skeleton`, `card`.
+- [x] Build the layout and error pages.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
