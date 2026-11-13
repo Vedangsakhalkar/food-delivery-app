@@ -2,19 +2,47 @@
 
 import Link from "next/link";
 import { useCart } from "@/components/cart/cart-provider";
+import { PriceSummary } from "@/components/cart/price-summary";
 import { EmptyState } from "@/components/empty-state";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatMoney } from "@/lib/format";
-import { useApi } from "@/lib/use-api";
-import type { PublicMenuItem, RestaurantWithMenu } from "@/models/public-restaurant";
+import { useQuote } from "@/lib/use-quote";
+
+function Stepper({
+  label,
+  qty,
+  onChange,
+}: {
+  label: string;
+  qty: number;
+  onChange: (qty: number) => void;
+}) {
+  return (
+    <div className="flex items-center overflow-hidden rounded-lg border border-primary font-bold text-primary">
+      <button
+        className="px-3 py-1"
+        aria-label={`Decrease ${label} quantity`}
+        onClick={() => onChange(qty - 1)}
+      >
+        −
+      </button>
+      <span className="px-2">{qty}</span>
+      <button
+        className="px-3 py-1"
+        aria-label={`Increase ${label} quantity`}
+        onClick={() => onChange(qty + 1)}
+      >
+        +
+      </button>
+    </div>
+  );
+}
 
 export function CartView() {
   const { cart, setQty, remove, clear } = useCart();
-  const { data, error, loading } = useApi<RestaurantWithMenu>(
-    cart.restaurantId ? `/api/restaurants/${cart.restaurantId}` : null,
-  );
+  const { quote, error, loading } = useQuote(cart);
 
   if (!cart.restaurantId || cart.lines.length === 0) {
     return (
@@ -31,12 +59,13 @@ export function CartView() {
       </div>
     );
   }
-  if (loading) return <Skeleton className="mx-auto h-64 max-w-[760px]" />;
-  if (error || !data) {
+  if (error) {
     return (
       <div className="mx-auto max-w-[760px]">
         <EmptyState tone="error">
-          This restaurant is no longer available.
+          {error.status === 404
+            ? "This restaurant is no longer available."
+            : "Couldn't price your cart. Please try again."}
           <div className="mt-3">
             <Button size="sm" onClick={clear}>
               Clear cart
@@ -46,69 +75,65 @@ export function CartView() {
       </div>
     );
   }
+  if (!quote) return <Skeleton className="mx-auto h-64 max-w-[760px]" />;
 
-  const menu = new Map<string, PublicMenuItem>(
-    data.categories.flatMap((c) => c.items).map((i) => [i.id, i]),
+  const lineById = new Map(quote.lines.map((l) => [l.itemId, l]));
+  const problems = new Map(
+    quote.issues.flatMap((i) => ("itemId" in i ? [[i.itemId, i] as const] : [])),
   );
-  const rows = cart.lines.map((l) => ({ line: l, item: menu.get(l.itemId) }));
-  const subtotal = rows.reduce((sum, r) => sum + (r.item ? r.item.pricePaise * r.line.qty : 0), 0);
-  const unavailable = rows.filter((r) => !r.item || !r.item.isAvailable);
+  const closed = quote.issues.some((i) => i.code === "restaurant_closed");
+  const blocked = quote.issues.length > 0;
 
   return (
     <div className="mx-auto flex max-w-[760px] flex-col gap-4">
       <h1 className="text-2xl font-semibold">Your cart</h1>
       <Card>
         <CardContent className="flex flex-col gap-2">
-          <h2 className="font-semibold">{data.restaurant.name}</h2>
-          {rows.map(({ line, item }) => (
-            <div
-              key={line.itemId}
-              className="flex items-center justify-between gap-3 border-t py-3"
-            >
-              <div className={item?.isAvailable ? "" : "opacity-50"}>
-                <div className="font-medium">{item?.name ?? "Item no longer available"}</div>
-                {item && (
-                  <div className="text-sm text-muted-foreground">
-                    {formatMoney(item.pricePaise)} each
-                    {!item.isAvailable && " · Unavailable"}
+          <h2 className="font-semibold">{quote.restaurant.name}</h2>
+          {closed && (
+            <p className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm">
+              This restaurant is closed right now, so you can&apos;t place this order yet.
+            </p>
+          )}
+          {cart.lines.map((l) => {
+            const line = lineById.get(l.itemId);
+            const problem = problems.get(l.itemId);
+            return (
+              <div key={l.itemId} className="flex items-center justify-between gap-3 border-t py-3">
+                <div className={problem ? "opacity-60" : ""}>
+                  <div className="font-medium">
+                    {line?.name ??
+                      (problem && "name" in problem ? problem.name : "Item no longer available")}
                   </div>
-                )}
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex items-center overflow-hidden rounded-lg border border-primary font-bold text-primary">
-                  <button
-                    className="px-3 py-1"
-                    aria-label={`Decrease ${item?.name ?? "item"} quantity`}
-                    onClick={() => setQty(line.itemId, line.qty - 1)}
-                  >
-                    −
-                  </button>
-                  <span className="px-2">{line.qty}</span>
-                  <button
-                    className="px-3 py-1"
-                    aria-label={`Increase ${item?.name ?? "item"} quantity`}
-                    onClick={() => setQty(line.itemId, line.qty + 1)}
-                  >
-                    +
-                  </button>
+                  <div className="text-sm text-muted-foreground">
+                    {line ? `${formatMoney(line.unitPricePaise)} each` : null}
+                    {problem?.code === "item_unavailable" && "Currently unavailable"}
+                    {problem?.code === "item_not_found" && "Removed from the menu"}
+                  </div>
                 </div>
-                <span className="w-20 text-right">
-                  {item ? formatMoney(item.pricePaise * line.qty) : "—"}
-                </span>
-                <Button size="sm" variant="ghost" onClick={() => remove(line.itemId)}>
-                  Remove
-                </Button>
+                <div className="flex items-center gap-3">
+                  <Stepper
+                    label={line?.name ?? "item"}
+                    qty={l.qty}
+                    onChange={(q) => setQty(l.itemId, q)}
+                  />
+                  <span className="w-20 text-right">
+                    {line ? formatMoney(line.linePaise) : "—"}
+                  </span>
+                  <Button size="sm" variant="ghost" onClick={() => remove(l.itemId)}>
+                    Remove
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
-          {unavailable.length > 0 && (
+            );
+          })}
+          {quote.issues.some((i) => "itemId" in i) && (
             <p className="text-sm text-destructive">
               Some items are unavailable. Remove them to continue.
             </p>
           )}
-          <div className="flex items-center justify-between border-t pt-3 font-semibold">
-            <span>Subtotal</span>
-            <span>{formatMoney(subtotal)}</span>
+          <div className={`border-t pt-3 ${loading ? "opacity-60" : ""}`}>
+            <PriceSummary price={quote} />
           </div>
         </CardContent>
       </Card>
@@ -118,10 +143,8 @@ export function CartView() {
         </Button>
         <Link
           href="/checkout"
-          aria-disabled={unavailable.length > 0}
-          className={
-            buttonVariants() + (unavailable.length > 0 ? " pointer-events-none opacity-50" : "")
-          }
+          aria-disabled={blocked}
+          className={buttonVariants() + (blocked ? " pointer-events-none opacity-50" : "")}
         >
           Proceed to checkout
         </Link>

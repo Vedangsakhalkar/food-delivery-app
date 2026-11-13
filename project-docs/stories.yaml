@@ -242,7 +242,7 @@ stories:
   - id: "4.4"
     title: "Subtotal, taxes, delivery fee and total"
     epic: 4
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-4.4-price-breakdown.md
     branch: feature/us-4.4-price-breakdown
     pr: null
