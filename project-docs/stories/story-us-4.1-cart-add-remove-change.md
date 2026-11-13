@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 4 — Cart and checkout |
-| Status | review |
+| Status | done |
 | PRD refs | FR-9 |
 | Depends on | US-3.4 |
 | Branch | `feature/us-4.1-cart-add-remove-change` |
@@ -24,16 +24,16 @@
 5. The cart stores only item id, quantity and restaurant id; prices shown are refreshed from the server.
 
 ## Tasks
-- [ ] Cart store (React context + reducer) and `useCart` hook.
-- [ ] Cart page and header cart indicator (shadcn `Sheet`/`Button`, `Badge`).
-- [ ] Unit tests for the cart reducer.
+- [x] Cart store (React context + reducer) and `useCart` hook.
+- [x] Cart page and header cart indicator (shadcn `Sheet`/`Button`, `Badge`).
+- [x] Unit tests for the cart reducer.
 
 ## Technical notes
 - Cart is client-side only; the server never trusts it (see US-4.5).
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

@@ -215,7 +215,7 @@ stories:
   - id: "4.1"
     title: "Add, remove and change items in the cart"
     epic: 4
-    status: review
+    status: done
     file: project-docs/stories/story-us-4.1-cart-add-remove-change.md
     branch: feature/us-4.1-cart-add-remove-change
     pr: 33
