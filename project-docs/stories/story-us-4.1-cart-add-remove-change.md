@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 4 — Cart and checkout |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-9 |
 | Depends on | US-3.4 |
 | Branch | `feature/us-4.1-cart-add-remove-change` |
