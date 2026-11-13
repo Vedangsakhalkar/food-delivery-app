@@ -87,3 +87,12 @@ describe("reviewService.create", () => {
     expect(page.nextCursor).not.toBeNull();
   });
 });
+
+import { listReviewsSchema } from "@/validators/discovery";
+
+describe("listReviewsSchema", () => {
+  it("defaults to 10 and caps the page size", () => {
+    expect(listReviewsSchema.parse({}).limit).toBe(10);
+    expect(listReviewsSchema.safeParse({ limit: "100" }).success).toBe(false);
+  });
+});

@@ -2,6 +2,7 @@
 
 import { AddToCart } from "@/components/cart/add-to-cart";
 import { EmptyState } from "@/components/empty-state";
+import { ReviewsSection } from "@/components/restaurants/reviews-section";
 import { RatingBadge } from "@/components/restaurants/rating-badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatMoney } from "@/lib/format";
@@ -125,6 +126,7 @@ export function RestaurantView({ id }: { id: string }) {
           ))}
         </section>
       ))}
+      <ReviewsSection restaurantId={r.id} />
     </div>
   );
 }

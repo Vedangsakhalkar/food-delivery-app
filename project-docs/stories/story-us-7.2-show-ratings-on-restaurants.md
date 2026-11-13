@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 7 — Ratings and reviews |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-7, FR-22 |
 | Depends on | US-7.1, US-3.3 |
 | Branch | `feature/us-7.2-show-ratings-on-restaurants` |
