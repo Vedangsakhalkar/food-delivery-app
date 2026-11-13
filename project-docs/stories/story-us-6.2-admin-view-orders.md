@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 6 — Admin |
-| Status | review |
+| Status | done |
 | PRD refs | FR-21 |
 | Depends on | US-4.5 |
 | Branch | `feature/us-6.2-admin-view-orders` |
@@ -23,12 +23,12 @@
 4. Non-admins get 403.
 
 ## Tasks
-- [ ] `GET /api/admin/orders` and `adminService.listOrders`.
-- [ ] Admin orders page.
+- [x] `GET /api/admin/orders` and `adminService.listOrders`.
+- [x] Admin orders page.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

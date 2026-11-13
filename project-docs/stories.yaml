@@ -314,7 +314,7 @@ stories:
   - id: "6.2"
     title: "Admin views all orders"
     epic: 6
-    status: review
+    status: done
     file: project-docs/stories/story-us-6.2-admin-view-orders.md
     branch: feature/us-6.2-admin-view-orders
     pr: 44
