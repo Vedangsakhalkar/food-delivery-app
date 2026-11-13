@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | Roadmap 8.1-8.5 |
 | Depends on | none |
 | Branch | `feature/us-0.1-bootstrap-project` |
