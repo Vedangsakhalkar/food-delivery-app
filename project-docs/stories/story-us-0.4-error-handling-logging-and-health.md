@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | in-progress |
+| Status | review |
 | PRD refs | Architecture 8 |
 | Depends on | US-0.3 |
 | Branch | `feature/us-0.4-error-handling-logging-and-health` |

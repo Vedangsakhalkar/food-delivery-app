@@ -1,6 +1,6 @@
 import "server-only";
 import { Pool, type QueryResult, type QueryResultRow } from "pg";
-import { getEnv } from "@/lib/env";
+import { getDatabaseUrl } from "@/lib/env";
 
 const globalForPg = globalThis as unknown as { pgPool?: Pool };
 
@@ -8,7 +8,7 @@ const globalForPg = globalThis as unknown as { pgPool?: Pool };
  * are kept, which is required by Supabase's transaction pooler. */
 export function getPool(): Pool {
   globalForPg.pgPool ??= new Pool({
-    connectionString: getEnv().DATABASE_URL,
+    connectionString: getDatabaseUrl(),
     max: 5,
     idleTimeoutMillis: 10_000,
     connectionTimeoutMillis: 10_000,
