@@ -251,10 +251,10 @@ stories:
   - id: "4.5"
     title: "Place an order with cash on delivery"
     epic: 4
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-4.5-place-order-cod.md
-    branch: null
-    pr: null
+    branch: feature/us-4.5-place-order-cod
+    pr: 37
     prd: ["FR-12", "FR-13"]
     depends_on: ["4.3", "4.4", "3.5"]
   - id: "5.1"

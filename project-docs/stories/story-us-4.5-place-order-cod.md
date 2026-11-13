@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 4 — Cart and checkout |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-12, FR-13 |
 | Depends on | US-4.3, US-4.4, US-3.5 |
 | Branch | `feature/us-4.5-place-order-cod` |
-| PR | — |
+| PR | #37 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -25,18 +25,18 @@
 6. Only role `customer` may place orders.
 
 ## Tasks
-- [ ] Migration `orders` and `order_items` tables (RLS on, indexes from the architecture).
-- [ ] `orderRepository`, `orderService.placeOrder`, order code generator.
-- [ ] `POST /api/orders` controller with Zod schema.
-- [ ] Checkout page (mock C6) and confirmation page; clear the cart on success.
+- [x] Migration `orders` and `order_items` tables (RLS on, indexes from the architecture).
+- [x] `orderRepository`, `orderService.placeOrder`, order code generator.
+- [x] `POST /api/orders` controller with Zod schema.
+- [x] Checkout page (mock C6) and confirmation page; clear the cart on success.
 
 ## Technical notes
 - Emails are added in US-8.1 through a hook point in `placeOrder`; they must never fail the order.
 - Rate limiting is added in US-9.4.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
