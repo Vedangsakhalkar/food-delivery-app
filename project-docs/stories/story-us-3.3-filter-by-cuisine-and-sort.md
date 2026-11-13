@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 3 — Restaurant discovery (customer) |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-7 |
 | Depends on | US-3.1 |
 | Branch | `feature/us-3.3-filter-by-cuisine-and-sort` |

@@ -188,9 +188,9 @@ stories:
   - id: "3.3"
     title: "Filter by cuisine and sort"
     epic: 3
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-3.3-filter-by-cuisine-and-sort.md
-    branch: null
+    branch: feature/us-3.3-filter-by-cuisine-and-sort
     pr: null
     prd: ["FR-7"]
     depends_on: ["3.1"]
