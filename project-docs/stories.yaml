@@ -152,10 +152,10 @@ stories:
   - id: "2.3"
     title: "Owner manages menu categories"
     epic: 2
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-2.3-owner-manages-menu-categories.md
-    branch: null
-    pr: null
+    branch: feature/us-2.3-owner-manages-menu-categories
+    pr: 26
     prd: ["FR-18"]
     depends_on: ["2.1"]
   - id: "2.4"
