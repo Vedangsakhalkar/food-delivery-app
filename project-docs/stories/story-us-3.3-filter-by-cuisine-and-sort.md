@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 3 — Restaurant discovery (customer) |
-| Status | review |
+| Status | done |
 | PRD refs | FR-7 |
 | Depends on | US-3.1 |
 | Branch | `feature/us-3.3-filter-by-cuisine-and-sort` |
@@ -24,16 +24,16 @@
 5. Invalid sort or filter values return 422.
 
 ## Tasks
-- [ ] Extend `GET /api/restaurants` with `cuisine` and `sort` params and Zod validation.
-- [ ] `GET /api/restaurants/cuisines` returning distinct cuisines of active restaurants.
-- [ ] Filter chips/`Select` on the home page.
+- [x] Extend `GET /api/restaurants` with `cuisine` and `sort` params and Zod validation.
+- [x] `GET /api/restaurants/cuisines` returning distinct cuisines of active restaurants.
+- [x] Filter chips/`Select` on the home page.
 
 ## Technical notes
 - Rating data arrives in epic 7; until then `avg_rating` is 0 and the sort is a no-op in practice.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
