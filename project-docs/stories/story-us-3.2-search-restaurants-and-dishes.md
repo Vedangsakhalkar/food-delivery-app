@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 3 — Restaurant discovery (customer) |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-6 |
 | Depends on | US-3.1, US-2.4 |
 | Branch | `feature/us-3.2-search-restaurants-and-dishes` |
-| PR | — |
+| PR | #29 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -24,16 +24,16 @@
 5. `GET /api/search` is public and uses an index (trigram or full-text) on names.
 
 ## Tasks
-- [ ] Migration adding the search index (`pg_trgm`) on restaurant and item names.
-- [ ] `searchRepository` and `searchService`.
-- [ ] `GET /api/search` and the `/search` page with a shadcn `Input` and result lists.
+- [x] Migration adding the search index (`pg_trgm`) on restaurant and item names.
+- [x] `searchRepository` and `searchService`.
+- [x] `GET /api/search` and the `/search` page with a shadcn `Input` and result lists.
 
 ## Technical notes
 - Debounce input in the UI (300 ms).
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SearchBox } from "@/components/search-box";
 
 /** Top bar from the mock-ups: red "Dabba" logo on the left, navigation slot on the right. */
 export function SiteHeader({ children }: { children?: React.ReactNode }) {
@@ -7,6 +8,7 @@ export function SiteHeader({ children }: { children?: React.ReactNode }) {
       <Link href="/" className="text-xl font-extrabold text-primary">
         Dabba
       </Link>
+      <SearchBox />
       <nav className="ml-auto flex flex-wrap items-center gap-4 text-sm">{children}</nav>
     </header>
   );
