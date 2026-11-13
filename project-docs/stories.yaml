@@ -89,9 +89,9 @@ stories:
   - id: "1.1"
     title: "Sign up with a role"
     epic: 1
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-1.1-sign-up-with-role.md
-    branch: null
+    branch: feature/us-1.1-sign-up-with-role
     pr: null
     prd: ["FR-1", "FR-3"]
     depends_on: ["0.5", "0.6"]
