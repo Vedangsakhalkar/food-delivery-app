@@ -7,7 +7,7 @@
 | PRD refs | FR-14, FR-15 |
 | Depends on | US-5.1 |
 | Branch | `feature/us-5.2-order-detail-live-status` |
-| PR | — |
+| PR | #39 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
