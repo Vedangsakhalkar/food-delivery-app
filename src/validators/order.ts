@@ -76,3 +76,13 @@ export const updateStatusSchema = z
     path: ["reason"],
     message: "Give a short reason for rejecting the order",
   });
+
+export const reviewSchema = z.object({
+  rating: z.number().int().min(1, "Choose 1 to 5 stars").max(5, "Choose 1 to 5 stars"),
+  comment: z
+    .string()
+    .trim()
+    .max(500, "At most 500 characters")
+    .optional()
+    .transform((v) => v || null),
+});

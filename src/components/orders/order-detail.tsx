@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/confirm-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ApiError, apiFetch } from "@/lib/api-client";
 import { EmptyState } from "@/components/empty-state";
 import { StatusTracker } from "@/components/orders/status-tracker";
@@ -104,6 +105,11 @@ export function OrderDetail({ id }: { id: string }) {
             You can cancel until the restaurant accepts your order.
           </span>
         </div>
+      )}
+      {order.status === "delivered" && !order.reviewed && (
+        <Link href={`/orders/${order.id}/review`} className={buttonVariants() + " self-start"}>
+          Rate this order
+        </Link>
       )}
       <ConfirmDialog
         open={confirming}

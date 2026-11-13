@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 7 — Ratings and reviews |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-22 |
 | Depends on | US-5.2, US-5.4 |
 | Branch | `feature/us-7.1-rate-and-review-order` |
-| PR | — |
+| PR | #46 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,16 +23,16 @@
 4. A review for an order that is not mine or not delivered is refused (404 / 409).
 
 ## Tasks
-- [ ] Migration `reviews` table (RLS on, unique `order_id`).
-- [ ] `reviewRepository`, `reviewService.create` with transaction.
-- [ ] `POST /api/orders/[id]/review` and the review page (shadcn `RadioGroup`/`Textarea`).
+- [x] Migration `reviews` table (RLS on, unique `order_id`).
+- [x] `reviewRepository`, `reviewService.create` with transaction.
+- [x] `POST /api/orders/[id]/review` and the review page (shadcn `RadioGroup`/`Textarea`).
 
 ## Technical notes
 - Recalculate the average from stored reviews or increment atomically; avoid race conditions.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
