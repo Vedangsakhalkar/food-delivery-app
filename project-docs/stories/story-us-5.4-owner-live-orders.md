@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 5 — Order management |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-19 |
 | Depends on | US-4.5, US-1.3 |
 | Branch | `feature/us-5.4-owner-live-orders` |
-| PR | — |
+| PR | #41 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -24,17 +24,17 @@
 5. Reject asks for a short reason (stored on the order).
 
 ## Tasks
-- [ ] `orderService.updateStatus` using the shared state machine.
-- [ ] `GET /api/owner/orders`, `PATCH /api/owner/orders/[id]/status`.
-- [ ] Live orders page with action buttons (shadcn `Card`, `Button`, `Dialog`).
+- [x] `orderService.updateStatus` using the shared state machine.
+- [x] `GET /api/owner/orders`, `PATCH /api/owner/orders/[id]/status`.
+- [x] Live orders page with action buttons (shadcn `Card`, `Button`, `Dialog`).
 
 ## Technical notes
 - Add `rejection_reason` to `orders` via a migration if not present.
 - Email triggers are added in US-8.2.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

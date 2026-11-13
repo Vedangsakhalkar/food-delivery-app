@@ -30,6 +30,9 @@ export interface Order {
   customerId: string;
   restaurantId: string;
   restaurantName?: string;
+  /** Only filled in for the restaurant owner's view. */
+  customerName?: string;
+  customerPhone?: string | null;
   address: AddressSnapshot;
   status: OrderStatus;
   rejectionReason: string | null;
