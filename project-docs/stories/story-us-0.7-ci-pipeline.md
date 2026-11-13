@@ -7,7 +7,7 @@
 | PRD refs | Architecture 9 |
 | Depends on | US-0.2 |
 | Branch | `feature/us-0.7-ci-pipeline` |
-| PR | — |
+| PR | #17 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 

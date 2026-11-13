@@ -83,7 +83,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-0.7-ci-pipeline.md
     branch: feature/us-0.7-ci-pipeline
-    pr: null
+    pr: 17
     prd: ["Architecture 9"]
     depends_on: ["0.2"]
   - id: "1.1"
