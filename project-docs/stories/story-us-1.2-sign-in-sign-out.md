@@ -7,7 +7,7 @@
 | PRD refs | FR-1, FR-2 |
 | Depends on | US-1.1 |
 | Branch | `feature/us-1.2-sign-in-sign-out` |
-| PR | — |
+| PR | #20 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
