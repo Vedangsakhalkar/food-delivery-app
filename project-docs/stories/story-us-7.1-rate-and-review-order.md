@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 7 — Ratings and reviews |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-22 |
 | Depends on | US-5.2, US-5.4 |
 | Branch | `feature/us-7.1-rate-and-review-order` |

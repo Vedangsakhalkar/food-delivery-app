@@ -332,9 +332,9 @@ stories:
   - id: "7.1"
     title: "Rate and review a delivered order"
     epic: 7
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-7.1-rate-and-review-order.md
-    branch: null
+    branch: feature/us-7.1-rate-and-review-order
     pr: null
     prd: ["FR-22"]
     depends_on: ["5.2", "5.4"]
