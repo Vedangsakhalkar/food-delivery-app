@@ -404,7 +404,7 @@ stories:
   - id: "9.5"
     title: "Deploy to Vercel and Supabase production"
     epic: 9
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-9.5-deploy-vercel-supabase.md
     branch: feature/us-9.5-deploy-vercel-supabase
     pr: null

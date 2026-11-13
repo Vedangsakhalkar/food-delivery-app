@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | in-progress |
+| Status | review |
 | PRD refs | Architecture 11 |
 | Depends on | US-9.2, US-9.3, US-9.4 |
 | Branch | `feature/us-9.5-deploy-vercel-supabase` |
