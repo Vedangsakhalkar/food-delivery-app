@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 6 — Admin |
-| Status | review |
+| Status | done |
 | PRD refs | FR-21 |
 | Depends on | US-1.3 |
 | Branch | `feature/us-6.3-admin-view-users` |
@@ -22,12 +22,12 @@
 3. Results are paginated; non-admins get 403.
 
 ## Tasks
-- [ ] `GET /api/admin/users` and `adminService.listUsers`.
-- [ ] Admin users page.
+- [x] `GET /api/admin/users` and `adminService.listUsers`.
+- [x] Admin users page.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
