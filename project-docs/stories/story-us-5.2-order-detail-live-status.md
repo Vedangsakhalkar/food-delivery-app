@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 5 — Order management |
-| Status | review |
+| Status | done |
 | PRD refs | FR-14, FR-15 |
 | Depends on | US-5.1 |
 | Branch | `feature/us-5.2-order-detail-live-status` |
@@ -23,16 +23,16 @@
 4. Statuses shown: Placed, Accepted, Preparing, Out for Delivery, Delivered, Rejected, Cancelled.
 
 ## Tasks
-- [ ] `orderService.getForCustomer`.
-- [ ] `GET /api/orders/[id]`.
-- [ ] Order detail page with polling hook and timeline built from shadcn `Badge`/`Separator`.
+- [x] `orderService.getForCustomer`.
+- [x] `GET /api/orders/[id]`.
+- [x] Order detail page with polling hook and timeline built from shadcn `Badge`/`Separator`.
 
 ## Technical notes
 - Pause polling when the tab is hidden.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

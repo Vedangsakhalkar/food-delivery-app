@@ -269,7 +269,7 @@ stories:
   - id: "5.2"
     title: "Order detail with live status"
     epic: 5
-    status: review
+    status: done
     file: project-docs/stories/story-us-5.2-order-detail-live-status.md
     branch: feature/us-5.2-order-detail-live-status
     pr: 39
