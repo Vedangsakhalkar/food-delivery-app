@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 3 — Restaurant discovery (customer) |
-| Status | review |
+| Status | done |
 | PRD refs | FR-8 |
 | Depends on | US-3.1, US-2.4 |
 | Branch | `feature/us-3.4-view-restaurant-and-menu` |
@@ -24,16 +24,16 @@
 5. `GET /api/restaurants/[id]` returns restaurant plus categories and items in one response.
 
 ## Tasks
-- [ ] `restaurantService.getWithMenu` and repository query.
-- [ ] Restaurant page with `Tabs`/sections, `Card`, `Badge`.
-- [ ] Add-to-cart buttons are rendered but wired in US-4.1.
+- [x] `restaurantService.getWithMenu` and repository query.
+- [x] Restaurant page with `Tabs`/sections, `Card`, `Badge`.
+- [x] Add-to-cart buttons are rendered but wired in US-4.1.
 
 ## Technical notes
 - Reviews section is added in US-7.2.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
