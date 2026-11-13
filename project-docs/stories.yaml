@@ -134,7 +134,7 @@ stories:
   - id: "2.1"
     title: "Owner creates a restaurant"
     epic: 2
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-2.1-owner-creates-restaurant.md
     branch: feature/us-2.1-owner-creates-restaurant
     pr: null

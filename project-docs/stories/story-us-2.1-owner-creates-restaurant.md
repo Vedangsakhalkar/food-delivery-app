@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 2 — Restaurant and menu management (owner) |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-17 |
 | Depends on | US-1.3, US-0.6 |
 | Branch | `feature/us-2.1-owner-creates-restaurant` |
