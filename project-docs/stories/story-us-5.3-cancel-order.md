@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 5 — Order management |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-16 |
 | Depends on | US-5.2 |
 | Branch | `feature/us-5.3-cancel-order` |
