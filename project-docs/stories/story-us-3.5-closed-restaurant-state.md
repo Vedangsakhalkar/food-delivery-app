@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 3 — Restaurant discovery (customer) |
-| Status | review |
+| Status | done |
 | PRD refs | FR-8 |
 | Depends on | US-3.4 |
 | Branch | `feature/us-3.5-closed-restaurant-state` |
@@ -23,15 +23,15 @@
 4. The home card shows a Closed badge.
 
 ## Tasks
-- [ ] `isOpenNow(restaurant, now)` in a service/util with tests for edge cases (midnight, overnight).
-- [ ] Closed banner and disabled states in the UI.
+- [x] `isOpenNow(restaurant, now)` in a service/util with tests for edge cases (midnight, overnight).
+- [x] Closed banner and disabled states in the UI.
 
 ## Technical notes
 - Time zone is IST for the MVP (single region).
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
