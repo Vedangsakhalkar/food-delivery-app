@@ -1,8 +1,8 @@
 "use client";
 
+import { AddToCart } from "@/components/cart/add-to-cart";
 import { EmptyState } from "@/components/empty-state";
 import { RatingBadge } from "@/components/restaurants/rating-badge";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatMoney } from "@/lib/format";
 import { formatHHMM } from "@/lib/opening-hours";
@@ -19,7 +19,15 @@ function VegMark({ veg }: { veg: boolean }) {
   );
 }
 
-function MenuItemRow({ item, open }: { item: PublicMenuItem; open: boolean }) {
+function MenuItemRow({
+  item,
+  open,
+  restaurantId,
+}: {
+  item: PublicMenuItem;
+  open: boolean;
+  restaurantId: string;
+}) {
   return (
     <div
       className={`flex justify-between gap-4 border-b py-4 ${item.isAvailable ? "" : "opacity-50"}`}
@@ -48,9 +56,12 @@ function MenuItemRow({ item, open }: { item: PublicMenuItem; open: boolean }) {
             "photo"
           )}
         </div>
-        <Button size="sm" variant="outline" disabled={!item.isAvailable || !open}>
-          {open ? "ADD" : "Closed"}
-        </Button>
+        <AddToCart
+          restaurantId={restaurantId}
+          itemId={item.id}
+          disabled={!item.isAvailable || !open}
+          label={open ? "ADD" : "Closed"}
+        />
       </div>
     </div>
   );
@@ -110,7 +121,7 @@ export function RestaurantView({ id }: { id: string }) {
         <section key={c.id}>
           <h2 className="mt-2 text-lg font-semibold">{c.name}</h2>
           {c.items.map((item) => (
-            <MenuItemRow key={item.id} item={item} open={r.isOpen} />
+            <MenuItemRow key={item.id} item={item} open={r.isOpen} restaurantId={r.id} />
           ))}
         </section>
       ))}
