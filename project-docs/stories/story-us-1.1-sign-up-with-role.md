@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 1 — Authentication and profile |
-| Status | review |
+| Status | done |
 | PRD refs | FR-1, FR-3 |
 | Depends on | US-0.5, US-0.6 |
 | Branch | `feature/us-1.1-sign-up-with-role` |
@@ -24,17 +24,17 @@
 5. Validation errors show inline under each field (mock A2).
 
 ## Tasks
-- [ ] Build the sign-up page with shadcn `Form`, `Input`, `RadioGroup`.
-- [ ] Zod schema in `src/validators/auth.ts`.
-- [ ] Role is passed in the sign-up metadata (`options.data.role`); whitelisting is done by `ensureUser` (US-0.5).
-- [ ] `GET /api/me` controller returning the signed-in user.
+- [x] Build the sign-up page with shadcn `Form`, `Input`, `RadioGroup`.
+- [x] Zod schema in `src/validators/auth.ts`.
+- [x] Role is passed in the sign-up metadata (`options.data.role`); whitelisting is done by `ensureUser` (US-0.5).
+- [x] `GET /api/me` controller returning the signed-in user.
 
 ## Technical notes
 - Never trust a client-supplied role beyond the whitelist.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
