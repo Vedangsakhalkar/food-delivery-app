@@ -7,7 +7,7 @@
 | PRD refs | FR-19 |
 | Depends on | US-5.4 |
 | Branch | `feature/us-5.5-owner-order-history` |
-| PR | — |
+| PR | #42 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
