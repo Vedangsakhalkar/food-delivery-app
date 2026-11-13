@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | review |
+| Status | done |
 | PRD refs | NFR Security |
 | Depends on | US-4.5 |
 | Branch | `feature/us-9.3-rate-limiting-security-headers` |
@@ -23,16 +23,16 @@
 4. The 429 response uses the standard error body.
 
 ## Tasks
-- [ ] Rate limiter helper in `src/lib` (in-memory for MVP, Redis-compatible interface).
-- [ ] Apply it in controllers via a wrapper.
-- [ ] Add headers in `next.config` or middleware.
+- [x] Rate limiter helper in `src/lib` (in-memory for MVP, Redis-compatible interface).
+- [x] Apply it in controllers via a wrapper.
+- [x] Add headers in `next.config` or middleware.
 
 ## Technical notes
 - An in-memory limiter is per instance on Vercel; note this limitation and revisit post-MVP.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
