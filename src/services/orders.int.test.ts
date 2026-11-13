@@ -206,4 +206,15 @@ describe("placing an order against the real database", () => {
       all.restaurants.some((r) => r.id === restaurantId && r.ownerEmail === ownerT.email),
     ).toBe(true);
   });
+
+  it("admin lists all orders and can filter by status and code", async () => {
+    const o = await orderService.placeOrder(customer, order());
+    const byCode = await adminService.listOrders({ code: o.code.toLowerCase(), limit: 10 });
+    expect(byCode.orders.map((x) => x.id)).toEqual([o.id]);
+    expect(byCode.orders[0].customerName).toBe("Test User");
+    const placed = await adminService.listOrders({ status: "placed", limit: 100 });
+    expect(placed.orders.every((x) => x.status === "placed")).toBe(true);
+    expect(placed.orders.some((x) => x.id === o.id)).toBe(true);
+    expect((await adminService.listOrders({ code: "%", limit: 10 })).orders).toHaveLength(0);
+  });
 });

@@ -46,3 +46,21 @@ describe("adminService", () => {
     expect(page.nextCursor).not.toBeNull();
   });
 });
+
+describe("adminService.listOrders", () => {
+  it("passes filters through, paginates, and ignores an empty code", async () => {
+    const listAll = vi.fn(async (o: { limit: number }) =>
+      Array.from({ length: o.limit }, (_, i) => ({ id: `o${i}` })),
+    );
+    const svc = createAdminService(repo(), { listAll } as never);
+    const page = await svc.listOrders({ status: "placed", code: "", limit: 2 });
+    expect(listAll).toHaveBeenCalledWith({
+      status: "placed",
+      code: undefined,
+      limit: 3,
+      offset: 0,
+    });
+    expect(page.orders).toHaveLength(2);
+    expect(page.nextCursor).not.toBeNull();
+  });
+});

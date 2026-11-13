@@ -43,6 +43,7 @@ function setup(q: Quote = quote(), hooks: Array<(o: Order) => void | Promise<voi
       transition: vi.fn(async () => true),
       listByRestaurant: vi.fn(),
       findForRestaurant: vi.fn(),
+      listAll: vi.fn(),
       listByCustomer: vi.fn(async (_c: string, o: { limit: number }) =>
         Array.from({ length: o.limit }, (_, i) => ({ id: `o${i}` }) as Order),
       ),
@@ -142,6 +143,7 @@ describe("orderService.cancel", () => {
         transition,
         listByRestaurant: vi.fn(),
         findForRestaurant: vi.fn(),
+        listAll: vi.fn(),
       },
       quotes: { priceCart: vi.fn() },
       addresses: { getOwned: vi.fn() },
@@ -185,6 +187,7 @@ describe("ordering from a disabled restaurant", () => {
         transition: vi.fn(),
         listByRestaurant: vi.fn(),
         findForRestaurant: vi.fn(),
+        listAll: vi.fn(),
       },
       quotes: {
         priceCart: async () => {

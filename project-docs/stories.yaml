@@ -314,10 +314,10 @@ stories:
   - id: "6.2"
     title: "Admin views all orders"
     epic: 6
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-6.2-admin-view-orders.md
-    branch: null
-    pr: null
+    branch: feature/us-6.2-admin-view-orders
+    pr: 44
     prd: ["FR-21"]
     depends_on: ["4.5"]
   - id: "6.3"

@@ -1,4 +1,5 @@
 import { query } from "@/lib/db";
+import { likePattern } from "@/lib/like";
 import { toRestaurant, type RestaurantRow } from "@/repositories/restaurant-repository";
 import type { Restaurant } from "@/models/restaurant";
 
@@ -10,9 +11,6 @@ export interface DishHit {
   restaurantId: string;
   restaurantName: string;
 }
-
-/** Escapes LIKE wildcards so user input is matched literally. */
-export const likePattern = (term: string) => `%${term.toLowerCase().replace(/[\\%_]/g, "\\$&")}%`;
 
 export interface SearchRepository {
   restaurants(term: string, limit: number): Promise<Restaurant[]>;
