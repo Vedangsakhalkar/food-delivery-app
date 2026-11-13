@@ -296,7 +296,7 @@ stories:
   - id: "5.5"
     title: "Owner order history"
     epic: 5
-    status: review
+    status: done
     file: project-docs/stories/story-us-5.5-owner-order-history.md
     branch: feature/us-5.5-owner-order-history
     pr: 42
