@@ -7,7 +7,7 @@
 | PRD refs | FR-3 |
 | Depends on | US-0.3, US-0.4 |
 | Branch | `feature/us-0.5-auth-and-rbac-helpers` |
-| PR | — |
+| PR | #15 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 

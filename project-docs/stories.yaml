@@ -65,7 +65,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-0.5-auth-and-rbac-helpers.md
     branch: feature/us-0.5-auth-and-rbac-helpers
-    pr: null
+    pr: 15
     prd: ["FR-3"]
     depends_on: ["0.3", "0.4"]
   - id: "0.6"
