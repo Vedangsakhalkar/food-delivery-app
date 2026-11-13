@@ -263,7 +263,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-5.1-customer-order-history.md
     branch: feature/us-5.1-customer-order-history
-    pr: null
+    pr: 38
     prd: ["FR-15"]
     depends_on: ["4.5"]
   - id: "5.2"
