@@ -134,9 +134,9 @@ stories:
   - id: "2.1"
     title: "Owner creates a restaurant"
     epic: 2
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-2.1-owner-creates-restaurant.md
-    branch: null
+    branch: feature/us-2.1-owner-creates-restaurant
     pr: null
     prd: ["FR-17"]
     depends_on: ["1.3", "0.6"]
