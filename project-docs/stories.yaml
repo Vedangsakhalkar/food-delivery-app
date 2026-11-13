@@ -368,9 +368,9 @@ stories:
   - id: "9.1"
     title: "Seed demo restaurants and menus"
     epic: 9
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-9.1-seed-demo-data.md
-    branch: null
+    branch: feature/us-9.1-seed-demo-data
     pr: null
     prd: ["Roadmap"]
     depends_on: ["2.4"]
