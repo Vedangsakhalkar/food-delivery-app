@@ -164,7 +164,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-2.4-owner-manages-menu-items.md
     branch: feature/us-2.4-owner-manages-menu-items
-    pr: null
+    pr: 27
     prd: ["FR-18", "FR-18a"]
     depends_on: ["2.3", "2.2"]
   - id: "3.1"

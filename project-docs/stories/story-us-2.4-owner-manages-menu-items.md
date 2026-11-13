@@ -7,7 +7,7 @@
 | PRD refs | FR-18, FR-18a |
 | Depends on | US-2.3, US-2.2 |
 | Branch | `feature/us-2.4-owner-manages-menu-items` |
-| PR | — |
+| PR | #27 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
