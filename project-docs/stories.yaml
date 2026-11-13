@@ -404,9 +404,9 @@ stories:
   - id: "9.5"
     title: "Deploy to Vercel and Supabase production"
     epic: 9
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-9.5-deploy-vercel-supabase.md
-    branch: null
+    branch: feature/us-9.5-deploy-vercel-supabase
     pr: null
     prd: ["Architecture 11"]
     depends_on: ["9.2", "9.3", "9.4"]
