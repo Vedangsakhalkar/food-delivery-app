@@ -53,9 +53,9 @@ stories:
   - id: "0.4"
     title: "Error handling, logging and health check"
     epic: 0
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-0.4-error-handling-logging-and-health.md
-    branch: null
+    branch: feature/us-0.4-error-handling-logging-and-health
     pr: null
     prd: ["Architecture 8"]
     depends_on: ["0.3"]
