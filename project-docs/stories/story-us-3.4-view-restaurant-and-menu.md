@@ -7,7 +7,7 @@
 | PRD refs | FR-8 |
 | Depends on | US-3.1, US-2.4 |
 | Branch | `feature/us-3.4-view-restaurant-and-menu` |
-| PR | — |
+| PR | #31 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 

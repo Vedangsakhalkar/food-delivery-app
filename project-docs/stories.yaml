@@ -200,7 +200,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-3.4-view-restaurant-and-menu.md
     branch: feature/us-3.4-view-restaurant-and-menu
-    pr: null
+    pr: 31
     prd: ["FR-8"]
     depends_on: ["3.1", "2.4"]
   - id: "3.5"
