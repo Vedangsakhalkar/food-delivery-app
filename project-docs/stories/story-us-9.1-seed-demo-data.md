@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 9 — Polish, testing and launch |
-| Status | in-progress |
+| Status | review |
 | PRD refs | Roadmap |
 | Depends on | US-2.4 |
 | Branch | `feature/us-9.1-seed-demo-data` |
