@@ -7,7 +7,7 @@
 | PRD refs | FR-12, FR-13 |
 | Depends on | US-4.3, US-4.4, US-3.5 |
 | Branch | `feature/us-4.5-place-order-cod` |
-| PR | — |
+| PR | #37 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
