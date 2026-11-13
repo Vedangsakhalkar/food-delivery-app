@@ -287,7 +287,7 @@ stories:
   - id: "5.4"
     title: "Owner live orders and status updates"
     epic: 5
-    status: review
+    status: done
     file: project-docs/stories/story-us-5.4-owner-live-orders.md
     branch: feature/us-5.4-owner-live-orders
     pr: 41
