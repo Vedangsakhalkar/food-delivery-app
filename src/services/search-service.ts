@@ -15,7 +15,7 @@ export function createSearchService(repo: SearchRepository) {
         repo.restaurants(term, LIMIT),
         repo.dishes(term, LIMIT),
       ]);
-      return { restaurants: restaurants.map(toPublic), dishes };
+      return { restaurants: restaurants.map((r) => toPublic(r)), dishes };
     },
   };
 }

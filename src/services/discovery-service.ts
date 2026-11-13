@@ -24,7 +24,7 @@ export function createDiscoveryService(
       });
       const hasMore = rows.length > q.limit;
       return {
-        restaurants: rows.slice(0, q.limit).map(toPublic),
+        restaurants: rows.slice(0, q.limit).map((r) => toPublic(r)),
         nextCursor: hasMore ? encodeCursor(offset + q.limit) : null,
       };
     },

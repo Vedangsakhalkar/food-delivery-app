@@ -5,6 +5,7 @@ import { RatingBadge } from "@/components/restaurants/rating-badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatMoney } from "@/lib/format";
+import { formatHHMM } from "@/lib/opening-hours";
 import { useApi } from "@/lib/use-api";
 import type { PublicMenuItem, RestaurantWithMenu } from "@/models/public-restaurant";
 
@@ -18,7 +19,7 @@ function VegMark({ veg }: { veg: boolean }) {
   );
 }
 
-function MenuItemRow({ item }: { item: PublicMenuItem }) {
+function MenuItemRow({ item, open }: { item: PublicMenuItem; open: boolean }) {
   return (
     <div
       className={`flex justify-between gap-4 border-b py-4 ${item.isAvailable ? "" : "opacity-50"}`}
@@ -47,8 +48,8 @@ function MenuItemRow({ item }: { item: PublicMenuItem }) {
             "photo"
           )}
         </div>
-        <Button size="sm" variant="outline" disabled={!item.isAvailable}>
-          ADD
+        <Button size="sm" variant="outline" disabled={!item.isAvailable || !open}>
+          {open ? "ADD" : "Closed"}
         </Button>
       </div>
     </div>
@@ -66,7 +67,9 @@ export function RestaurantView({ id }: { id: string }) {
   const r = data.restaurant;
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex h-48 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-rose-100 to-amber-100 text-sm text-muted-foreground">
+      <div
+        className={`flex h-48 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-rose-100 to-amber-100 text-sm text-muted-foreground ${r.isOpen ? "" : "grayscale"}`}
+      >
         {r.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element -- remote Supabase Storage URL
           <img src={r.imageUrl} alt={r.name} className="h-full w-full object-cover" />
@@ -76,7 +79,14 @@ export function RestaurantView({ id }: { id: string }) {
       </div>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <h1 className="text-2xl font-semibold">{r.name}</h1>
+          <h1 className="text-2xl font-semibold">
+            {r.name}
+            {!r.isOpen && (
+              <span className="ml-2 rounded-md bg-red-100 px-2 py-0.5 align-middle text-xs font-semibold text-red-700">
+                Closed now
+              </span>
+            )}
+          </h1>
           <div className="text-sm text-muted-foreground">
             {r.cuisine} · {r.address} · Open {r.opensAt}–{r.closesAt}
           </div>
@@ -89,12 +99,18 @@ export function RestaurantView({ id }: { id: string }) {
         </div>
       </div>
 
+      {!r.isOpen && (
+        <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm">
+          This restaurant is closed (opens today at {formatHHMM(r.opensAt)}). You can browse the
+          menu, but ordering is disabled until it opens.
+        </div>
+      )}
       {data.categories.length === 0 && <EmptyState>No menu items yet.</EmptyState>}
       {data.categories.map((c) => (
         <section key={c.id}>
           <h2 className="mt-2 text-lg font-semibold">{c.name}</h2>
           {c.items.map((item) => (
-            <MenuItemRow key={item.id} item={item} />
+            <MenuItemRow key={item.id} item={item} open={r.isOpen} />
           ))}
         </section>
       ))}

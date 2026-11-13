@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 3 — Restaurant discovery (customer) |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-8 |
 | Depends on | US-3.4 |
 | Branch | `feature/us-3.5-closed-restaurant-state` |

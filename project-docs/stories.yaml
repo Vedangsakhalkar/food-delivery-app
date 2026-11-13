@@ -206,7 +206,7 @@ stories:
   - id: "3.5"
     title: "Closed restaurant state"
     epic: 3
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-3.5-closed-restaurant-state.md
     branch: feature/us-3.5-closed-restaurant-state
     pr: null
