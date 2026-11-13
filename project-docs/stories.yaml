@@ -71,9 +71,9 @@ stories:
   - id: "0.6"
     title: "Shared utilities and base UI"
     epic: 0
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-0.6-shared-utilities.md
-    branch: null
+    branch: feature/us-0.6-shared-utilities
     pr: null
     prd: ["NFR Usability"]
     depends_on: ["0.1", "0.4"]
