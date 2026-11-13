@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 2 — Restaurant and menu management (owner) |
-| Status | review |
+| Status | done |
 | PRD refs | FR-18, FR-18a |
 | Depends on | US-2.3, US-2.2 |
 | Branch | `feature/us-2.4-owner-manages-menu-items` |
@@ -24,17 +24,17 @@
 5. An owner can only manage items in their own restaurant; other ids return 404.
 
 ## Tasks
-- [ ] Migration `menu_items` table (RLS on, index on `restaurant_id`).
-- [ ] `menuItemRepository`, `menuService` item methods.
-- [ ] `CRUD /api/owner/items` and item form page `/owner/menu/items/[id]`.
-- [ ] Reuse `storageService` and the image upload component from US-2.2.
+- [x] Migration `menu_items` table (RLS on, index on `restaurant_id`).
+- [x] `menuItemRepository`, `menuService` item methods.
+- [x] `CRUD /api/owner/items` and item form page `/owner/menu/items/[id]`.
+- [x] Reuse `storageService` and the image upload component from US-2.2.
 
 ## Technical notes
 - Keep `restaurant_id` on items (denormalised) to make ownership checks and search simple.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
