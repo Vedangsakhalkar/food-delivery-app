@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 5 — Order management |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-14, FR-15 |
 | Depends on | US-5.1 |
 | Branch | `feature/us-5.2-order-detail-live-status` |
