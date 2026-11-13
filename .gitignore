@@ -13,3 +13,9 @@ coverage/
 .DS_Store
 *.log
 .vercel/
+
+# next.js extras
+next-env.d.ts
+*.tsbuildinfo
+.vercel
+npm-debug.log*
