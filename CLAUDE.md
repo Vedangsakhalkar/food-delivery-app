@@ -81,3 +81,4 @@ Deliverables are strictly ordered: PRD → User Stories → Architecture. Start 
 - [x] Mock screens drafted
 - [x] Step 2: User stories drafted (awaiting approval; story files for all epics 0-9 created)
 - [x] Step 3: Architecture document drafted (awaiting approval; user stories still pending)
+- [x] Implementation: epics 0-9 built and merged into `release/dev`; US-9.5 (production deployment) is in review until it is run with real accounts (see `project-docs/deployment.md`)
