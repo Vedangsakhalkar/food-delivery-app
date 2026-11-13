@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 1 — Authentication and profile |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-3 |
 | Depends on | US-0.5, US-1.2 |
 | Branch | `feature/us-1.3-route-and-api-protection` |

@@ -107,9 +107,9 @@ stories:
   - id: "1.3"
     title: "Route and API protection"
     epic: 1
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-1.3-route-and-api-protection.md
-    branch: null
+    branch: feature/us-1.3-route-and-api-protection
     pr: null
     prd: ["FR-3"]
     depends_on: ["0.5", "1.2"]
