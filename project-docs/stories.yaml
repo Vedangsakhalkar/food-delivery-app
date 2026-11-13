@@ -38,7 +38,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-0.2-developer-tooling.md
     branch: feature/us-0.2-developer-tooling
-    pr: null
+    pr: 12
     prd: ["NFR Maintainability"]
     depends_on: ["0.1"]
   - id: "0.3"

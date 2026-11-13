@@ -7,7 +7,7 @@
 | PRD refs | NFR Maintainability |
 | Depends on | US-0.1 |
 | Branch | `feature/us-0.2-developer-tooling` |
-| PR | — |
+| PR | #12 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
