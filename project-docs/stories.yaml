@@ -27,10 +27,10 @@ stories:
   - id: "0.1"
     title: "Bootstrap the Next.js project"
     epic: 0
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-0.1-bootstrap-project.md
     branch: feature/us-0.1-bootstrap-project
-    pr: null
+    pr: 11
     prd: ["Roadmap 8.1-8.5"]
   - id: "0.2"
     title: "Set up developer tooling"

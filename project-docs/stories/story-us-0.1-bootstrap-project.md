@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | in-progress |
+| Status | review |
 | PRD refs | Roadmap 8.1-8.5 |
 | Depends on | none |
 | Branch | `feature/us-0.1-bootstrap-project` |
-| PR | — |
+| PR | #11 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
