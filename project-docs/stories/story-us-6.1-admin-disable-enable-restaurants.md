@@ -7,7 +7,7 @@
 | PRD refs | FR-20 |
 | Depends on | US-2.1, US-3.1 |
 | Branch | `feature/us-6.1-admin-disable-enable-restaurants` |
-| PR | — |
+| PR | #43 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 

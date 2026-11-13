@@ -308,7 +308,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-6.1-admin-disable-enable-restaurants.md
     branch: feature/us-6.1-admin-disable-enable-restaurants
-    pr: null
+    pr: 43
     prd: ["FR-20"]
     depends_on: ["2.1", "3.1"]
   - id: "6.2"
