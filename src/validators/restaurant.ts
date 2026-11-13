@@ -14,6 +14,8 @@ export const restaurantSchema = z
       .int("Use a whole number")
       .min(5, "At least 5 minutes")
       .max(180, "At most 180 minutes"),
+    /** undefined = leave the image alone, null = remove it, string = storage path from /api/owner/uploads */
+    imagePath: z.string().max(300).nullable().optional(),
   })
   .refine((v) => v.opensAt !== v.closesAt, {
     path: ["closesAt"],

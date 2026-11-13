@@ -143,7 +143,7 @@ stories:
   - id: "2.2"
     title: "Owner edits restaurant and uploads image"
     epic: 2
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-2.2-owner-edits-restaurant-and-image.md
     branch: feature/us-2.2-owner-edits-restaurant-and-image
     pr: null

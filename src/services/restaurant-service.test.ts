@@ -17,6 +17,12 @@ const input = restaurantSchema.parse({
 });
 const restaurant = { id: "r1", ownerId: "o1" } as Restaurant;
 
+const storage = {
+  ownsPath: (_k: string, o: string, p: string) => p.startsWith(`restaurants/${o}/`),
+  publicUrl: (p: string) => `https://cdn/${p}`,
+  removeQuietly: vi.fn(async () => {}),
+};
+
 const repo = (over: Partial<RestaurantRepository> = {}): RestaurantRepository => ({
   findByOwner: async () => null,
   insert: async () => restaurant,
@@ -47,11 +53,13 @@ describe("restaurantSchema", () => {
 describe("restaurantService", () => {
   it("creates a restaurant for an owner without one", async () => {
     const insert = vi.fn(async () => restaurant);
-    expect(await createRestaurantService(repo({ insert })).create(owner, input)).toBe(restaurant);
+    expect(await createRestaurantService(repo({ insert }), storage).create(owner, input)).toBe(
+      restaurant,
+    );
     expect(insert).toHaveBeenCalledWith("o1", input);
   });
   it("returns 409 when the owner already has one", async () => {
-    const svc = createRestaurantService(repo({ findByOwner: async () => restaurant }));
+    const svc = createRestaurantService(repo({ findByOwner: async () => restaurant }), storage);
     await expect(svc.create(owner, input)).rejects.toBeInstanceOf(ConflictError);
   });
   it("maps a unique-constraint race to 409", async () => {
@@ -59,12 +67,50 @@ describe("restaurantService", () => {
       throw Object.assign(new Error("dup"), { code: "23505" });
     };
     await expect(
-      createRestaurantService(repo({ insert })).create(owner, input),
+      createRestaurantService(repo({ insert }), storage).create(owner, input),
     ).rejects.toBeInstanceOf(ConflictError);
   });
   it("404s when updating or reading without a restaurant", async () => {
-    const svc = createRestaurantService(repo({ update: async () => null }));
+    const svc = createRestaurantService(repo({ update: async () => null }), storage);
     await expect(svc.update(owner, input)).rejects.toBeInstanceOf(NotFoundError);
     await expect(svc.getMine(owner)).rejects.toBeInstanceOf(NotFoundError);
+  });
+});
+
+describe("restaurant images", () => {
+  const current = { id: "r1", ownerId: "o1", imagePath: "restaurants/o1/old.png" } as Restaurant;
+
+  it("stores path and server-built url, then deletes the old object", async () => {
+    storage.removeQuietly.mockClear();
+    const update = vi.fn(async () => restaurant);
+    const svc = createRestaurantService(
+      repo({ findByOwner: async () => current, update }),
+      storage,
+    );
+    await svc.update(owner, { ...input, imagePath: "restaurants/o1/new.png" });
+    expect(update).toHaveBeenCalledWith("o1", expect.anything(), {
+      path: "restaurants/o1/new.png",
+      url: "https://cdn/restaurants/o1/new.png",
+    });
+    expect(storage.removeQuietly).toHaveBeenCalledWith("restaurants/o1/old.png");
+  });
+
+  it("rejects another owner's path", async () => {
+    const svc = createRestaurantService(repo({ findByOwner: async () => current }), storage);
+    await expect(
+      svc.update(owner, { ...input, imagePath: "restaurants/o2/x.png" }),
+    ).rejects.toThrow("Invalid image");
+  });
+
+  it("removes the image when imagePath is null, and leaves it when undefined", async () => {
+    const update = vi.fn(async () => restaurant);
+    const svc = createRestaurantService(
+      repo({ findByOwner: async () => current, update }),
+      storage,
+    );
+    await svc.update(owner, { ...input, imagePath: null });
+    expect(update).toHaveBeenLastCalledWith("o1", expect.anything(), { path: null, url: null });
+    await svc.update(owner, input);
+    expect(update).toHaveBeenLastCalledWith("o1", expect.anything(), undefined);
   });
 });
