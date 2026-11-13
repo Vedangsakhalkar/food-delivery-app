@@ -74,7 +74,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-0.6-shared-utilities.md
     branch: feature/us-0.6-shared-utilities
-    pr: null
+    pr: 16
     prd: ["NFR Usability"]
     depends_on: ["0.1", "0.4"]
   - id: "0.7"

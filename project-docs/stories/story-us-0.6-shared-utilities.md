@@ -7,7 +7,7 @@
 | PRD refs | NFR Usability |
 | Depends on | US-0.1, US-0.4 |
 | Branch | `feature/us-0.6-shared-utilities` |
-| PR | — |
+| PR | #16 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
