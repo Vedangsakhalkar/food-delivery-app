@@ -62,7 +62,7 @@ stories:
   - id: "0.5"
     title: "Auth and role-based access helpers"
     epic: 0
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-0.5-auth-and-rbac-helpers.md
     branch: feature/us-0.5-auth-and-rbac-helpers
     pr: null

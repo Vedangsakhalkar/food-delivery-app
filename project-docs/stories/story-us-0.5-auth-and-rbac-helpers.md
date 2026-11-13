@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-3 |
 | Depends on | US-0.3, US-0.4 |
 | Branch | `feature/us-0.5-auth-and-rbac-helpers` |
