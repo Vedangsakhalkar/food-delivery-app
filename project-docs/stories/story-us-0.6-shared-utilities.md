@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 0 — Foundation and scaffolding |
-| Status | in-progress |
+| Status | review |
 | PRD refs | NFR Usability |
 | Depends on | US-0.1, US-0.4 |
 | Branch | `feature/us-0.6-shared-utilities` |

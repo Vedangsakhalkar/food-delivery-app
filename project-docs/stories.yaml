@@ -71,7 +71,7 @@ stories:
   - id: "0.6"
     title: "Shared utilities and base UI"
     epic: 0
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-0.6-shared-utilities.md
     branch: feature/us-0.6-shared-utilities
     pr: null
