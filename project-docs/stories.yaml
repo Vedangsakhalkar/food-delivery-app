@@ -350,7 +350,7 @@ stories:
   - id: "8.1"
     title: "Order placed emails to customer and owner"
     epic: 8
-    status: review
+    status: done
     file: project-docs/stories/story-us-8.1-order-placed-emails.md
     branch: feature/us-8.1-order-placed-emails
     pr: 48
