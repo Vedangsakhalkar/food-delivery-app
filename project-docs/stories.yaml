@@ -362,7 +362,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-8.2-status-change-emails.md
     branch: feature/us-8.2-status-change-emails
-    pr: null
+    pr: 49
     prd: ["FR-24", "FR-26"]
     depends_on: ["5.4", "8.1"]
   - id: "9.1"

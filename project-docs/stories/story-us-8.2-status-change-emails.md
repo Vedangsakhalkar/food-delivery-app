@@ -7,7 +7,7 @@
 | PRD refs | FR-24, FR-26 |
 | Depends on | US-5.4, US-8.1 |
 | Branch | `feature/us-8.2-status-change-emails` |
-| PR | — |
+| PR | #49 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
