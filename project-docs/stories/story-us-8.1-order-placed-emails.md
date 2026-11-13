@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 8 — Email notifications |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-23, FR-25, FR-26 |
 | Depends on | US-4.5 |
 | Branch | `feature/us-8.1-order-placed-emails` |
