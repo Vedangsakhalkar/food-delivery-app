@@ -143,10 +143,10 @@ stories:
   - id: "2.2"
     title: "Owner edits restaurant and uploads image"
     epic: 2
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-2.2-owner-edits-restaurant-and-image.md
-    branch: null
-    pr: null
+    branch: feature/us-2.2-owner-edits-restaurant-and-image
+    pr: 25
     prd: ["FR-17", "FR-18a"]
     depends_on: ["2.1"]
   - id: "2.3"

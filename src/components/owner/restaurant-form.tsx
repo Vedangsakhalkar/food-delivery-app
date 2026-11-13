@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { ApiError, apiFetch } from "@/lib/api-client";
 import { validateForm, type FieldErrors } from "@/lib/form-errors";
 import type { Restaurant } from "@/models/restaurant";
+import { ImageUpload } from "@/components/owner/image-upload";
 import { restaurantSchema, type RestaurantInput } from "@/validators/restaurant";
 
 type Values = {
@@ -35,6 +36,8 @@ export function RestaurantForm({
     closesAt: restaurant?.closesAt ?? "23:00",
     deliveryTimeMin: String(restaurant?.deliveryTimeMin ?? 30),
   });
+  const [image, setImage] = useState<{ path: string | null; url: string | null } | undefined>();
+  const shownUrl = image ? image.url : (restaurant?.imageUrl ?? null);
   const [errors, setErrors] = useState<FieldErrors<RestaurantInput>>({});
   const [loading, setLoading] = useState(false);
   const set = (k: keyof Values) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -49,7 +52,7 @@ export function RestaurantForm({
     try {
       const res = await apiFetch<{ restaurant: Restaurant }>("/api/owner/restaurant", {
         method: restaurant ? "PATCH" : "POST",
-        body: parsed.data,
+        body: image ? { ...parsed.data, imagePath: image.path } : parsed.data,
       });
       toast.success(restaurant ? "Restaurant updated" : "Your restaurant is live!");
       onSaved(res.restaurant);
@@ -75,6 +78,12 @@ export function RestaurantForm({
       <CardContent>
         <form onSubmit={onSubmit} noValidate>
           <FieldGroup>
+            <ImageUpload
+              kind="restaurants"
+              url={shownUrl}
+              onChange={(v) => setImage(v ?? { path: null, url: null })}
+              label="Cover image (JPG/PNG/WebP, max 5 MB)"
+            />
             {text("name", "Name")}
             {text("cuisine", "Cuisine", { placeholder: "North Indian, Biryani" })}
             {text("address", "Address", { placeholder: "MG Road, Pune" })}

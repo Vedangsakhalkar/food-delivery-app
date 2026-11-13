@@ -33,14 +33,15 @@ export async function apiFetch<T>(
   options: Omit<RequestInit, "body"> & { body?: unknown } = {},
 ): Promise<T> {
   const { body, headers, ...rest } = options;
+  const isForm = typeof FormData !== "undefined" && body instanceof FormData;
   const res = await fetch(path, {
     ...rest,
     headers: {
       Accept: "application/json",
-      ...(body ? { "Content-Type": "application/json" } : {}),
+      ...(body && !isForm ? { "Content-Type": "application/json" } : {}),
       ...headers,
     },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body: body === undefined ? undefined : isForm ? (body as FormData) : JSON.stringify(body),
   });
 
   const text = await res.text();

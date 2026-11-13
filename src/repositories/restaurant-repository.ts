@@ -43,7 +43,11 @@ export const toRestaurant = (r: RestaurantRow): Restaurant => ({
 export interface RestaurantRepository {
   findByOwner(ownerId: string): Promise<Restaurant | null>;
   insert(ownerId: string, input: RestaurantInput): Promise<Restaurant>;
-  update(ownerId: string, input: RestaurantInput): Promise<Restaurant | null>;
+  update(
+    ownerId: string,
+    input: RestaurantInput,
+    image?: { path: string | null; url: string | null },
+  ): Promise<Restaurant | null>;
 }
 
 export const restaurantRepository: RestaurantRepository = {
@@ -63,12 +67,25 @@ export const restaurantRepository: RestaurantRepository = {
     return toRestaurant(res.rows[0]);
   },
 
-  async update(ownerId, i) {
+  async update(ownerId, i, image) {
     const res = await query<RestaurantRow>(
       `update restaurants set name = $2, cuisine = $3, address = $4, opens_at = $5,
-         closes_at = $6, delivery_time_min = $7
+         closes_at = $6, delivery_time_min = $7,
+         image_path = case when $8 then $9 else image_path end,
+         image_url = case when $8 then $10 else image_url end
        where owner_id = $1 returning *`,
-      [ownerId, i.name, i.cuisine, i.address, i.opensAt, i.closesAt, i.deliveryTimeMin],
+      [
+        ownerId,
+        i.name,
+        i.cuisine,
+        i.address,
+        i.opensAt,
+        i.closesAt,
+        i.deliveryTimeMin,
+        image !== undefined,
+        image?.path ?? null,
+        image?.url ?? null,
+      ],
     );
     return res.rows[0] ? toRestaurant(res.rows[0]) : null;
   },
