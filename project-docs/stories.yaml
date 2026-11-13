@@ -128,7 +128,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-1.5-edit-profile.md
     branch: feature/us-1.5-edit-profile
-    pr: null
+    pr: 23
     prd: ["FR-4"]
     depends_on: ["1.3"]
   - id: "2.1"
