@@ -15,7 +15,7 @@ export function SideNav({ links }: { links: { href: string; label: string }[] })
           href={l.href}
           className={cn(
             "rounded-lg px-3 py-2 text-sm whitespace-nowrap hover:bg-muted",
-            pathname.startsWith(l.href) && "bg-primary/10 font-semibold text-primary",
+            pathname.startsWith(l.href) && "bg-primary/10 font-semibold text-red-800",
           )}
         >
           {l.label}

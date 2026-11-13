@@ -55,7 +55,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #e23744;
+  --primary: #db3542; /* mock red #e23744 darkened 3% to meet WCAG AA contrast (4.5:1) with white text */
   --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -66,7 +66,7 @@
   --destructive: #b42318;
   --border: #e8e8e8;
   --input: #d4d4d4;
-  --ring: #e23744;
+  --ring: #db3542;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);

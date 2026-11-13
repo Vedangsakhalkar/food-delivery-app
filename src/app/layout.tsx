@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { CartProvider } from "@/components/cart/cart-provider";
 import { CartLink } from "@/components/cart/cart-link";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -27,6 +28,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded-md focus:bg-white focus:px-3 focus:py-2"
+        >
+          Skip to content
+        </a>
         <CartProvider>
           <SiteHeader>
             <CartLink />
@@ -34,7 +41,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <SiteNav />
             </Suspense>
           </SiteHeader>
-          <main className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-5">{children}</main>
+          <main id="main" className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-5">
+            {children}
+          </main>
+          <SiteFooter />
           <Toaster richColors position="top-center" />
         </CartProvider>
       </body>
