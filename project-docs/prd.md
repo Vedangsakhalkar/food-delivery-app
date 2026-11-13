@@ -90,7 +90,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
 - **Images:** All images (restaurant and menu item photos) are stored in **Supabase Storage** (bucket `images`), never in the database. PostgreSQL stores only the object path and public URL. Uploads go through an API route (server validates type and size, uses the service role key); the browser reads images via the public URL.
 - **MVC:**
   - Models/Repositories: entity types in `src/models`; all SQL (via `pg`) in `src/repositories`
-  - Services layer: all business logic and DB access (`src/services`)
+  - Services layer: all business logic (`src/services`); services call repositories and never write SQL
   - Controllers: Next.js route handlers in `src/app/api`
   - View: all UI logic in components (`src/components`, `src/app`)
 - **Data entities:** User, Address, Restaurant, MenuCategory, MenuItem, Order (with embedded items), Review.

@@ -109,7 +109,7 @@ Rules:
 
 1. The browser signs up or in with `@supabase/supabase-js` using the publishable key (email/password, optional Google). Email confirmation is on.
 2. The browser sends `Authorization: Bearer <access_token>` to `/api` routes.
-3. `requireUser(roles)` in `src/lib` verifies the token with `supabase.auth.getUser(token)`, loads the `users` row (creating it on first login), and checks `role`.
+3. `requireUser(roles)` in `src/lib` verifies the token with `supabase.auth.getUser(token)`, loads the `users` row, and checks `role`. On first login the row is created from the role stored in Supabase user metadata at sign-up (`options.data.role`). Only `customer` and `owner` are accepted from metadata; any other value becomes `customer`. Admins are set directly in the database.
 4. Services receive the authenticated user and check ownership (e.g. an owner can only change their own restaurant).
 5. The Supabase secret key, database URLs and Resend key exist only in server code and `.env.local`.
 
@@ -167,7 +167,7 @@ Names match `auth-setup.md`. Server-only values must never be imported by compon
 
 | Variable | Scope |
 |---|---|
-| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (publishable key) | Browser + server |
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` (holds the publishable key; the name is kept from `auth-setup.md`) | Browser + server |
 | `SUPABASE_SERVICE_ROLE_KEY` (secret key) | Server only |
 | `DATABASE_URL` (pooled, runtime), `DATABASE_URL_MIGRATIONS` (direct) | Server only |
 | `SUPABASE_STORAGE_BUCKET` (`images`) | Server only |
@@ -195,7 +195,7 @@ Public = no login needed. Guests can browse; adding to cart or checkout prompts 
 | C8 My orders | `/orders` | Customer | `GET /api/orders` |
 | C9 Order detail | `/orders/[id]` | Customer | `GET /api/orders/[id]` (polling), `POST /api/orders/[id]/cancel` |
 | C10 Review | `/orders/[id]/review` | Customer | `POST /api/orders/[id]/review` |
-| A1–A3 Login, sign up, forgot password | `/login`, `/signup`, `/forgot-password` | Public | Supabase Auth client directly; role chosen at sign-up is saved on first `GET /api/me` |
+| A1–A3 Login, sign up, forgot password | `/login`, `/signup`, `/forgot-password` | Public | Supabase Auth client directly; role chosen at sign-up is sent as user metadata and the `users` row is created on first `GET /api/me` |
 | A4 Profile | `/profile` | Any | `GET/PATCH /api/me`, `/api/me/addresses` |
 | O1 Owner welcome | `/owner` | Owner | `GET /api/owner/restaurant` (404 shows welcome) |
 | O2 Restaurant profile | `/owner/restaurant` | Owner | `GET/POST/PATCH /api/owner/restaurant`, `POST /api/owner/uploads` |
@@ -223,8 +223,8 @@ Access control: Next.js middleware redirects unauthenticated users away from cus
 | 8 Email | `emailService` and templates |
 | 9 Launch | Seed data, empty/error states and accessibility pass, deploy |
 
-## 14. Open questions
+## 14. Decisions and open questions
 
-1. Delivery fee and tax: fixed constants or per restaurant? (Assumed fixed for the MVP.)
+1. Delivery fee and tax: **decided for the MVP** as fixed constants in one config file. Per-restaurant fees can come later.
 2. Delivery time on cards is a static `delivery_time_min` set by the owner (decided).
-3. Should owners get pushed new orders (SSE) later instead of polling?
+3. Owner order updates: **decided for the MVP** to use polling. Revisit SSE after launch.
