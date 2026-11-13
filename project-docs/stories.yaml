@@ -119,7 +119,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-1.4-password-reset.md
     branch: feature/us-1.4-password-reset
-    pr: null
+    pr: 22
     prd: ["FR-1"]
     depends_on: ["1.2"]
   - id: "1.5"

@@ -7,7 +7,7 @@
 | PRD refs | FR-1 |
 | Depends on | US-1.2 |
 | Branch | `feature/us-1.4-password-reset` |
-| PR | — |
+| PR | #22 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
