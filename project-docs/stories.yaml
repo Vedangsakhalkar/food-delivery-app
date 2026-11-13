@@ -44,7 +44,7 @@ stories:
   - id: "0.3"
     title: "Typed config, database pool and migrations"
     epic: 0
-    status: in-progress
+    status: review
     file: project-docs/stories/story-us-0.3-config-db-pool-and-migrations.md
     branch: feature/us-0.3-config-db-pool-and-migrations
     pr: null
