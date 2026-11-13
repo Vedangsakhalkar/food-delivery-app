@@ -305,7 +305,7 @@ stories:
   - id: "6.1"
     title: "Admin disables and enables restaurants"
     epic: 6
-    status: review
+    status: done
     file: project-docs/stories/story-us-6.1-admin-disable-enable-restaurants.md
     branch: feature/us-6.1-admin-disable-enable-restaurants
     pr: 43
