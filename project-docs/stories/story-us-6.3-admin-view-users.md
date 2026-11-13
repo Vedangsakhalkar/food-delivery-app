@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 6 — Admin |
-| Status | ready-for-dev |
+| Status | in-progress |
 | PRD refs | FR-21 |
 | Depends on | US-1.3 |
 | Branch | `feature/us-6.3-admin-view-users` |
