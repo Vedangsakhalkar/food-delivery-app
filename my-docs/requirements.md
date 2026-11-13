@@ -16,8 +16,15 @@ I want to build a food delivery app inspired by [Zomato](https://www.zomato.com)
   2. Set up the project and generate the API key(s).
 
 ### 2.2 Database
-- Use **MongoDB**.
-- I will create a new account on **MongoDB Atlas** and share the database credentials.
+- Use **Supabase with its PostgreSQL database**. No MongoDB.
+- Since there is no MongoDB, use the **`pg` driver for PostgreSQL** with parameterised SQL (no ORM).
+
+### 2.2.1 Image Storage
+- Images (restaurant and menu item photos) are uploaded to **Supabase Storage** (bucket `images`) and referenced by their URL/path from our platform. Cloudinary is not used.
+
+### 2.2.2 Product Decisions
+- **Payment:** Cash on Delivery is the only option.
+- **Restaurant onboarding:** No admin approval. Any restaurant can onboard itself and goes live immediately (admin can disable it later).
 
 ### Tech Stack
 

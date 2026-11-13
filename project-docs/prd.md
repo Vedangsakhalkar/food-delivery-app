@@ -1,4 +1,4 @@
-# Product Requirements Document — Food Delivery App (MVP)
+# Product Requirements Document — Dabba (MVP)
 
 | Field | Value |
 |---|---|
@@ -93,7 +93,7 @@ A browser-based food delivery web app inspired by Zomato. Customers browse resta
   - Services layer: all business logic (`src/services`); services call repositories and never write SQL
   - Controllers: Next.js route handlers in `src/app/api`
   - View: all UI logic in components (`src/components`, `src/app`)
-- **Data entities:** User, Address, Restaurant, MenuCategory, MenuItem, Order (with embedded items), Review.
+- **Data entities:** User, Address, Restaurant, MenuCategory, MenuItem, Order and OrderItem, Review.
 
 ## 7. Architectural Gaps Flagged (things you may have missed)
 1. **Authorization / role model:** Supabase Auth handles identity. Roles live in a PostgreSQL `users` table, linked by the Supabase user id.

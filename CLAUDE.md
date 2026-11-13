@@ -1,4 +1,4 @@
-# CLAUDE.md — Food Delivery App
+# CLAUDE.md — Dabba (food delivery web app)
 
 ## Project
 Browser-based food delivery web app inspired by Zomato. MVP only. Mobile app is out of scope until the web app launches.
@@ -38,7 +38,7 @@ TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, Supabase (Auth, Postg
 | Mock screens (open `index.html` in a browser) | `project-docs/mockups/index.html` |
 | User stories (Step 2) | `project-docs/user-stories.md` |
 | Story state tracker | `project-docs/stories.yaml` |
-| Story files (epics 0 and 1 so far) | `project-docs/stories/` |
+| Story files (all epics 0-9) | `project-docs/stories/` |
 | Story management rules | `project-docs/story-management-rules.md` |
 | Architecture (Step 3) | `project-docs/architecture.md` |
 
@@ -48,7 +48,7 @@ Deliverables are strictly ordered: PRD → User Stories → Architecture. Start 
 ## Story Management (always follow; details in `project-docs/story-management-rules.md`)
 - Story files live **only** in `project-docs/stories/`, named in kebab-case: `story-us-<epic>.<n>-<short-title>.md` (e.g. `story-us-1.1-sign-up-with-role.md`).
 - `project-docs/stories.yaml` is the single source of truth for every story (all epics): status, branch, PR.
-- Create story files only for the epic the user asks for. Currently detailed: epics 0 and 1. Do not create files for other epics until asked.
+- Create story files only for the epic the user asks for. All epics (0-9) are now detailed; any new story must be added to both `stories.yaml` and `stories/`.
 - States: `ready-for-dev` (initial) → `in-progress` → `review` → `done`.
   - `in-progress`: when you start building and create the story branch `feature/us-<id>-<slug>` from the latest `release/dev`.
   - `review`: when you open the PR into `release/dev` (record the PR number).
@@ -60,7 +60,7 @@ Deliverables are strictly ordered: PRD → User Stories → Architecture. Start 
 - `release/dev` is the integration branch; `main` is the release branch.
 - Every new task (i.e. each new Claude chat/context) must start on a new feature branch created from the latest `release/dev`:
   `git checkout release/dev && git pull && git checkout -b feature/<short-task-name>`
-- Do this before making any changes. Never commit directly to `release/dev` or `main`.
+- Do this before making any changes: no file may be edited until the new feature branch exists. Never commit directly to `release/dev` or `main`.
 - Branch names: `feature/<short-kebab-case-description>` (e.g. `feature/project-scaffolding`). Other prefixes: `fix/`, `docs/`, `chore/`.
 - After the task is completed, follow this sequence:
   1. Commit the changes on the feature branch.
@@ -73,5 +73,5 @@ Deliverables are strictly ordered: PRD → User Stories → Architecture. Start 
 ## Status
 - [x] Step 1: PRD (approved)
 - [x] Mock screens drafted
-- [x] Step 2: User stories drafted (awaiting approval; epic 0 and 1 story files created)
+- [x] Step 2: User stories drafted (awaiting approval; story files for all epics 0-9 created)
 - [x] Step 3: Architecture document drafted (awaiting approval; user stories still pending)
