@@ -287,9 +287,9 @@ stories:
   - id: "5.4"
     title: "Owner live orders and status updates"
     epic: 5
-    status: ready-for-dev
+    status: in-progress
     file: project-docs/stories/story-us-5.4-owner-live-orders.md
-    branch: null
+    branch: feature/us-5.4-owner-live-orders
     pr: null
     prd: ["FR-19"]
     depends_on: ["4.5", "1.3"]
