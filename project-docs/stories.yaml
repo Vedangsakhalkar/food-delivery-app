@@ -227,7 +227,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-4.2-one-restaurant-per-cart.md
     branch: feature/us-4.2-one-restaurant-per-cart
-    pr: null
+    pr: 34
     prd: ["FR-10"]
     depends_on: ["4.1"]
   - id: "4.3"
