@@ -359,7 +359,7 @@ stories:
   - id: "8.2"
     title: "Status change emails to the customer"
     epic: 8
-    status: review
+    status: done
     file: project-docs/stories/story-us-8.2-status-change-emails.md
     branch: feature/us-8.2-status-change-emails
     pr: 49
