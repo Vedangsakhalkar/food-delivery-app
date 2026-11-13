@@ -296,10 +296,10 @@ stories:
   - id: "5.5"
     title: "Owner order history"
     epic: 5
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-5.5-owner-order-history.md
-    branch: null
-    pr: null
+    branch: feature/us-5.5-owner-order-history
+    pr: 42
     prd: ["FR-19"]
     depends_on: ["5.4"]
   - id: "6.1"
