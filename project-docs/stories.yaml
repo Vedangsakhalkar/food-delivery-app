@@ -155,7 +155,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-2.3-owner-manages-menu-categories.md
     branch: feature/us-2.3-owner-manages-menu-categories
-    pr: null
+    pr: 26
     prd: ["FR-18"]
     depends_on: ["2.1"]
   - id: "2.4"
