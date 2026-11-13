@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { query } from "@/lib/db";
 
 /** Creates a throwaway confirmed Supabase Auth user (cascades to our tables when deleted). */
 export async function createTestUser(role: "customer" | "owner") {
@@ -20,6 +21,16 @@ export async function createTestUser(role: "customer" | "owner") {
     id,
     email,
     metadata: { name: "Test User", phone: "9876543210", role } as Record<string, unknown>,
-    cleanup: async () => void (await admin.auth.admin.deleteUser(id)),
+    cleanup: async () => {
+      // Orders reference users and restaurants without cascade (history must survive in the app),
+      // so remove this test user's orders first, otherwise the user (and restaurant) delete fails.
+      await query(
+        `delete from orders where customer_id = $1
+           or restaurant_id in (select id from restaurants where owner_id = $1)`,
+        [id],
+      );
+      const { error } = await admin.auth.admin.deleteUser(id);
+      if (error) throw new Error(`deleteUser failed: ${error.message}`);
+    },
   };
 }

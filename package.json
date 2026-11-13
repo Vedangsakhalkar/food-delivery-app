@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "prepare": "husky",
     "db:migrate": "node --env-file=.env.local scripts/migrate.mjs",
-    "test:int": "node --env-file=.env.local node_modules/vitest/vitest.mjs run --config vitest.int.config.ts"
+    "test:int": "node --env-file=.env.local node_modules/vitest/vitest.mjs run --config vitest.int.config.ts",
+    "db:seed": "tsx --env-file=.env.local db/seed.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -48,6 +49,7 @@
     "lint-staged": "^16.4.0",
     "prettier": "^3.10.1",
     "tailwindcss": "4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^5.1.0"
   },
