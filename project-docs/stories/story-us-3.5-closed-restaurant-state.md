@@ -7,7 +7,7 @@
 | PRD refs | FR-8 |
 | Depends on | US-3.4 |
 | Branch | `feature/us-3.5-closed-restaurant-state` |
-| PR | — |
+| PR | #32 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 

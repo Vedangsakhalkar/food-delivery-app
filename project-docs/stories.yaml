@@ -209,7 +209,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-3.5-closed-restaurant-state.md
     branch: feature/us-3.5-closed-restaurant-state
-    pr: null
+    pr: 32
     prd: ["FR-8"]
     depends_on: ["3.4"]
   - id: "4.1"
