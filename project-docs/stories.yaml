@@ -80,10 +80,10 @@ stories:
   - id: "0.7"
     title: "CI pipeline"
     epic: 0
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-0.7-ci-pipeline.md
-    branch: null
-    pr: null
+    branch: feature/us-0.7-ci-pipeline
+    pr: 17
     prd: ["Architecture 9"]
     depends_on: ["0.2"]
   - id: "1.1"
