@@ -93,6 +93,8 @@ export interface OrderRepository {
   /** Inserts the order and its items in one transaction. */
   create(order: NewOrder): Promise<Order>;
   findById(id: string): Promise<Order | null>;
+  /** A customer's orders, newest first. */
+  listByCustomer(customerId: string, opts: { limit: number; offset: number }): Promise<Order[]>;
 }
 
 export const orderRepository: OrderRepository = {
@@ -124,6 +126,14 @@ export const orderRepository: OrderRepository = {
       return orderId;
     });
     return (await this.findById(id))!;
+  },
+
+  async listByCustomer(customerId, { limit, offset }) {
+    const res = await query<OrderRow>(
+      `${SELECT} where o.customer_id = $1 order by o.created_at desc, o.id limit $2 offset $3`,
+      [customerId, limit, offset],
+    );
+    return hydrate(res.rows);
   },
 
   async findById(id) {

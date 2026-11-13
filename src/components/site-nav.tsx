@@ -18,5 +18,24 @@ export async function SiteNav() {
       </>
     );
   }
-  return <UserMenu name={user.name || user.email} />;
+  return (
+    <>
+      {user.role === "customer" && (
+        <Link href="/orders" className="hover:text-primary">
+          Orders
+        </Link>
+      )}
+      {user.role === "owner" && (
+        <Link href="/owner" className="hover:text-primary">
+          Dashboard
+        </Link>
+      )}
+      {user.role === "admin" && (
+        <Link href="/admin" className="hover:text-primary">
+          Admin
+        </Link>
+      )}
+      <UserMenu name={user.name || user.email} />
+    </>
+  );
 }

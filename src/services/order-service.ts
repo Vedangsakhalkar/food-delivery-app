@@ -1,4 +1,5 @@
 import { ConflictError, NotFoundError } from "@/lib/errors";
+import { decodeCursor, encodeCursor } from "@/lib/pagination";
 import { logger, serializeError } from "@/lib/logger";
 import type { Order } from "@/models/order";
 import type { User } from "@/models/user";
@@ -67,6 +68,19 @@ export function createOrderService(deps: {
         }
       }
       return order;
+    },
+
+    /** The customer's own orders, newest first, with cursor pagination. */
+    async listForCustomer(
+      customer: User,
+      q: { limit: number; cursor?: string },
+    ): Promise<{ orders: Order[]; nextCursor: string | null }> {
+      const offset = decodeCursor(q.cursor);
+      const rows = await orders.listByCustomer(customer.id, { limit: q.limit + 1, offset });
+      return {
+        orders: rows.slice(0, q.limit),
+        nextCursor: rows.length > q.limit ? encodeCursor(offset + q.limit) : null,
+      };
     },
 
     /** A customer can only ever read their own orders. */
