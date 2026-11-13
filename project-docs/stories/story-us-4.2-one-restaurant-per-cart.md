@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 4 — Cart and checkout |
-| Status | review |
+| Status | done |
 | PRD refs | FR-10 |
 | Depends on | US-4.1 |
 | Branch | `feature/us-4.2-one-restaurant-per-cart` |
@@ -23,12 +23,12 @@
 4. The rule is in the cart reducer and also enforced by the server in US-4.5.
 
 ## Tasks
-- [ ] Add the restaurant guard to the cart reducer.
-- [ ] Replace-cart confirmation `AlertDialog`.
+- [x] Add the restaurant guard to the cart reducer.
+- [x] Replace-cart confirmation `AlertDialog`.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`
