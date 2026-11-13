@@ -42,6 +42,8 @@ export const toRestaurant = (r: RestaurantRow): Restaurant => ({
 
 export interface RestaurantRepository {
   findByOwner(ownerId: string): Promise<Restaurant | null>;
+  /** Active (not disabled) restaurants, newest first. */
+  listActive(opts: { limit: number; offset: number }): Promise<Restaurant[]>;
   insert(ownerId: string, input: RestaurantInput): Promise<Restaurant>;
   update(
     ownerId: string,
@@ -56,6 +58,15 @@ export const restaurantRepository: RestaurantRepository = {
       ownerId,
     ]);
     return res.rows[0] ? toRestaurant(res.rows[0]) : null;
+  },
+
+  async listActive({ limit, offset }) {
+    const res = await query<RestaurantRow>(
+      `select * from restaurants where is_disabled = false
+       order by created_at desc, id limit $1 offset $2`,
+      [limit, offset],
+    );
+    return res.rows.map(toRestaurant);
   },
 
   async insert(ownerId, i) {

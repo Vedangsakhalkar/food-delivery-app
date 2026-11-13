@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Epic | 3 — Restaurant discovery (customer) |
-| Status | in-progress |
+| Status | review |
 | PRD refs | FR-5 |
 | Depends on | US-2.1 |
 | Branch | `feature/us-3.1-browse-restaurants-home` |

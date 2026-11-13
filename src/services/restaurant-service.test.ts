@@ -25,6 +25,7 @@ const storage = {
 
 const repo = (over: Partial<RestaurantRepository> = {}): RestaurantRepository => ({
   findByOwner: async () => null,
+  listActive: async () => [],
   insert: async () => restaurant,
   update: async () => restaurant,
   ...over,
