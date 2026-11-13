@@ -19,6 +19,12 @@ TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, Supabase (Auth, Postg
 - **Models/Repositories:** DB access only via `src/repositories` (SQL via `pg`) / `src/models` (entity types). Nothing else touches the DB.
 - Follow SOLID and standard design patterns; keep code well structured.
 
+## UI Design Adherence (mock-ups are locked)
+- The screens in `project-docs/mockups/` are the approved, locked UI design. Read the relevant mock screen(s) before doing any UI work in any story.
+- Implemented UI must match the mock-ups: layout, sections, copy, states (loading, empty, error, closed, disabled) and flows. Build them with shadcn/ui components (see UI Component Rules).
+- If a story needs something the mock-ups do not show, or a mock-up conflicts with the story or architecture, stop and ask the user. Do not silently deviate, and do not edit the mock-ups unless the user asks.
+- State in the PR which mock screen(s) the UI follows (e.g. `A1`, `C6`).
+
 ## UI Component Rules
 - Every UI component must come from the shadcn/ui library wherever possible (Button, Input, Card, Dialog, Select, Table, Form, etc.). Check shadcn/ui first before building anything custom.
 - Add missing components via the CLI (`npx shadcn@latest add <component>`) into `src/components/ui`; do not hand-write equivalents.
@@ -35,7 +41,7 @@ TypeScript, Next.js (App Router), Tailwind CSS, shadcn/ui, Supabase (Auth, Postg
 | Requirements (user input) | `my-docs/requirements.md` |
 | PRD (Step 1) | `project-docs/prd.md` |
 | Supabase setup guide (auth, DB, storage) | `project-docs/auth-setup.md` |
-| Mock screens (open `index.html` in a browser) | `project-docs/mockups/index.html` |
+| Mock screens, locked UI design (open `index.html` in a browser) | `project-docs/mockups/index.html` |
 | User stories (Step 2) | `project-docs/user-stories.md` |
 | Story state tracker | `project-docs/stories.yaml` |
 | Story files (all epics 0-9) | `project-docs/stories/` |
