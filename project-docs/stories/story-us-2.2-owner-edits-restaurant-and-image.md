@@ -7,7 +7,7 @@
 | PRD refs | FR-17, FR-18a |
 | Depends on | US-2.1 |
 | Branch | `feature/us-2.2-owner-edits-restaurant-and-image` |
-| PR | — |
+| PR | #25 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 

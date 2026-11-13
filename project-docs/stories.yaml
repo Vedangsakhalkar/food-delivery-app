@@ -146,7 +146,7 @@ stories:
     status: review
     file: project-docs/stories/story-us-2.2-owner-edits-restaurant-and-image.md
     branch: feature/us-2.2-owner-edits-restaurant-and-image
-    pr: null
+    pr: 25
     prd: ["FR-17", "FR-18a"]
     depends_on: ["2.1"]
   - id: "2.3"
