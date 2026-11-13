@@ -3,11 +3,14 @@ import { ROLES_FOR } from "@/lib/access-rules";
 import { requireUser } from "@/lib/auth";
 import { ValidationError } from "@/lib/errors";
 import { withErrorHandling } from "@/lib/handle-error";
+import { enforce } from "@/lib/rate-limit";
+import { limiters } from "@/lib/rate-limiters";
 import { storageService } from "@/lib/supabase/storage-adapter";
 import { IMAGE_MAX_BYTES, ImageRejectedError } from "@/services/storage-service";
 
 export const POST = withErrorHandling(async (req) => {
   const owner = await requireUser(ROLES_FOR.owner);
+  enforce(limiters.uploads, owner.id);
   const form = await req.formData().catch(() => null);
   const file = form?.get("file");
   const kind = form?.get("kind") === "items" ? "items" : "restaurants";

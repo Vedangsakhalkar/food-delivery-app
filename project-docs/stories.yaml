@@ -386,10 +386,10 @@ stories:
   - id: "9.3"
     title: "Rate limiting and security headers"
     epic: 9
-    status: ready-for-dev
+    status: done
     file: project-docs/stories/story-us-9.3-rate-limiting-security-headers.md
-    branch: null
-    pr: null
+    branch: feature/us-9.3-rate-limiting-security-headers
+    pr: 51
     prd: ["NFR Security"]
     depends_on: ["4.5"]
   - id: "9.4"
