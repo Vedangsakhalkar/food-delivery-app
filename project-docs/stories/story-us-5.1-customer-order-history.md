@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Epic | 5 — Order management |
-| Status | ready-for-dev |
+| Status | done |
 | PRD refs | FR-15 |
 | Depends on | US-4.5 |
 | Branch | `feature/us-5.1-customer-order-history` |
-| PR | — |
+| PR | #38 |
 
 > Status is the source of truth in `project-docs/stories.yaml`. Keep both in sync (see `story-management-rules.md`).
 
@@ -23,12 +23,12 @@
 4. With no orders I see the empty state with a link to browse restaurants.
 
 ## Tasks
-- [ ] `orderRepository.listByCustomer` (index `customer_id, created_at desc`).
-- [ ] `GET /api/orders` and the orders page with a status `Badge`.
+- [x] `orderRepository.listByCustomer` (index `customer_id, created_at desc`).
+- [x] `GET /api/orders` and the orders page with a status `Badge`.
 
 ## Definition of done
-- [ ] All acceptance criteria met and demonstrated
-- [ ] Unit tests for services and validators; CI green
-- [ ] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
-- [ ] PR reviewed, issues resolved, merged into `release/dev`
-- [ ] `stories.yaml` and this file set to `done`
+- [x] All acceptance criteria met and demonstrated
+- [x] Unit tests for services and validators; CI green
+- [x] Follows MVC layering and CLAUDE.md rules (shadcn/ui only, no DB access outside repositories)
+- [x] PR reviewed, issues resolved, merged into `release/dev`
+- [x] `stories.yaml` and this file set to `done`

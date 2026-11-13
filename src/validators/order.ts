@@ -16,6 +16,11 @@ export const cartSchema = z.object({
 });
 export type CartInput = z.output<typeof cartSchema>;
 
+export const listOrdersSchema = z.object({
+  limit: z.coerce.number().int().min(1).max(50).default(10),
+  cursor: z.string().max(200).optional(),
+});
+
 export const placeOrderSchema = cartSchema.extend({
   addressId: z.uuid("Choose a delivery address"),
   /** Cash on delivery is the only payment method in the MVP. */

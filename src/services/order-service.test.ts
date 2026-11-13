@@ -37,7 +37,13 @@ function setup(q: Quote = quote(), hooks: Array<(o: Order) => void | Promise<voi
       ({ id: "o1", code: "DAB-10001", customerId: o.customerId, status: "placed" }) as Order,
   );
   const svc = createOrderService({
-    orders: { create, findById: vi.fn(async () => ({ id: "o1", customerId: "c1" }) as Order) },
+    orders: {
+      create,
+      findById: vi.fn(async () => ({ id: "o1", customerId: "c1" }) as Order),
+      listByCustomer: vi.fn(async (_c: string, o: { limit: number }) =>
+        Array.from({ length: o.limit }, (_, i) => ({ id: `o${i}` }) as Order),
+      ),
+    },
     quotes: {
       priceCart: async () => ({ restaurant: { id: R } as never, items: new Map(), quote: q }),
     },
@@ -110,5 +116,14 @@ describe("orderService.placeOrder", () => {
     const { svc } = setup();
     const stranger = { id: "someone-else" } as User;
     await expect(svc.getForCustomer(stranger, "o1")).rejects.toBeInstanceOf(NotFoundError);
+  });
+});
+
+describe("orderService.listForCustomer", () => {
+  it("returns a page and a cursor when there are more orders", async () => {
+    const { svc } = setup();
+    const page = await svc.listForCustomer(customer, { limit: 3 });
+    expect(page.orders).toHaveLength(3);
+    expect(page.nextCursor).not.toBeNull();
   });
 });
