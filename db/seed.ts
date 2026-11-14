@@ -2,14 +2,16 @@
  * Demo data: `npm run db:seed` (loads .env.local).
  * Idempotent: running it again updates the demo restaurants, categories and items in place (matched by
  * name) and adds anything missing, so it never creates duplicates. Every restaurant gets a cover
- * image and every dish an image (illustrated emoji art rendered locally with Chromium and uploaded to
- * Storage bucket `images`). Owners can replace any image with a real photo from the owner dashboard.
+ * image and every dish an image: a real, freely licensed photo from Wikimedia (see seed-photos.ts),
+ * falling back to illustrated emoji art if a photo cannot be fetched. Images are uploaded to Storage
+ * bucket `images`. Owners can replace any image from the owner dashboard.
  * Creates one demo owner per restaurant (an owner has one restaurant) and one demo customer.
  * Refuses to run when NODE_ENV=production unless --force is passed.
  */
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import pg from "pg";
 import { openRenderer } from "./seed-images";
+import { COVER_PHOTO, DISH_PHOTO, fetchPhoto } from "./seed-photos";
 import { DEMO_PASSWORD, RESTAURANTS, type SeedRestaurant } from "./seed-data";
 
 if (process.env.NODE_ENV === "production" && !process.argv.includes("--force")) {
@@ -46,7 +48,7 @@ async function ensureAuthUser(
   admin: SupabaseClient,
   email: string,
   name: string,
-  role: "owner" | "customer",
+  role: "owner" | "customer" | "admin",
 ): Promise<string> {
   const created = await admin.auth.admin.createUser({
     email,
@@ -78,10 +80,10 @@ async function main() {
   });
   const renderer = await openRenderer();
 
-  const upload = async (path: string, png: Buffer) => {
-    const up = await admin.storage
-      .from(bucket)
-      .upload(path, png, { contentType: "image/png", upsert: true });
+  const photoFor = async (title: string | undefined) => (title ? fetchPhoto(title) : null);
+
+  const upload = async (path: string, bytes: Buffer, contentType: string) => {
+    const up = await admin.storage.from(bucket).upload(path, bytes, { contentType, upsert: true });
     if (up.error) throw new Error(`Image upload failed (${path}): ${up.error.message}`);
     return admin.storage.from(bucket).getPublicUrl(path).data.publicUrl;
   };
@@ -99,18 +101,30 @@ async function main() {
     await upsertUser(ownerId, email, `${r.name} Owner`, "owner");
 
     // 1. images first (outside the DB transaction)
-    const coverPath = `restaurants/${ownerId}/cover.png`;
-    const coverUrl = await upload(
-      coverPath,
-      await renderer.cover(r.coverEmojis, coverColours(r.hue)),
-    );
+    // Real photo when one is available, otherwise the generated emoji art.
+    const coverPhoto = await photoFor(COVER_PHOTO[r.slug]);
+    const coverPath = `restaurants/${ownerId}/cover.${coverPhoto ? "jpg" : "png"}`;
+    const coverUrl = coverPhoto
+      ? await upload(coverPath, coverPhoto, "image/jpeg")
+      : await upload(
+          coverPath,
+          await renderer.cover(r.coverEmojis, coverColours(r.hue)),
+          "image/png",
+        );
     const dishImages = new Map<string, { path: string; url: string }>();
     let catIndex = 0;
     for (const cat of r.categories) {
       for (const it of cat.items) {
-        const path = `items/${ownerId}/${slugify(it.name)}.png`;
-        const png = await renderer.item(it.emoji, itemColours(r.hue, catIndex));
-        dishImages.set(it.name, { path, url: await upload(path, png) });
+        const photo = await photoFor(DISH_PHOTO[it.name]);
+        const path = `items/${ownerId}/${slugify(it.name)}.${photo ? "jpg" : "png"}`;
+        const url = photo
+          ? await upload(path, photo, "image/jpeg")
+          : await upload(
+              path,
+              await renderer.item(it.emoji, itemColours(r.hue, catIndex)),
+              "image/png",
+            );
+        dishImages.set(it.name, { path, url });
       }
       catIndex++;
     }
@@ -245,12 +259,17 @@ async function main() {
     const customerId = await ensureAuthUser(admin, customerEmail, "Demo Customer", "customer");
     await upsertUser(customerId, customerEmail, "Demo Customer", "customer");
 
+    const adminEmail = "demo-admin@dabba.test";
+    const adminId = await ensureAuthUser(admin, adminEmail, "Demo Admin", "admin");
+    await upsertUser(adminId, adminEmail, "Demo Admin", "admin");
+
     for (const r of RESTAURANTS) {
       const res = await seedRestaurant(r);
       console.log(res.created ? "created" : "updated", res.name, `(${res.items} dishes)`);
     }
     console.log(`\nDemo logins (password for all: ${DEMO_PASSWORD})`);
     console.log("  customer:", customerEmail);
+    console.log("  admin:   ", adminEmail);
     console.log(
       "  owner:    seed-owner-<restaurant-slug>@dabba.test, e.g. seed-owner-spice-route@dabba.test",
     );

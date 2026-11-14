@@ -1,4 +1,4 @@
-# Product Requirements Document — Tadka (MVP)
+# Product Requirements Document — Foodzie (MVP)
 
 | Field | Value |
 |---|---|
