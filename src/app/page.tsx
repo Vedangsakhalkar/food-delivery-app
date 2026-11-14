@@ -31,7 +31,7 @@ export default function Home() {
             Hungry? Foodzie it.
           </h1>
           <p className="mt-3 text-base text-white/90 sm:text-lg">
-            Order from the best restaurants in Pune. Pay cash when it arrives.
+            Order from the best restaurants near you. Pay cash when it arrives.
           </p>
           <div className="mt-6 text-foreground">
             <SearchBox size="lg" />
