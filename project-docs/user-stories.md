@@ -1,4 +1,4 @@
-# User Stories — Tadka (MVP)
+# User Stories — Foodzie (MVP)
 
 Source: `prd.md`. Grouped into epics, scaffolding first. Story state lives in `stories.yaml`; detailed story files live in `stories/` (created per epic on request). All epics (0-9) have detailed story files.
 

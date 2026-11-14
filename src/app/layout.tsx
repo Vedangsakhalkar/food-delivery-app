@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tadka",
+  title: "Foodzie",
   description: "Order food from restaurants near you.",
 };
 
@@ -42,7 +42,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <SiteNav />
             </Suspense>
           </SiteHeader>
-          <main id="main" className="mx-auto w-full max-w-[1100px] flex-1 px-4 py-5">
+          <main
+            id="main"
+            className="animate-fade-up mx-auto w-full max-w-[1100px] flex-1 px-4 py-5"
+          >
             {children}
           </main>
           <SiteFooter />

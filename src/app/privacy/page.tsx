@@ -1,4 +1,4 @@
-export const metadata = { title: "Privacy policy | Tadka" };
+export const metadata = { title: "Privacy policy | Foodzie" };
 
 /** Mock S3 privacy page. Placeholder text for legal review before launch. */
 export default function PrivacyPage() {
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
         Order details are shared with the restaurant you order from. We don&apos;t sell your data.
       </p>
       <h2 className="mt-2 text-lg font-semibold">Contact</h2>
-      <p>support@tadka.example</p>
+      <p>support@foodzie.example</p>
     </article>
   );
 }

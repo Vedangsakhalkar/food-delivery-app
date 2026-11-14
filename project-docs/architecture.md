@@ -1,4 +1,4 @@
-# Architecture — Tadka (MVP)
+# Architecture — Foodzie (MVP)
 
 | Field | Value |
 |---|---|

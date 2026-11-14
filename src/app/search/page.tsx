@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { SearchResults } from "@/components/search/search-results";
 
-export const metadata = { title: "Search | Tadka" };
+export const metadata = { title: "Search | Foodzie" };
 
 export default function SearchPage() {
   return (

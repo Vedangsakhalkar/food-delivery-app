@@ -1,4 +1,4 @@
-# CLAUDE.md — Tadka (food delivery web app)
+# CLAUDE.md — Foodzie (food delivery web app)
 
 ## Project
 Browser-based food delivery web app inspired by Zomato. MVP only. Mobile app is out of scope until the web app launches.
